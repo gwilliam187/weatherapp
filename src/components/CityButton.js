@@ -4,19 +4,22 @@ import { connect } from 'react-redux';
 import { selectCity } from '../actions';
 import { updateCitiesErrorMessage } from '../actions'
 
-class CityButton extends React.Component {
+export class CityButton extends React.Component {
+	
+	handleOnClick = () => {
+		this.props.updateCitiesErrorMessage(null, null);
+		this.props.selectCity({
+			cityName: this.props.cityName, 
+			countryCode: this.props.countryCode
+		});
+	}
+
 	render() {
 		return (
 			<div className='py-2'>
 				<button 
 					className={'btn btn-outline-secondary btn-lg city-button'} 
-					onClick={() => {
-						this.props.updateCitiesErrorMessage(null, null);
-						this.props.selectCity({
-							cityName: this.props.cityName, 
-							countryCode: this.props.countryCode
-						});
-					}}>
+					onClick={this.handleOnClick}>
 					{this.props.cityName}
 				</button>
 			</div>
@@ -24,7 +27,12 @@ class CityButton extends React.Component {
 	}
 }
 
+const mapDispatchToProps = {
+	selectCity, 
+	updateCitiesErrorMessage
+}
+
 export default connect(
 	null,
-	{ selectCity, updateCitiesErrorMessage }
+	mapDispatchToProps
 )(CityButton);

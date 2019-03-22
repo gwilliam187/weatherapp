@@ -4,17 +4,12 @@ import { connect } from 'react-redux';
 import { selectCity } from '../actions';
 import { updateCitiesErrorMessage } from '../actions';
 
-class CityInput extends React.Component {
-	constructor(props) {
-		super(props);
+export class CityInput extends React.Component {
+	state = {
+		term: ''
+	};
 
-		this.state = {
-			term: '',
-			errorMessage: ''
-		}
-	}
-
-	onKeyDown = (e) => {
+	handleOnKeyDown = (e) => {
 		if(e.key === 'Enter') {
 			this.props.updateCitiesErrorMessage(null, null);
 			const termList = this.state.term.split(',');
@@ -31,7 +26,7 @@ class CityInput extends React.Component {
 		}
 	};
 
-	onChange = (e) => {
+	handleOnChange = (e) => {
 		this.setState({term: e.target.value});
 	};
 
@@ -42,8 +37,8 @@ class CityInput extends React.Component {
 					type='text'
 					placeholder='e.g. Berlin,de'
 					value={this.state.term}
-					onChange={this.onChange}
-					onKeyDown={this.onKeyDown} 
+					onChange={this.handleOnChange}
+					onKeyDown={this.handleOnKeyDown} 
 					className='form-control form-control-lg'/>
 				<div className='text-left text-danger mt-1'>
 					{this.props.citiesErrorMessage}
@@ -59,7 +54,12 @@ const mapStateToProps = state => {
 	};
 };
 
+const mapDispatchToProps = {
+	selectCity, 
+	updateCitiesErrorMessage
+}
+
 export default connect(
 	mapStateToProps,
-	{ selectCity, updateCitiesErrorMessage}
+	mapDispatchToProps
 )(CityInput);

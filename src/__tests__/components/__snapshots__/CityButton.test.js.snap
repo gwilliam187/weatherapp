@@ -1,7 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<CityButton /> render() renders the component 1`] = `
-<ContextConsumer>
-  <Component />
-</ContextConsumer>
+exports[`<CityButton /> Renders the component 1`] = `
+<div
+  className="py-2"
+>
+  <button
+    className="btn btn-outline-secondary btn-lg city-button"
+    onClick={[Function]}
+  />
+</div>
 `;

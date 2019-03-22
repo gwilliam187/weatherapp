@@ -1,77 +1,54 @@
 import _ from 'lodash';
 
 import openWeather from '../apis/openWeatherAPI';
+import { selectCity, removeCity } from './cityActions';
+import { fetchWeather } from './weatherActions';
 
-export const selectCity = (city) => {
-	return {
-		type: 'SELECT_CITY',
-		payload: city
-	};
-};
+// City Actions
+export { selectCity };
+export { removeCity };
 
-export const removeCity = (city) => {
-	return {
-		type: 'REMOVE_CITY',
-		payload: city
-	};
-};
-
-export const fetchWeather = (city) => async (dispatch, getState) => {
-	const res = await openWeather
-		.get(`?q=${city.cityName},${city.countryCode}`)
-		.catch(error => {
-			console.log(error);
-			// dispatch({
-			// 	type: 'REMOVE_CITY',
-			// 	payload: city
-			// });
-		});
-
-	if(!res) {
-		return {
-			type: 'REMOVE_CITY',
-			payload: city
-		};
-	}
-
-	return {
-		type: 'FETCH_WEATHER',
-		payload: res.data
-	};
-};
+// Weather Actions
+export { fetchWeather };
 
 
 export const fetchWeathersForSelectedCities = () => async (dispatch, getState) => {
 	const selectedCities = getState().selectedCities;
-	const promises = await selectedCities.map(selectedCity => {
-		const res = dispatch(fetchWeather(selectedCity));
+	const promises = await selectedCities.map(async selectedCity => {
+		const res = await dispatch(fetchWeather(selectedCity));
 		return res;
 	});
 
-	Promise.all(promises).then(function(res) {
-		let error = {};
-		const weathers = res
-			.map(currRes => {
-				if(currRes.type === 'FETCH_WEATHER') {
-					return currRes.payload;
-				} else if(currRes.type === 'REMOVE_CITY') {
-					error.message = currRes.payload;
-					dispatch(currRes);
-				}
-			})
-			.filter(weather => {
-				return weather !== undefined;
-			});
-		
-		dispatch({
-			type: 'FETCH_WEATHERS',
-			payload: weathers
-		});
+	Promise.all(promises)
+		.then(res => {
+			let error = {};
+			const weathers = res
+				.map(currRes => {
+					if('status' in currRes) {
+						return currRes.data
+					} else {
+						dispatch(removeCity(currRes.city));
+						error.city = currRes.city;
+						return undefined;
+					}
+				})
+				.filter(weather => {
+					return weather !== undefined;
+				});
 
-		if(!_.isEmpty(error)) {
-			dispatch(updateCitiesErrorMessage(error.message, 'CITY_NOT_FOUND'));
-		}
-	})
+			dispatch({
+				type: 'FETCH_WEATHERS',
+				payload: weathers
+			});
+			//setWeathers(weathers)(dispatch, getState);
+
+			if(!_.isEmpty(error)) {
+				dispatch(updateCitiesErrorMessage(error.city, 'CITY_NOT_FOUND'));
+			}
+		})
+		.catch(err => { 
+			console.log(err); 
+		});
 };
 
 export const updateCitiesErrorMessage = (city, status) => {

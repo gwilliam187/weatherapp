@@ -1,5 +1,4 @@
 export default(state = '', action) => {
-	console.log('enter error with action ' + action.type);
 	switch(action.type) {
 		case 'ALLES_GUT':
 			return '';
