@@ -59,7 +59,7 @@ class WeatherCard extends React.Component {
 			);
 		} else if(this.props.type === 'minMaxTemp') {
 			return (
-				<div className='col-6 weather-card'>
+				<div className='col-lg-6 weather-card'>
 					<div className='d-flex flex-column weather-card-content'>
 						<div className='h5 mb-0 weather-card-content-header'>{this.props.name}</div>
 						<div className='d-flex'>
