@@ -50,7 +50,7 @@ describe('<App /> with Redux', () => {
 	});
 
 	test('Initializes successfully', () => {
-		expect(toJson(wrapper)).toMatchSnapshot();
+		expect(wrapper.find('App').exists()).toEqual(true);
 	});
 
 	test('Selecting Cities', async () => {

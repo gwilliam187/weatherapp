@@ -27,6 +27,6 @@ describe('<CityInput />', () => {
 	});
 
 	test('Renders the component', () => {
-		expect(toJson(wrapper)).toMatchSnapshot();
+		expect(wrapper.find('div.py-2 input').exists()).toEqual(true);
 	});
 });

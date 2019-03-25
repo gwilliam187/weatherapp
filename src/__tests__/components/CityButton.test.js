@@ -25,6 +25,6 @@ describe('<CityButton />', () => {
   });
 
 	test('Renders the component', () => {
-		expect(toJson(wrapper)).toMatchSnapshot();
+		expect(wrapper.find('div.py-2 button').exists()).toEqual(true);
 	});
 });
