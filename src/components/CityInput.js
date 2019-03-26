@@ -32,16 +32,18 @@ export class CityInput extends React.Component {
 
 	render() {
 		return(
-			<div className='col-12 py-2'>
-				<input 
-					type='text'
-					placeholder='e.g. Berlin,de'
-					value={this.state.term}
-					onChange={this.handleOnChange}
-					onKeyDown={this.handleOnKeyDown} 
-					className='form-control form-control-lg'/>
-				<div className='text-left text-danger mt-1'>
-					{this.props.citiesErrorMessage}
+			<div className='card col-12'>
+				<div className='card-body'>
+					<input 
+						type='text'
+						placeholder='e.g. Berlin,de'
+						value={this.state.term}
+						onChange={this.handleOnChange}
+						onKeyDown={this.handleOnKeyDown} 
+						className='form-control form-control-lg'/>
+					<div className='text-left text-danger mt-1'>
+						{this.props.citiesErrorMessage}
+					</div>
 				</div>
 			</div>
 		);

@@ -14,8 +14,10 @@ class CityList extends React.Component {
 
 	render() {
 		return (
-			<div className='col-12'>
-				{this.renderList()}
+			<div className='col-12 card mb-3'>
+				<div className='card-body'>
+					{this.renderList()}
+				</div>
 			</div>
 		);
 	}
@@ -25,7 +27,7 @@ const mapStateToProps = state => {
 	return {
 		cities: state.cities
 	};
-}
+};
 
 export default connect(
 	mapStateToProps,

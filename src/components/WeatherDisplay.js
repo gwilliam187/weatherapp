@@ -12,7 +12,7 @@ class WeatherDisplay extends React.Component {
 			return (
 				<div className='row'>
 					<div className='col-12 pb-3'>
-						<div className='shadow weather-display'>
+						<div className='card weather-display'>
 							<div className='row header'>
 								<div className='col-12'>
 									<h3>{weathers[0].name}</h3>
@@ -38,7 +38,7 @@ class WeatherDisplay extends React.Component {
 			return (
 				<div className='row'>
 					<div className='col-md-12 col-lg-6 pb-3'>
-						<div className='shadow weather-display'>
+						<div className='card weather-display'>
 							<div className='row header'>
 								<div className='col-12'>
 									<h3>{weathers[0].name}</h3>
@@ -59,7 +59,7 @@ class WeatherDisplay extends React.Component {
 						</div>
 					</div>
 					<div className='col-md-12 col-lg-6 pb-3'>
-						<div className='shadow weather-display'>
+						<div className='card weather-display'>
 							<div className='row header'>
 								<div className='col-12'>
 									<h3>{weathers[1].name}</h3>

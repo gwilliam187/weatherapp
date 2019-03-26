@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { fetchWeathersForSelectedCities } from '../actions';
+import UserList from './UserList';
 import CityList from './CityList';
 import CityInput from './CityInput';
 import WeatherDisplay from './WeatherDisplay';
@@ -53,11 +54,9 @@ class App extends React.Component {
 		return (
 			<div className="container app">
 				<div className='row w-100'>
-					<div className='col-4 shadow city-button-wrapper'>
-						<div className='row header'>
-							<div className='col-12 my-4'>
-								<h1>Cities</h1>
-							</div>
+					<div className='col-4'>
+						<div className='row'>
+							<UserList />
 							<CityList />
 							<CityInput />
 						</div>
