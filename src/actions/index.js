@@ -8,7 +8,7 @@ import { schema } from '../Schema';
 import * as RxDB from 'rxdb';
 RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
-const syncURL = '192.168.200.52:5984/';
+const syncURL = '127.0.0.1:5984/';
 const dbName = 'the_awesome_weather_app';
 
 const createDatabase = async()=>{
