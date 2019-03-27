@@ -66,3 +66,6 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+<h1>To Run Couch DB Properly, add " enable_cors = true " in the 
+httpd section and " [cors] origins = * " of CouchDB/etc/local.ini</h1>
