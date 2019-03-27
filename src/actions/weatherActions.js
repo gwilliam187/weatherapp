@@ -10,3 +10,10 @@ export const fetchWeather = (cityRef) => {
 		return data;
 	}
 };
+
+export const setWeathers = weathers => {
+	return {
+		type: 'FETCH_WEATHERS',
+		payload: weathers
+	};
+};

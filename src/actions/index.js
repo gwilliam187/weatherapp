@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { selectCity, unselectCity } from './cityActions';
-import { fetchWeather } from './weatherActions';
+import { fetchWeather, setWeathers } from './weatherActions';
 import { schema } from '../Schema';
 
 //RxDB Stuff Here
@@ -63,7 +63,7 @@ export { selectCity };
 export { unselectCity };
 
 // Weather Actions
-export { fetchWeather };
+export { fetchWeather, setWeathers };
 
 
 export const fetchWeathersForSelectedCities = () => async (dispatch, getState) => {
@@ -90,10 +90,7 @@ export const fetchWeathersForSelectedCities = () => async (dispatch, getState) =
 					return weather !== undefined;
 				});
 
-			dispatch({
-				type: 'FETCH_WEATHERS',
-				payload: weathers
-			});
+			dispatch(setWeathers(weathers));
 
 			if(!_.isEmpty(error)) {
 				dispatch(updateCitiesErrorMessage(error.city, 'CITY_NOT_FOUND'));
