@@ -8,10 +8,7 @@ export class CityButton extends React.Component {
 	
 	handleCityClick = () => {
 		this.props.updateCitiesErrorMessage(null, null);
-		this.props.selectCity({
-			cityName: this.props.cityName, 
-			countryCode: this.props.countryCode
-		});
+		this.props.selectCity(this.props.cityRef);
 	};
 
 	handlePublicClick = () => {

@@ -3,7 +3,7 @@ export default(state = '', action) => {
 		case 'ALLES_GUT':
 			return '';
 		case 'CITY_NOT_FOUND':
-			return `${action.payload} not found`;
+			return `City not found`;
 		case 'INVALID_INPUT':
 			return 'Invalid input';
 		default:

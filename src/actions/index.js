@@ -73,7 +73,6 @@ export const fetchWeathersForSelectedCities = () => async (dispatch, getState) =
 				type: 'FETCH_WEATHERS',
 				payload: weathers
 			});
-			//setWeathers(weathers)(dispatch, getState);
 
 			if(!_.isEmpty(error)) {
 				dispatch(updateCitiesErrorMessage(error.city, 'CITY_NOT_FOUND'));
@@ -88,8 +87,7 @@ export const updateCitiesErrorMessage = (city, status) => {
 	if(status === 'CITY_NOT_FOUND') {
 		console.log('returning not found');
 		return {
-			type: 'CITY_NOT_FOUND',
-			payload: city.cityName
+			type: 'CITY_NOT_FOUND'
 		};
 	} else if(status === 'INVALID_INPUT') {
 		return {
