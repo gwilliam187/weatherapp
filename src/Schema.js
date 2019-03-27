@@ -1,13 +1,9 @@
 export const schema = {
-    title: 'User Schema',
+    title: 'user schema',
     description: 'Blablablablablabla',
     version: 0,
     type: 'object',
     properties: {
-      id: {
-        type: 'string',
-        primary: true
-      },
       cities: {
         type: 'array',
         items : {
