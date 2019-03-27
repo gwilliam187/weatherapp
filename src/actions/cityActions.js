@@ -9,7 +9,7 @@ export const addCity = (city) => {
 };
 
 export const removeCity = (city) => {
-	toast.success("Removed city");
+	toast(`Removed city "${city.cityName}"`);
 	return {
 		type: REMOVE_CITY,
 		payload: city

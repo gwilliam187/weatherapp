@@ -1,5 +1,5 @@
 import React from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 
@@ -70,7 +70,8 @@ class App extends React.Component {
 					</div>
 				</div>
 				<ToastContainer
-					position="bottom-center"
+					toastClassName='custom-toast'
+					position="top-right"
 					autoClose={3000}
 					hideProgressBar
 					newestOnTop={false}
@@ -79,6 +80,7 @@ class App extends React.Component {
 					pauseOnVisibilityChange
 					draggable
 					pauseOnHover
+					transition={Flip}
 				/>
 			</div>
 		);
