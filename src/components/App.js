@@ -12,6 +12,7 @@ import './custom-style.css';
 
 class App extends React.Component {
 	componentDidUpdate() {
+		console.log(' i update ')
 		this.props.fetchWeathersForSelectedCities();
 	}
 

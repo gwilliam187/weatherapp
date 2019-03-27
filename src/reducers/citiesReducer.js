@@ -6,12 +6,12 @@ export default (state = [], action) => {
 			return state.filter(el => el !== action.payload);
 		default: 
 			return [
-				{ cityName: 'Berlin', countryCode: 'de' },
-				{ cityName: 'Potsdam', countryCode: 'de' },
-				{ cityName: 'Soest', countryCode: 'de' },
-				{ cityName: 'Jakarta', countryCode: 'id' },
-				{ cityName: 'Bangkok', countryCode: 'th' },
-				{ cityName: 'Moscow', countryCode: 'ru' },
+				{ cityName: 'Berlin', cityRef: 'berlin,de' },
+				{ cityName: 'Potsdam', cityRef: 'potsdam,de' },
+				{ cityName: 'Soest', cityRef: 'soest,de' },
+				{ cityName: 'Jakarta', cityRef: 'jakarta,id' },
+				{ cityName: 'Bangkok', cityRef: 'bangkok,th' },
+				{ cityName: 'Moscow', cityRef: 'moscow,ru' },
 			];
 	}
 };
