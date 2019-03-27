@@ -34,6 +34,7 @@ export class CityInput extends React.Component {
 		return(
 			<div className='card col-12'>
 				<div className='card-body'>
+					<label>Add city</label>
 					<input 
 						type='text'
 						placeholder='e.g. Berlin,de'
