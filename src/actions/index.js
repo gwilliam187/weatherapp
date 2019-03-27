@@ -8,7 +8,8 @@ import { schema } from '../Schema';
 import * as RxDB from 'rxdb';
 RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
-const syncURL = 'http://127.0.0.1:5984/';
+// const syncURL = 'http://127.0.0.1:5984/';
+const syncURL = 'http://192.168.200.158:5984/';
 const dbName = 'the_awesome_weather_app';
 
 const createDatabase = async(dispatch)=>{
@@ -58,7 +59,7 @@ export { fetchWeather };
 export const fetchWeathersForSelectedCities = () => async (dispatch, getState) => {
 	const selectedCities = getState().selectedCities;
 	const promises = await selectedCities.map(async selectedCity => {
-		const res = await dispatch(fetchWeather(selectedCity));
+		const res = await dispatch(fetchWeather(selectedCity.cityRef));
 		return res;
 	});
 

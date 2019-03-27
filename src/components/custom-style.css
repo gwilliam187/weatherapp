@@ -58,7 +58,13 @@ i.back-button:hover {
 	align-self: center;
 }
 
-.city-list div.city-button:first-child {
+.city-list {
+	height: 70vh;
+	max-height: 70vh;
+	overflow-y: scroll;
+}
+
+.city-list div.city-button:nth-child(2) {
 	border-top: 0px solid black !important;
 }
 
@@ -92,9 +98,16 @@ i.back-button:hover {
 	/*width: 100%;*/
 	padding: 15px 0;
 
-	font-size: 1.3rem;
-
 	/*transition-duration: 0.4s;*/
+}
+
+.city-button-main div.name {
+	font-size: 1.3rem;
+}
+
+.city-button-main div.ref {
+	color: #969696;
+	font-size: 0.8rem;
 }
 
 .city-button-main:hover {

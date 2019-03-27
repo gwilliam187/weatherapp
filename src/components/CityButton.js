@@ -25,7 +25,8 @@ export class CityButton extends React.Component {
 				<div 
 					className='mr-auto city-button-main'
 					onClick={ this.handleCityClick }>
-					{ this.props.city.cityName }
+					<div className='name'>{ this.props.city.cityName }</div>
+					<div className='ref'>{ this.props.city.cityRef }</div>
 				</div>
 				<div 
 					className='d-flex align-items-center justify-content-center mr-4 public-button'
