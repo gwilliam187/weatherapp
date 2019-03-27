@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { selectCity, removeCity } from './cityActions';
+import { selectCity, unselectCity } from './cityActions';
 import { fetchWeather } from './weatherActions';
 import { schema } from '../Schema';
 
@@ -36,9 +36,9 @@ const db = createDatabase();
 //console.log(db)
 // --- end of RxDB stuff
 
-// City Actions
+// Selected City Actions
 export { selectCity };
-export { removeCity };
+export { unselectCity };
 
 // Weather Actions
 export { fetchWeather };
@@ -59,7 +59,7 @@ export const fetchWeathersForSelectedCities = () => async (dispatch, getState) =
 					if('status' in currRes) {
 						return currRes.data
 					} else {
-						dispatch(removeCity(currRes.city));
+						dispatch(unselectCity(currRes.city));
 						error.city = currRes.city;
 						return undefined;
 					}
