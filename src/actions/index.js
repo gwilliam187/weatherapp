@@ -8,7 +8,7 @@ import { schema } from '../Schema';
 import * as RxDB from 'rxdb';
 RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
-// const syncURL = 'http://127.0.0.1:5984/';
+
 const syncURL = 'http://192.168.200.158:5984/';
 const dbName = 'the_awesome_weather_app';
 
@@ -24,9 +24,8 @@ const createDatabase = async(dispatch)=>{
 		name: 'usercollection',
 		schema: schema
 	})
-	userCollection.sync({ remote: syncURL + dbName + '/' });
 	// userCollection.insert({
-	// 	_id: 'John',
+	// 	_id: 'Steven',
 	// 	cities: [
 	// 		{
 	// 			cityName: "Bogor",
@@ -35,12 +34,23 @@ const createDatabase = async(dispatch)=>{
 	// 		{
 	// 			cityName: "Jakarta",
 	// 			cityRef: "jakarta,id"
+	// 		},
+	// 		{
+	// 			cityName: "Potsdam",
+	// 			cityRef: "Potsdam,de"
+	// 		},
+	// 		{
+	// 			cityName: "Soest",
+	// 			cityRef: "Soest,de"
 	// 		}
 	// 	]
 	// })
+	userCollection.sync({ remote: syncURL + dbName + '/' });
+	db.usercollection.find({_id: {$eq: 'John'}}).exec().then(
+		document=>console.log(document)
+	)
+	// GET ONE USER
 
-	const documents = await db.usercollection.find().exec();
-	console.log(documents);
 	return db;
 }
 
