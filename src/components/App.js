@@ -1,4 +1,6 @@
 import React from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 
 import { fetchWeathersForSelectedCities } from '../actions';
@@ -12,7 +14,7 @@ import './custom-style.css';
 
 class App extends React.Component {
 	componentDidUpdate() {
-		console.log(' i update ')
+		console.log(this.props.selectedCities);
 		this.props.fetchWeathersForSelectedCities();
 	}
 
@@ -67,6 +69,17 @@ class App extends React.Component {
 						<DiffDisplay />
 					</div>
 				</div>
+				<ToastContainer
+					position="bottom-center"
+					autoClose={3000}
+					hideProgressBar
+					newestOnTop={false}
+					closeOnClick
+					rtl={false}
+					pauseOnVisibilityChange
+					draggable
+					pauseOnHover
+				/>
 			</div>
 		);
 	}

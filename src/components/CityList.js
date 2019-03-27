@@ -7,7 +7,7 @@ class CityList extends React.Component {
 	renderList() {
 		return this.props.cities.map(city => {
 			return (
-				<CityButton cityName={city.cityName} cityRef={city.cityRef} key={city.cityName} />
+				<CityButton city={ city } key={ city.cityRef } />
 			);
 		});
 	}

@@ -60,7 +60,7 @@ export const fetchWeathersForSelectedCities = () => async (dispatch, getState) =
 					if('status' in currRes) {
 						return currRes.data
 					} else {
-						dispatch(unselectCity(currRes.city));
+						// dispatch(unselectCity(currRes.city));
 						error.city = currRes.city;
 						return undefined;
 					}
@@ -85,7 +85,6 @@ export const fetchWeathersForSelectedCities = () => async (dispatch, getState) =
 
 export const updateCitiesErrorMessage = (city, status) => {
 	if(status === 'CITY_NOT_FOUND') {
-		console.log('returning not found');
 		return {
 			type: 'CITY_NOT_FOUND'
 		};

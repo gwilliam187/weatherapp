@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { selectCity } from '../actions';
+import { selectCity, removeCity } from '../actions/cityActions';
 import { updateCitiesErrorMessage } from '../actions'
 
 export class CityButton extends React.Component {
 	
 	handleCityClick = () => {
 		this.props.updateCitiesErrorMessage(null, null);
-		this.props.selectCity(this.props.cityRef);
+		this.props.selectCity(this.props.city.cityRef);
 	};
 
 	handlePublicClick = () => {
@@ -16,7 +16,7 @@ export class CityButton extends React.Component {
 	};
 
 	handleCloseClick = () => {
-		
+		this.props.removeCity(this.props.city);
 	};
 
 	render() {
@@ -25,15 +25,14 @@ export class CityButton extends React.Component {
 				<div 
 					className='mr-auto city-button-main'
 					onClick={ this.handleCityClick }>
-					{ this.props.cityName }
+					{ this.props.city.cityName }
 				</div>
 				<div 
 					className='d-flex align-items-center justify-content-center mr-4 public-button'
 					onClick={ this.handlePublicClick }>
 					Public
 				</div>
-				<div
-					className='d-flex align-items-center justify-content-center'>
+				<div className='d-flex align-items-center justify-content-center'>
 					<i 
 						className='fas fa-times close-button' 
 						onClick={ this.handleCloseClick } />
@@ -45,6 +44,7 @@ export class CityButton extends React.Component {
 
 const mapDispatchToProps = {
 	selectCity, 
+	removeCity,
 	updateCitiesErrorMessage
 }
 
