@@ -11,8 +11,7 @@ RxDB.plugin(require('pouchdb-adapter-http'));
 const syncURL = '127.0.0.1:5984/';
 const dbName = 'the_awesome_weather_app';
 
-const createDatabase = async()=>{
-	console.log("bp")
+const createDatabase = async(dispatch)=>{
 	const db = await RxDB.create(
 		{name: dbName, adapter: 'idb', password: 'password'}
 	);
@@ -25,14 +24,16 @@ const createDatabase = async()=>{
 		name: 'usercollection',
 		schema: schema
 	})
-	console.log("bp2")
+	console.log(userCollection)
+	const documents = await userCollection.find().exec();
+	console.log(documents);
 	userCollection.sync({ remote: syncURL + dbName + '/' });
-	console.log(db);
-	console.log("bp3")
+
 	return db;
 }
 
 const db = createDatabase();
+//console.log(db)
 // --- end of RxDB stuff
 
 // City Actions
