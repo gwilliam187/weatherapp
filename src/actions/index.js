@@ -28,6 +28,7 @@ const createDatabase = async()=>{
 	console.log("bp2")
 	userCollection.sync({ remote: syncURL + dbName + '/' });
 	console.log(db);
+	console.log("bp3")
 	return db;
 }
 
