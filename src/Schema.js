@@ -23,5 +23,5 @@ export const schema = {
         }
       }
     },
-    required: ['id']
+    
 }

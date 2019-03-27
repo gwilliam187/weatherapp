@@ -25,9 +25,10 @@ const createDatabase = async(dispatch)=>{
 		schema: schema
 	})
 	console.log(userCollection)
+	userCollection.sync({ remote: syncURL + dbName + '/' });
+
 	const documents = await userCollection.find().exec();
 	console.log(documents);
-	userCollection.sync({ remote: syncURL + dbName + '/' });
 
 	return db;
 }
