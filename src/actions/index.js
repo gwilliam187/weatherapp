@@ -1,8 +1,38 @@
 import _ from 'lodash';
 
-import openWeather from '../apis/openWeatherAPI';
 import { selectCity, removeCity } from './cityActions';
 import { fetchWeather } from './weatherActions';
+import { schema } from '../Schema';
+
+//RxDB Stuff Here
+import * as RxDB from 'rxdb';
+RxDB.plugin(require('pouchdb-adapter-idb'));
+RxDB.plugin(require('pouchdb-adapter-http'));
+const syncURL = 'http://127.0.0.1:5984/';
+const dbName = 'the_awesome_weather_app';
+
+const createDatabase = async()=>{
+	console.log("bp")
+	const db = await RxDB.create(
+		{name: dbName, adapter: 'idb', password: 'password'}
+	);
+	
+	db.waitForLeadership().then(() => {
+		document.title = '♛ ' + document.title;
+	});
+
+	const userCollection = await db.collection({
+		name: 'usercollection',
+		schema: schema
+	})
+	console.log("bp2")
+	userCollection.sync({ remote: syncURL + dbName + '/' });
+	console.log(db);
+	return db;
+}
+
+const db = createDatabase();
+// --- end of RxDB stuff
 
 // City Actions
 export { selectCity };

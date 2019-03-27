@@ -6,6 +6,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "lodash": "^4.17.11",
+    "pouchdb-adapter-http": "^7.0.0",
+    "pouchdb-adapter-idb": "^7.0.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-redux": "^6.0.1",
