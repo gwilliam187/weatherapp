@@ -14,7 +14,7 @@ class CityList extends React.Component {
 
 	render() {
 		return (
-			<div className='col-12 card mb-3'>
+			<div className='col-12 card mb-3 city-list'>
 				<div className='card-body'>
 					{this.renderList()}
 				</div>

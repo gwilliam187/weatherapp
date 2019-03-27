@@ -58,9 +58,48 @@ i.back-button:hover {
 	align-self: center;
 }
 
-.city-button {
-	width: 100%;
+.city-list div.city-button:first-child {
+	border-top: 0px solid black !important;
+}
+
+.city-list div.city-button:last-child {
+	border-bottom: 0px solid black !important;
+}
+
+.city-button .public-button:hover {
+	color: #707070;
+	cursor: pointer;
+}
+
+.city-button .public-button.faded {
+	color: #707070;
+}
+
+.city-button .public-button.faded:hover {
+	color: #212529;
+}
+
+.city-button .close-button {
+	font-size: 1.2rem;
+}
+
+.city-button .close-button:hover {
+	color: #707070;
+	cursor: pointer;
+}
+
+.city-button-main {
+	/*width: 100%;*/
 	padding: 15px 0;
+
+	font-size: 1.3rem;
+
+	/*transition-duration: 0.4s;*/
+}
+
+.city-button-main:hover {
+	color: #007bff;
+	cursor: pointer;
 }
 
 .weather-display {

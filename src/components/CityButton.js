@@ -6,22 +6,41 @@ import { updateCitiesErrorMessage } from '../actions'
 
 export class CityButton extends React.Component {
 	
-	handleOnClick = () => {
+	handleCityClick = () => {
 		this.props.updateCitiesErrorMessage(null, null);
 		this.props.selectCity({
 			cityName: this.props.cityName, 
 			countryCode: this.props.countryCode
 		});
-	}
+	};
+
+	handlePublicClick = () => {
+		
+	};
+
+	handleCloseClick = () => {
+		
+	};
 
 	render() {
 		return (
-			<div className='py-2'>
-				<button 
-					className={'btn btn-outline-secondary btn-lg city-button'} 
-					onClick={this.handleOnClick}>
-					{this.props.cityName}
-				</button>
+			<div className='d-flex border-top border-bottom city-button'>
+				<div 
+					className='mr-auto city-button-main'
+					onClick={ this.handleCityClick }>
+					{ this.props.cityName }
+				</div>
+				<div 
+					className='d-flex align-items-center justify-content-center mr-4 public-button'
+					onClick={ this.handlePublicClick }>
+					Public
+				</div>
+				<div
+					className='d-flex align-items-center justify-content-center'>
+					<i 
+						className='fas fa-times close-button' 
+						onClick={ this.handleCloseClick } />
+				</div>
 			</div>
 		);
 	}
