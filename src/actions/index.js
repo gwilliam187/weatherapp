@@ -19,17 +19,27 @@ const createDatabase = async(dispatch)=>{
 	db.waitForLeadership().then(() => {
 		document.title = '♛ ' + document.title;
 	});
-	console.log("bp1")
 	const userCollection = await db.collection({
 		name: 'usercollection',
 		schema: schema
 	})
-	console.log("bp2")
 	userCollection.sync({ remote: syncURL + dbName + '/' });
-	console.log(db.usercollection)
+	// userCollection.insert({
+	// 	_id: 'John',
+	// 	cities: [
+	// 		{
+	// 			cityName: "Bogor",
+	// 			cityRef: "bogor,id"
+	// 		},
+	// 		{
+	// 			cityName: "Jakarta",
+	// 			cityRef: "jakarta,id"
+	// 		}
+	// 	]
+	// })
+
 	const documents = await db.usercollection.find().exec();
 	console.log(documents);
-
 	return db;
 }
 
