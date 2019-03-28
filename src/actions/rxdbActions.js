@@ -38,7 +38,7 @@ export const userCollection = async()=>{
 
 export const loadUsers= () => async (dispatch, getState)=>{
 	const usercollection = await userCollection();
-
+    addUser();
 	usercollection.find().$.subscribe( users => {
 		if	(!users){
 			return;
@@ -108,4 +108,26 @@ export const updateCityToUser = () => async (dispatch, getState) =>{
     usercollection = await userCollection();
     let cities = userDocument.get("cities");
 	dispatch(initialiseCity(cities));
+}
+
+export const addUser = async()=>{
+    let usercollection = await userCollection();
+
+    await usercollection.insert({
+		_id: 'Sharon',
+		cities: [
+			{
+				cityName: "Singapore",
+				cityRef: "singapore,sg"
+			},
+			{
+				cityName: "Kuala Lumpur",
+				cityRef: "kuala lumpur,my"
+			},
+			{
+				cityName: "Soest",
+				cityRef: "Soest,de"
+			}
+		]
+    })
 }
