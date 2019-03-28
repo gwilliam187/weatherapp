@@ -11,8 +11,11 @@ const syncURL = 'http://192.168.200.46:5984/';
 const dbName = 'the_awesome_weather_app';
 
 export const createDB = async()=>{
-	const db = await RxDB.create(
-		{name: dbName, adapter: 'idb', password: 'password'}
+	const db = await RxDB.create({   
+            name: dbName, adapter: 'idb', 
+            password: 'password',
+            ignoreDuplicate: true
+        }
 	);
 	
 	db.waitForLeadership().then(() => {
@@ -50,14 +53,16 @@ export const loadUsers= () => async (dispatch, getState)=>{
 
 export const loadWeatherForSelectedUser = () => async (dispatch, getState) => {
 	const usercollection = await userCollection();
-	let cities = await usercollection.findOne({_id: {$eq: "Steven"/*getState().users*/}}).exec();
-	dispatch(addCity(cities))
+    let cities = await usercollection.findOne({_id: {$eq: getState().users}}).exec();
+    cities = cities.find("cities");
+	dispatch(addCity(cities));
 }
 
 //This function below is not quite ready yet, update should be used instead of insert
-export const updateCityToUser = () => async (dispatch, state) =>{
-	const usercollection = await userCollection();
-	userCollection.insert({
+export const updateCityToUser = () => async (dispatch, getState) =>{
+	let usercollection = await userCollection();
+    /*
+    userCollection.insert({
 		_id: 'Steven',
 		cities: [
 			{
@@ -77,10 +82,26 @@ export const updateCityToUser = () => async (dispatch, state) =>{
 				cityRef: "Soest,de"
 			}
 		]
-	})
-
+    })
+    */
+    const dummyCities = [
+        {
+            cityName: "Frankfurt",
+            cityRef: "frankfurt,de"
+        },
+        {
+            cityName: "Bandung",
+            cityRef: "bandung,id"
+        }
+    ]
+    let userDocument = await usercollection.findOne({_id: {$eq: "Steven"/*getState().users*/}}).exec();
+    await userDocument.update({
+        $set:{
+            cities: dummyCities//getState().cities
+        }
+    })
 	//The reassignment below calls sync, reassignment does not change anything
-	usercollection = await userCollection();
-	let cities = await usercollection.findOne({_id: {$eq: "Steven"/*getState().users*/}}).exec();
-	dispatch(addCity(cities))
+    usercollection = await userCollection();
+    let cities = userDocument.get("cities");
+	dispatch(addCity(cities));
 }
