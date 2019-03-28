@@ -3,8 +3,19 @@ import { selectUser, loadCityForSelectedUser } from '../actions';
 import { connect } from 'react-redux';
 
 class UserList extends Component {
-	handleSelectChange = (e)=>{
-		const value = e.target.value;
+	state = {
+		value: null
+	};
+
+	handleSelectChange = (e) => {
+		this.setState({ value: e.target.value })
+		// const value = e.target.value;
+		// this.props.selectUser(value); 
+		// this.props.loadCityForSelectedUser();
+	}
+
+	componentDidUpdate() {
+		const value = this.state.value;
 		this.props.selectUser(value); 
 		this.props.loadCityForSelectedUser();
 	}
