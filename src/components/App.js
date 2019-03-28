@@ -3,7 +3,8 @@ import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 
-import { fetchWeathersForSelectedCities, loadUsers } from '../actions';
+import { loadUsers } from '../actions';
+import { fetchWeathersForSelectedCities } from '../actions/weatherActions';
 import UserList from './UserList';
 import CityList from './CityList';
 import CityInput from './CityInput';
