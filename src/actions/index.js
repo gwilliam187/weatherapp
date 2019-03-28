@@ -15,7 +15,7 @@ RxDB.plugin(require('pouchdb-adapter-http'));
 const syncURL = 'http://192.168.200.46:5984/';
 const dbName = 'the_awesome_weather_app';
 
-export const initialiseRxDB = () => async (dispatch, getState)=>{
+export const createDB = async()=>{
 	const db = await RxDB.create(
 		{name: dbName, adapter: 'idb', password: 'password'}
 	);
@@ -23,10 +23,21 @@ export const initialiseRxDB = () => async (dispatch, getState)=>{
 	db.waitForLeadership().then(() => {
 		document.title = '♛ ' + document.title;
 	});
+
+	return db;
+}
+
+export const userCollection = async(db)=>{
 	const userCollection = await db.collection({
 		name: 'usercollection',
 		schema: schema
 	})
+	userCollection.sync({ remote: syncURL + dbName + '/' });
+
+	return db.usercollection;
+}
+
+export const initialiseRxDB = () => async (dispatch, getState)=>{
 	// userCollection.insert({
 	// 	_id: 'Steven',
 	// 	cities: [
@@ -48,10 +59,10 @@ export const initialiseRxDB = () => async (dispatch, getState)=>{
 	// 		}
 	// 	]
 	// })
+	const db = await createDB();
+	const usercollection = await userCollection(db);
 
-	userCollection.sync({ remote: syncURL + dbName + '/' });
-
-	db.usercollection.find().$.subscribe( users => {
+	usercollection.find().$.subscribe( users => {
 		if	(!users){
 			return;
 		}
@@ -62,9 +73,8 @@ export const initialiseRxDB = () => async (dispatch, getState)=>{
 		dispatch({type: "INITIALISE_USERS", payload: userList})
 	} );
 
-	let cities = await db.usercollection.findOne({_id: {$eq: 'John'}}).exec();
+	let cities = await usercollection.findOne({_id: {$eq: "Steven"/*getState().users*/}}).exec();
 	dispatch(addCity(cities))
-
 	//return db;
 }
 // --- end of RxDB stuff
