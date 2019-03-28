@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { selectCity } from '../actions';
+import { addCity } from '../actions/cityActions';
 import { updateCitiesErrorMessage } from '../actions';
 
 export class CityInput extends React.Component {
@@ -11,17 +11,30 @@ export class CityInput extends React.Component {
 
 	handleOnKeyDown = (e) => {
 		if(e.key === 'Enter') {
-			this.props.updateCitiesErrorMessage(null, null);
+			// this.props.updateCitiesErrorMessage(null, null);
+			// const termList = this.state.term.split(',');
+			// if(termList.length === 2) {
+			// 	this.props.selectCity({
+			// 		cityName: termList[0], 
+			// 		countryCode: termList[1]
+			// 	});
+			// }	else {
+			// 	this.props.updateCitiesErrorMessage(null, 'INVALID_INPUT');
+			// }
 			const termList = this.state.term.split(',');
 			if(termList.length === 2) {
-				this.props.selectCity({
-					cityName: termList[0], 
-					countryCode: termList[1]
-				});
-			}	else {
+				let cityName = termList[0];
+				cityName = cityName.toLowerCase();
+				cityName = cityName.replace(cityName[0], cityName[0].toUpperCase());
+				const city = {
+					cityName: cityName,
+					cityRef: this.state.term.toLowerCase()
+				};
+				this.props.addCity(city);
+				// console.log(city);
+			} else {
 				this.props.updateCitiesErrorMessage(null, 'INVALID_INPUT');
 			}
-
 			this.setState({term: ''});
 		}
 	};
@@ -58,7 +71,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-	selectCity, 
+	addCity, 
 	updateCitiesErrorMessage
 }
 

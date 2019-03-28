@@ -7,7 +7,7 @@ class CityList extends React.Component {
 	renderList() {
 		return this.props.cities.map(city => {
 			return (
-				<CityButton cityName={city.cityName} cityRef={city.cityRef} key={city.cityName} />
+				<CityButton city={ city } key={ city.cityRef } />
 			);
 		});
 	}
@@ -16,6 +16,7 @@ class CityList extends React.Component {
 		return (
 			<div className='col-12 card mb-3 city-list'>
 				<div className='card-body'>
+					<label>Cities</label>
 					{this.renderList()}
 				</div>
 			</div>

@@ -1,4 +1,6 @@
 import React from 'react';
+import { ToastContainer, toast, Flip } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 
 import { fetchWeathersForSelectedCities, initialiseRxDB } from '../actions';
@@ -16,7 +18,7 @@ class App extends React.Component {
 	}
 
 	componentDidUpdate() {
-		console.log(' i update ')
+		console.log(this.props.selectedCities);
 		this.props.fetchWeathersForSelectedCities();
 	}
 
@@ -71,6 +73,19 @@ class App extends React.Component {
 						<DiffDisplay />
 					</div>
 				</div>
+				<ToastContainer
+					toastClassName='custom-toast'
+					position="top-right"
+					autoClose={3000}
+					hideProgressBar
+					newestOnTop={false}
+					closeOnClick
+					rtl={false}
+					pauseOnVisibilityChange
+					draggable
+					pauseOnHover
+					transition={Flip}
+				/>
 			</div>
 		);
 	}

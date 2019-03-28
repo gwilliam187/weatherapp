@@ -1,7 +1,9 @@
 import _ from 'lodash';
 
+
 import { selectCity, unselectCity, addCity } from './cityActions';
-import { fetchWeather } from './weatherActions';
+import { fetchWeather, setWeathers } from './weatherActions';
+
 import { schema } from '../Schema';
 
 //RxDB Stuff Here
@@ -9,6 +11,7 @@ import * as RxDB from 'rxdb';
 RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
 const syncURL = 'http://192.168.200.46:5984/';
+
 const dbName = 'the_awesome_weather_app';
 
 export const initialiseRxDB = () => async (dispatch)=>{
@@ -66,13 +69,13 @@ export { selectCity };
 export { unselectCity };
 
 // Weather Actions
-export { fetchWeather };
+export { fetchWeather, setWeathers };
 
 
 export const fetchWeathersForSelectedCities = () => async (dispatch, getState) => {
 	const selectedCities = getState().selectedCities;
 	const promises = await selectedCities.map(async selectedCity => {
-		const res = await dispatch(fetchWeather(selectedCity));
+		const res = await dispatch(fetchWeather(selectedCity.cityRef));
 		return res;
 	});
 
@@ -84,7 +87,7 @@ export const fetchWeathersForSelectedCities = () => async (dispatch, getState) =
 					if('status' in currRes) {
 						return currRes.data
 					} else {
-						dispatch(unselectCity(currRes.city));
+						// dispatch(unselectCity(currRes.city));
 						error.city = currRes.city;
 						return undefined;
 					}
@@ -93,10 +96,7 @@ export const fetchWeathersForSelectedCities = () => async (dispatch, getState) =
 					return weather !== undefined;
 				});
 
-			dispatch({
-				type: 'FETCH_WEATHERS',
-				payload: weathers
-			});
+			dispatch(setWeathers(weathers));
 
 			if(!_.isEmpty(error)) {
 				dispatch(updateCitiesErrorMessage(error.city, 'CITY_NOT_FOUND'));
@@ -109,7 +109,6 @@ export const fetchWeathersForSelectedCities = () => async (dispatch, getState) =
 
 export const updateCitiesErrorMessage = (city, status) => {
 	if(status === 'CITY_NOT_FOUND') {
-		console.log('returning not found');
 		return {
 			type: 'CITY_NOT_FOUND'
 		};
