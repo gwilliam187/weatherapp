@@ -84,4 +84,3 @@ export const updateCityToUser = () => async (dispatch, state) =>{
 	let cities = await usercollection.findOne({_id: {$eq: "Steven"/*getState().users*/}}).exec();
 	dispatch(addCity(cities))
 }
-// --- end of RxDB stuff
