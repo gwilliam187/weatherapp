@@ -34,11 +34,9 @@ export const fetchWeathersForSelectedCities = () => async (dispatch, getState) =
 			let error = {};
 			const weathers = res
 				.map(currRes => {
-					console.log(currRes);
 					if('status' in currRes) {
 						return currRes.data
 					} else {
-						console.log(currRes);
 						dispatch(unselectCity(currRes.city));
 						error.city = currRes.city;
 						return undefined;
