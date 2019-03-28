@@ -3,10 +3,10 @@ import { selectUser, loadCityForSelectedUser } from '../actions';
 import { connect } from 'react-redux';
 
 class UserList extends Component {
-	handleSelectChange(e){
+	handleSelectChange = (e)=>{
 		const value = e.target.value;
-		selectUser(value); 
-		loadCityForSelectedUser();
+		this.props.selectUser(value); 
+		this.props.loadCityForSelectedUser();
 	}
 
 	renderList() {
@@ -44,5 +44,5 @@ const mapStateToProps = state => {
 
 export default connect(
 	mapStateToProps, 
-	null
+	{ selectUser, loadCityForSelectedUser}
 )(UserList);
