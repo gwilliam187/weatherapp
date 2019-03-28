@@ -3,7 +3,7 @@ import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 
-import { fetchWeathersForSelectedCities, initialiseRxDB } from '../actions';
+import { fetchWeathersForSelectedCities, loadUsers } from '../actions';
 import UserList from './UserList';
 import CityList from './CityList';
 import CityInput from './CityInput';
@@ -14,7 +14,7 @@ import './custom-style.css';
 
 class App extends React.Component {
 	componentDidMount(){
-		this.props.initialiseRxDB();
+		this.props.loadUsers();
 	}
 
 	componentDidUpdate() {
@@ -99,5 +99,5 @@ const mapStateToProps = state => {
 
 export default connect(
 	mapStateToProps,
-	{ fetchWeathersForSelectedCities, initialiseRxDB }
+	{ fetchWeathersForSelectedCities, loadUsers }
 )(App);
