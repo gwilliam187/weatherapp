@@ -14,7 +14,7 @@ const syncURL = 'http://192.168.200.46:5984/';
 
 const dbName = 'the_awesome_weather_app';
 
-export const initialiseRxDB = () => async (dispatch)=>{
+export const initialiseRxDB = () => async (dispatch, getState)=>{
 	const db = await RxDB.create(
 		{name: dbName, adapter: 'idb', password: 'password'}
 	);
@@ -50,11 +50,15 @@ export const initialiseRxDB = () => async (dispatch)=>{
 
 	userCollection.sync({ remote: syncURL + dbName + '/' });
 
-	db.usercollection.find().$.subscribe( user => {
-		if	(!user){
+	db.usercollection.find().$.subscribe( users => {
+		if	(!users){
 			return;
 		}
-		console.dir(user)
+		let userList = [];
+		users.forEach((user)=>{
+			userList.push(user.get('_id'))
+		})
+		dispatch({type: "INITIALISE_USERS", payload: userList})
 	} );
 
 	let cities = await db.usercollection.findOne({_id: {$eq: 'John'}}).exec();
