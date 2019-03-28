@@ -1,4 +1,4 @@
-import { ADD_CITY, REMOVE_CITY, SELECT_CITY, UNSELECT_CITY } from './actionTypes';
+import { ADD_CITY, REMOVE_CITY, TOGGLE_CITY_IS_PUBLIC } from './actionTypes';
 import { toast } from 'react-toastify';
 
 export const addCity = (city) => {
@@ -16,16 +16,10 @@ export const removeCity = (city) => {
 	};
 };
 
-export const selectCity = (city) => {
+export const toggleCityIsPublic = (city) => {
 	return {
-		type: SELECT_CITY,
+		type: TOGGLE_CITY_IS_PUBLIC,
 		payload: city
 	};
 };
 
-export const unselectCity = (city) => {
-	return {
-		type: UNSELECT_CITY,
-		payload: city
-	};
-};

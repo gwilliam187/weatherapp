@@ -1,10 +1,15 @@
 import openWeather from '../apis/openWeatherAPI';
 
-export const fetchWeather = (cityRef) => {
+export const fetchWeather = (city) => {
 	return async (dispatch) => {
 		const res = await openWeather
-			.get(`?q=${cityRef}`)
-			.catch(error => { return {message: `${cityRef} doesn't exist`} });
+			.get(`?q=${city.cityRef}`)
+			.catch(error => { 
+				return {
+					city: city, 
+					message: `${city.cityRef} doesn't exist` 
+				} 
+			});
 		const data = await res;
 
 		return data;

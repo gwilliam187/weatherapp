@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { selectCity, unselectCity } from './cityActions';
+import { selectCity, unselectCity } from './selectedCityActions';
 import { fetchWeather, setWeathers } from './weatherActions';
 import { schema } from '../Schema';
 
@@ -9,7 +9,7 @@ import * as RxDB from 'rxdb';
 RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
 
-const syncURL = 'http://192.168.200.158:5984/';
+const syncURL = 'http://192.168.200.46:5984/';
 const dbName = 'the_awesome_weather_app';
 
 const createDatabase = async(dispatch)=>{
@@ -24,27 +24,19 @@ const createDatabase = async(dispatch)=>{
 		name: 'usercollection',
 		schema: schema
 	})
-	// userCollection.insert({
-	// 	_id: 'Steven',
-	// 	cities: [
-	// 		{
-	// 			cityName: "Bogor",
-	// 			cityRef: "bogor,id"
-	// 		},
-	// 		{
-	// 			cityName: "Jakarta",
-	// 			cityRef: "jakarta,id"
-	// 		},
-	// 		{
-	// 			cityName: "Potsdam",
-	// 			cityRef: "Potsdam,de"
-	// 		},
-	// 		{
-	// 			cityName: "Soest",
-	// 			cityRef: "Soest,de"
-	// 		}
-	// 	]
-	// })
+	userCollection.insert({
+		_id: 'Bill',
+		cities: [
+			{
+				cityName: "Bogor",
+				cityRef: "bogor,id"
+			},
+			{
+				cityName: "Jakarta",
+				cityRef: "jakarta,id"
+			}
+		]
+	})
 	userCollection.sync({ remote: syncURL + dbName + '/' });
 	db.usercollection.find({_id: {$eq: 'John'}}).exec().then(
 		document=>console.log(document)
@@ -59,8 +51,7 @@ const db = createDatabase();
 // --- end of RxDB stuff
 
 // Selected City Actions
-export { selectCity };
-export { unselectCity };
+export { selectCity, unselectCity };
 
 // Weather Actions
 export { fetchWeather, setWeathers };
@@ -69,7 +60,7 @@ export { fetchWeather, setWeathers };
 export const fetchWeathersForSelectedCities = () => async (dispatch, getState) => {
 	const selectedCities = getState().selectedCities;
 	const promises = await selectedCities.map(async selectedCity => {
-		const res = await dispatch(fetchWeather(selectedCity.cityRef));
+		const res = await dispatch(fetchWeather(selectedCity));
 		return res;
 	});
 
@@ -78,10 +69,12 @@ export const fetchWeathersForSelectedCities = () => async (dispatch, getState) =
 			let error = {};
 			const weathers = res
 				.map(currRes => {
+					console.log(currRes);
 					if('status' in currRes) {
 						return currRes.data
 					} else {
-						// dispatch(unselectCity(currRes.city));
+						console.log(currRes);
+						dispatch(unselectCity(currRes.city));
 						error.city = currRes.city;
 						return undefined;
 					}
