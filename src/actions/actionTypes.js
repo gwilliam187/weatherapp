@@ -11,3 +11,6 @@ export const INITIALISE_CITY = "INITIALISE_CITY";
 // Selected City Actions
 export const SELECT_CITY = 'SELECT_CITY';
 export const UNSELECT_CITY = 'UNSELECT_CITY';
+
+// Weather Actions
+export const FETCH_WEATHERS = 'FETCH_WEATHERS';

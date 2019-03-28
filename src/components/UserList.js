@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 class UserList extends Component {
 	handleSelectChange(e){
+		console.log('handling change')
 		const value = e.target.value;
 		selectUser(value); 
 		loadCityForSelectedUser();
