@@ -3,6 +3,7 @@ import _ from 'lodash';
 import openWeather from '../apis/openWeatherAPI';
 import { unselectCity } from './selectedCityActions';
 import { updateCitiesErrorMessage } from './citiesErrorMessageActions';
+import { FETCH_WEATHERS } from './actionTypes';
 
 export const fetchWeather = city => async dispatch => {
 	return await openWeather
@@ -17,7 +18,7 @@ export const fetchWeather = city => async dispatch => {
 
 export const setWeathers = weathers => {
 	return {
-		type: 'FETCH_WEATHERS',
+		type: FETCH_WEATHERS,
 		payload: weathers
 	};
 };

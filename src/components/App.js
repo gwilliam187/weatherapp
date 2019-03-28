@@ -70,7 +70,6 @@ class App extends React.Component {
 						</div>
 					</div>
 					<div className='col-8'>
-						<button onClick={this.props.updateCityToUser}>Click</button>
 						<WeatherDisplay />
 						<DiffDisplay />
 					</div>

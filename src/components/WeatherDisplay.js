@@ -22,13 +22,13 @@ class WeatherDisplay extends React.Component {
 								<WeatherCard type='weather' name='Weather' 
 									mainVal={weathers[0].weather[0].main} secVal={weathers[0].weather[0].description} />
 								<WeatherCard type='temp' name='Temperature' 
-									mainVal={weathers[0].main.temp} />
+									mainVal={Math.round(weathers[0].main.temp)} />
 								<WeatherCard type='minMaxTemp' name='Min.' 
-									mainVal={weathers[0].main.temp_min} />
+									mainVal={Math.round(weathers[0].main.temp_min)} />
 								<WeatherCard type='minMaxTemp' name='Max.' 
-									mainVal={weathers[0].main.temp_max} />
+									mainVal={Math.round(weathers[0].main.temp_max)} />
 								<WeatherCard type='wind' name='Wind' 
-									mainVal={weathers[0].wind.speed} secVal={weathers[0].wind.deg} />
+									mainVal={Math.round(weathers[0].wind.speed)} secVal={Math.round(weathers[0].wind.deg)} />
 							</div>
 						</div>
 					</div>
@@ -48,13 +48,13 @@ class WeatherDisplay extends React.Component {
 								<WeatherCard type='weather' name='Weather' 
 									mainVal={weathers[0].weather[0].main} secVal={weathers[0].weather[0].description} />
 								<WeatherCard type='temp' name='Temperature' 
-									mainVal={weathers[0].main.temp} />
+									mainVal={Math.round(weathers[0].main.temp)} />
 								<WeatherCard type='minMaxTemp' name='Min.' 
-									mainVal={weathers[0].main.temp_min} />
+									mainVal={Math.round(weathers[0].main.temp_min)} />
 								<WeatherCard type='minMaxTemp' name='Max.' 
-									mainVal={weathers[0].main.temp_max} />
+									mainVal={Math.round(weathers[0].main.temp_max)} />
 								<WeatherCard type='wind' name='Wind' 
-									mainVal={weathers[0].wind.speed} secVal={weathers[0].wind.deg} />
+									mainVal={Math.round(weathers[0].wind.speed)} secVal={Math.round(weathers[0].wind.deg)} />
 							</div>
 						</div>
 					</div>
@@ -69,13 +69,13 @@ class WeatherDisplay extends React.Component {
 								<WeatherCard type='weather' name='Weather' 
 									mainVal={weathers[1].weather[0].main} secVal={weathers[1].weather[0].description} />
 								<WeatherCard type='temp' name='Temperature' 
-									mainVal={weathers[1].main.temp} />
+									mainVal={Math.round(weathers[1].main.temp)} />
 								<WeatherCard type='minMaxTemp' name='Min.' 
-									mainVal={weathers[1].main.temp_min} />
+									mainVal={Math.round(weathers[1].main.temp_min)} />
 								<WeatherCard type='minMaxTemp' name='Max.' 
-									mainVal={weathers[1].main.temp_max} />
+									mainVal={Math.round(weathers[1].main.temp_max)} />
 								<WeatherCard type='wind' name='Wind' 
-									mainVal={weathers[1].wind.speed} secVal={weathers[1].wind.deg} />
+									mainVal={Math.round(weathers[1].wind.speed)} secVal={Math.round(weathers[1].wind.deg)} />
 							</div>
 						</div>
 					</div>

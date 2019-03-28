@@ -1,6 +1,6 @@
 import * as RxDB from 'rxdb';
 
-import { initialiseCity } from './cityActions';
+import { initialiseCity, addCity } from './cityActions';
 import { schema } from '../Schema';
 
 RxDB.plugin(require('pouchdb-adapter-idb'));
@@ -16,7 +16,7 @@ export const createDB = async()=>{
             ignoreDuplicate: true
         }
 	);
-	
+	addCity();
 	db.waitForLeadership().then(() => {
 		document.title = '♛ ' + document.title;
 	});
@@ -30,14 +30,14 @@ export const userCollection = async()=>{
 		name: 'usercollection',
 		schema: schema
 	})
-	userCollection.sync({ remote: syncURL + dbName + '/' });
-
+    userCollection.sync({ remote: syncURL + dbName + '/' });
+    
 	return db.usercollection;
 }
 
 export const loadUsers= () => async (dispatch, getState)=>{
 	const usercollection = await userCollection();
-    addUser();
+    
 	usercollection.find().$.subscribe( users => {
 		if	(!users){
 			return;
@@ -64,29 +64,6 @@ export const loadCityForSelectedUser = () => async (dispatch, getState) => {
 //This function below is not quite ready yet, update should be used instead of insert
 export const updateCityToUser = () => async (dispatch, getState) =>{
 	let usercollection = await userCollection();
-    /*
-    userCollection.insert({
-		_id: 'Steven',
-		cities: [
-			{
-				cityName: "Bogor",
-				cityRef: "bogor,id"
-			},
-			{
-				cityName: "Jakarta",
-				cityRef: "jakarta,id"
-			},
-			{
-				cityName: "Potsdam",
-				cityRef: "Potsdam,de"
-			},
-			{
-				cityName: "Soest",
-				cityRef: "Soest,de"
-			}
-		]
-    })
-    */
     const dummyCities = [
         {
             cityName: "Frankfurt",
@@ -112,7 +89,7 @@ export const updateCityToUser = () => async (dispatch, getState) =>{
 export const addUser = async()=>{
     let usercollection = await userCollection();
 
-    await usercollection.insert({
+    await usercollection.upsert({
 		_id: 'Sharon',
 		cities: [
 			{
