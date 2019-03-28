@@ -80,7 +80,7 @@ export const initialiseRxDB = () => async (dispatch, getState)=>{
 // --- end of RxDB stuff
 
 // Selected City Actions
-export { selectCity, unselectCity };
+// export { selectCity, unselectCity };
 
 // Weather Actions
 export { fetchWeather, setWeathers };
@@ -91,8 +91,8 @@ export { updateCitiesErrorMessage };
 
 export const fetchWeathersForSelectedCities = () => async (dispatch, getState) => {
 	const selectedCities = getState().selectedCities;
-	const promises = await selectedCities.map(async selectedCity => {
-		const res = await dispatch(fetchWeather(selectedCity));
+	const promises = await selectedCities.map( selectedCity => {
+		const res = dispatch(fetchWeather(selectedCity));
 		return res;
 	});
 
