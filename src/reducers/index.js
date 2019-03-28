@@ -4,10 +4,12 @@ import citiesReducer from './citiesReducer';
 import selectedCitiesReducer from './selectedCitiesReducer';
 import weathersReducer from './weathersReducer';
 import citiesErrorMessageReducer from './citiesErrorMessageReducer';
-import usersReducer from './usersReducer';
+import userListReducer from './userListReducer';
+import selectedUserReducer from './selectedUserReducer';
 
 export default combineReducers({
-	users: usersReducer,
+	users: userListReducer,
+	selectedUser: selectedUserReducer,
 	cities: citiesReducer,
 	selectedCities: selectedCitiesReducer,
 	weathers: weathersReducer,

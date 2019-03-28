@@ -1,3 +1,7 @@
+//User Actions
+export const SELECT_USER = 'SELECT_USER';
+export const INITIALISE_USERS = 'INITIALISE_USERS';
+
 // City Actions
 export const ADD_CITY = 'ADD_CITY';
 export const REMOVE_CITY = 'REMOVE_CITY';

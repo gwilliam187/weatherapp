@@ -55,9 +55,9 @@ export const loadUsers= () => async (dispatch, getState)=>{
 	// dispatch(initialiseCity(cities));
 }
 
-export const loadWeatherForSelectedUser = () => async (dispatch, getState) => {
+export const loadCityForSelectedUser = () => async (dispatch, getState) => {
 	const usercollection = await userCollection();
-    let cities = await usercollection.findOne({_id: {$eq: getState().users}}).exec();
+    let cities = await usercollection.findOne({_id: {$eq: getState().selectedUser}}).exec();
     cities = cities.get("cities");
 	dispatch(initialiseCity(cities));
 }
@@ -98,7 +98,7 @@ export const updateCityToUser = () => async (dispatch, getState) =>{
             cityRef: "bandung,id"
         }
     ]
-    let userDocument = await usercollection.findOne({_id: {$eq: "Steven"/*getState().users*/}}).exec();
+    let userDocument = await usercollection.findOne({_id: {$eq: getState().selectedUser }}).exec();
     await userDocument.update({
         $set:{
             cities: dummyCities//getState().cities
