@@ -2,8 +2,8 @@ import _ from 'lodash';
 
 import { addCity } from './cityActions';
 import { selectCity, unselectCity } from './selectedCityActions';
-
 import { fetchWeather, setWeathers } from './weatherActions';
+import { updateCitiesErrorMessage } from './citiesErrorMessageActions';
 
 import { schema } from '../Schema';
 
@@ -71,6 +71,9 @@ export { selectCity, unselectCity };
 // Weather Actions
 export { fetchWeather, setWeathers };
 
+// Cities Error Message Actions
+export { updateCitiesErrorMessage };
+
 
 export const fetchWeathersForSelectedCities = () => async (dispatch, getState) => {
 	const selectedCities = getState().selectedCities;
@@ -107,20 +110,4 @@ export const fetchWeathersForSelectedCities = () => async (dispatch, getState) =
 		.catch(err => { 
 			console.log(err); 
 		});
-};
-
-export const updateCitiesErrorMessage = (city, status) => {
-	if(status === 'CITY_NOT_FOUND') {
-		return {
-			type: 'CITY_NOT_FOUND'
-		};
-	} else if(status === 'INVALID_INPUT') {
-		return {
-			type: 'INVALID_INPUT'
-		};
-	}
-
-	return {
-		type: 'ALLES_GUT'
-	};
 };
