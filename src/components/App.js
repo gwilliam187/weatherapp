@@ -3,8 +3,9 @@ import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 
-import { loadUsers } from '../actions';
+import { loadUsers, updateCityToUser } from '../actions';
 import { fetchWeathersForSelectedCities } from '../actions/weatherActions';
+
 import UserList from './UserList';
 import CityList from './CityList';
 import CityInput from './CityInput';
@@ -70,6 +71,7 @@ class App extends React.Component {
 						</div>
 					</div>
 					<div className='col-8'>
+						<button onClick={this.props.updateCityToUser}>Click</button>
 						<WeatherDisplay />
 						<DiffDisplay />
 					</div>
@@ -100,5 +102,5 @@ const mapStateToProps = state => {
 
 export default connect(
 	mapStateToProps,
-	{ fetchWeathersForSelectedCities, loadUsers }
+	{ fetchWeathersForSelectedCities, loadUsers, updateCityToUser }
 )(App);

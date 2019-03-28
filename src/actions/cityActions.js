@@ -1,5 +1,12 @@
-import { ADD_CITY, REMOVE_CITY, TOGGLE_CITY_IS_PUBLIC } from './actionTypes';
+import { ADD_CITY, REMOVE_CITY, TOGGLE_CITY_IS_PUBLIC, INITIALISE_CITY } from './actionTypes';
 import { toast } from 'react-toastify';
+
+export const initialiseCity = (cities) =>{
+	return {
+		type: INITIALISE_CITY,
+		payload: cities
+	}
+}
 
 export const addCity = (city) => {
 	return {

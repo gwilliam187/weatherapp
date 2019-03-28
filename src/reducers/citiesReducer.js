@@ -1,4 +1,4 @@
-import { ADD_CITY, REMOVE_CITY, TOGGLE_CITY_IS_PUBLIC } from '../actions/actionTypes';
+import { ADD_CITY, REMOVE_CITY, TOGGLE_CITY_IS_PUBLIC, INITIALISE_CITY } from '../actions/actionTypes';
 
 const initialState = 
 [
@@ -12,6 +12,8 @@ const initialState =
 
 export default (state = initialState, action) => {
 	switch(action.type) {
+		case INITIALISE_CITY:
+			return action.payload;
 		case ADD_CITY:
 			return [...state, action.payload];
 		case REMOVE_CITY:
