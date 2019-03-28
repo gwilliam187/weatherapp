@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { selectCity, removeCity } from '../actions/cityActions';
+import { removeCity, toggleCityIsPublic } from '../actions/cityActions';
+import { selectCity } from '../actions/selectedCityActions';
 import { updateCitiesErrorMessage } from '../actions'
 
 export class CityButton extends React.Component {
@@ -12,12 +13,23 @@ export class CityButton extends React.Component {
 	};
 
 	handlePublicClick = () => {
-		
+		this.props.toggleCityIsPublic(this.props.city);
 	};
 
 	handleCloseClick = () => {
 		this.props.removeCity(this.props.city);
 	};
+
+	renderPublicButton() {
+		const faded = this.props.city.isPublic ? "" : "faded";
+		return (
+			<div 
+				className={`d-flex align-items-center justify-content-center mr-4 ${faded} public-button`}
+				onClick={ this.handlePublicClick }>
+				{ this.props.city.isPublic ? "Public" : "Private" }
+			</div>
+		);
+	}
 
 	render() {
 		return (
@@ -28,11 +40,7 @@ export class CityButton extends React.Component {
 					<div className='name'>{ this.props.city.cityName }</div>
 					<div className='ref'>{ this.props.city.cityRef }</div>
 				</div>
-				<div 
-					className='d-flex align-items-center justify-content-center mr-4 public-button'
-					onClick={ this.handlePublicClick }>
-					Public
-				</div>
+				{ this.renderPublicButton() }
 				<div className='d-flex align-items-center justify-content-center'>
 					<i 
 						className='fas fa-times close-button' 
@@ -46,6 +54,7 @@ export class CityButton extends React.Component {
 const mapDispatchToProps = {
 	selectCity, 
 	removeCity,
+	toggleCityIsPublic,
 	updateCitiesErrorMessage
 }
 

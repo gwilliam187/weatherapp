@@ -29,6 +29,9 @@ class WeatherCard extends React.Component {
 			} else if(this.props.mainVal === 'Haze') {
 				cardColor = 'gray';
 				cardIcon = 'fas fa-smog fa-4x';
+			} else if(this.props.mainVal === 'Drizzle') {
+				cardColor = 'dark-blue';
+				cardIcon = 'fas fa-cloud-rain fa-4x';
 			}
 
 			return (

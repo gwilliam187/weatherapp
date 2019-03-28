@@ -5,11 +5,17 @@ import CityButton from './CityButton';
 
 class CityList extends React.Component {
 	renderList() {
-		return this.props.cities.map(city => {
+		if(this.props.cities.length > 0) {
+			return this.props.cities.map(city => {
+				return (
+					<CityButton city={ city } key={ city.cityRef } />
+				);
+			});
+		} else {
 			return (
-				<CityButton city={ city } key={ city.cityRef } />
+				<div className='default'>City list empty</div>
 			);
-		});
+		}
 	}
 
 	render() {

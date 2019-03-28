@@ -71,6 +71,18 @@ i.back-button:hover {
 	border-bottom: 0px solid black !important;
 }
 
+.city-list .default {
+	padding-top: 1.3rem;
+
+	text-align: center;
+	font-weight: 500;
+	font-size: 1.3rem;
+}
+
+.city-button .public-button {
+	color: #28a745;
+}
+
 .city-button .public-button:hover {
 	color: #707070;
 	cursor: pointer;
@@ -81,7 +93,7 @@ i.back-button:hover {
 }
 
 .city-button .public-button.faded:hover {
-	color: #212529;
+	color: #28a745;
 }
 
 .city-button .close-button {

@@ -1,7 +1,8 @@
 import _ from 'lodash';
 
+import { addCity } from './cityActions';
+import { selectCity, unselectCity } from './selectedCityActions';
 
-import { selectCity, unselectCity, addCity } from './cityActions';
 import { fetchWeather, setWeathers } from './weatherActions';
 
 import { schema } from '../Schema';
@@ -10,8 +11,8 @@ import { schema } from '../Schema';
 import * as RxDB from 'rxdb';
 RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
-const syncURL = 'http://192.168.200.46:5984/';
 
+const syncURL = 'http://192.168.200.46:5984/';
 const dbName = 'the_awesome_weather_app';
 
 export const initialiseRxDB = () => async (dispatch, getState)=>{
@@ -69,8 +70,7 @@ export const initialiseRxDB = () => async (dispatch, getState)=>{
 // --- end of RxDB stuff
 
 // Selected City Actions
-export { selectCity };
-export { unselectCity };
+export { selectCity, unselectCity };
 
 // Weather Actions
 export { fetchWeather, setWeathers };
@@ -79,7 +79,7 @@ export { fetchWeather, setWeathers };
 export const fetchWeathersForSelectedCities = () => async (dispatch, getState) => {
 	const selectedCities = getState().selectedCities;
 	const promises = await selectedCities.map(async selectedCity => {
-		const res = await dispatch(fetchWeather(selectedCity.cityRef));
+		const res = await dispatch(fetchWeather(selectedCity));
 		return res;
 	});
 
@@ -88,10 +88,12 @@ export const fetchWeathersForSelectedCities = () => async (dispatch, getState) =
 			let error = {};
 			const weathers = res
 				.map(currRes => {
+					console.log(currRes);
 					if('status' in currRes) {
 						return currRes.data
 					} else {
-						// dispatch(unselectCity(currRes.city));
+						console.log(currRes);
+						dispatch(unselectCity(currRes.city));
 						error.city = currRes.city;
 						return undefined;
 					}
