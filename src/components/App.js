@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { fetchWeathersForSelectedCities } from '../actions';
+import { fetchWeathersForSelectedCities, initialiseRxDB } from '../actions';
 import UserList from './UserList';
 import CityList from './CityList';
 import CityInput from './CityInput';
@@ -11,6 +11,10 @@ import DiffDisplay from './DiffDisplay';
 import './custom-style.css';
 
 class App extends React.Component {
+	componentDidMount(){
+		this.props.initialiseRxDB();
+	}
+
 	componentDidUpdate() {
 		console.log(' i update ')
 		this.props.fetchWeathersForSelectedCities();
@@ -80,5 +84,5 @@ const mapStateToProps = state => {
 
 export default connect(
 	mapStateToProps,
-	{ fetchWeathersForSelectedCities }
+	{ fetchWeathersForSelectedCities, initialiseRxDB }
 )(App);

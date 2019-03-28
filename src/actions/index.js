@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { selectCity, unselectCity } from './cityActions';
+import { selectCity, unselectCity, addCity } from './cityActions';
 import { fetchWeather } from './weatherActions';
 import { schema } from '../Schema';
 
@@ -8,10 +8,10 @@ import { schema } from '../Schema';
 import * as RxDB from 'rxdb';
 RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
-const syncURL = 'http://192.168.200.158:5984/';
+const syncURL = 'http://192.168.200.46:5984/';
 const dbName = 'the_awesome_weather_app';
 
-const createDatabase = async(dispatch)=>{
+export const initialiseRxDB = () => async (dispatch)=>{
 	const db = await RxDB.create(
 		{name: dbName, adapter: 'idb', password: 'password'}
 	);
@@ -44,17 +44,21 @@ const createDatabase = async(dispatch)=>{
 	// 		}
 	// 	]
 	// })
+
 	userCollection.sync({ remote: syncURL + dbName + '/' });
-	db.usercollection.find({_id: {$eq: 'John'}}).exec().then(
-		document=>console.log(document)
-	)
-	// GET ONE USER
 
-	return db;
+	db.usercollection.find().$.subscribe( user => {
+		if	(!user){
+			return;
+		}
+		console.dir(user)
+	} );
+
+	let cities = await db.usercollection.findOne({_id: {$eq: 'John'}}).exec();
+	dispatch(addCity(cities))
+
+	//return db;
 }
-
-const db = createDatabase();
-//console.log(db)
 // --- end of RxDB stuff
 
 // Selected City Actions
