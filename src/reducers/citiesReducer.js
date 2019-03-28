@@ -10,7 +10,7 @@ const initialState =
 	{ cityName: 'Moscow', cityRef: 'moscow,ru', isPublic: false },
 ];
 
-export default (state = initialState, action) => {
+export default (state = [], action) => {
 	switch(action.type) {
 		case INITIALISE_CITY:
 			return action.payload;

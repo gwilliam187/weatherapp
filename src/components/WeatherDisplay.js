@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { fetchWeathersForSelectedCities } from '../actions';
+import { fetchWeathersForSelectedCities } from '../actions/weatherActions';
 import WeatherCard from './WeatherCard';
 
 class WeatherDisplay extends React.Component {

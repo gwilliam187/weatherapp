@@ -84,19 +84,21 @@ i.back-button:hover {
 }
 
 .city-button .public-button:hover {
-	color: #707070;
+	color: #6c757d;
 	cursor: pointer;
 }
 
 .city-button .public-button.faded {
-	color: #707070;
+	color: #969696;
 }
 
 .city-button .public-button.faded:hover {
-	color: #28a745;
+	color: #6c757d;
+	cursor: pointer;
 }
 
 .city-button .close-button {
+	color: #969696;
 	font-size: 1.2rem;
 }
 
