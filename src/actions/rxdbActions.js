@@ -1,6 +1,5 @@
 import * as RxDB from 'rxdb';
 
-
 import { initialiseCity } from './cityActions';
 import { schema } from '../Schema';
 
