@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import {createDB, userCollection, loadUsers, loadWeatherForSelectedUser, updateCityToUser} from './rxdbActions' ;
 
 import { selectCity, unselectCity } from './selectedCityActions';
