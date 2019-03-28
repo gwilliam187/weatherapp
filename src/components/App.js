@@ -23,6 +23,28 @@ class App extends React.Component {
 		this.props.fetchWeathersForSelectedCities();
 	}
 
+	renderSidebar() {
+		if(this.props.selectedUser) {
+			return (
+				<div className='col-4'>
+					<div className='row'>
+						<UserList />
+						<CityList />
+						<CityInput />
+					</div>
+				</div>
+			);
+		} else {
+			return (
+				<div className='col-12 d-flex'>
+					<div className='row w-100 align-self-end'>
+						<UserList />
+					</div>
+				</div>
+			);
+		}
+	}
+
 	renderWeatherDisplay() {
 		if(this.state.cityList.length === 1) {
 			return (
@@ -62,13 +84,7 @@ class App extends React.Component {
 		return (
 			<div className="container app">
 				<div className='row w-100'>
-					<div className='col-4'>
-						<div className='row'>
-							<UserList />
-							<CityList />
-							<CityInput />
-						</div>
-					</div>
+					{ this.renderSidebar() }
 					<div className='col-8'>
 						<WeatherDisplay />
 						<DiffDisplay />
@@ -94,11 +110,18 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
 	return {
-		selectedCities: state.selectedCities
+		selectedCities: state.selectedCities,
+		selectedUser: state.selectedUser
 	};
+};
+
+const mapDispatchToProps = {
+	fetchWeathersForSelectedCities, 
+	loadUsers, 
+	updateCityToUser
 };
 
 export default connect(
 	mapStateToProps,
-	{ fetchWeathersForSelectedCities, loadUsers, updateCityToUser }
+	mapDispatchToProps
 )(App);

@@ -3,8 +3,19 @@ import { selectUser, loadCityForSelectedUser } from '../actions';
 import { connect } from 'react-redux';
 
 class UserList extends Component {
-	handleSelectChange = (e)=>{
-		const value = e.target.value;
+	state = {
+		value: null
+	};
+
+	handleSelectChange = (e) => {
+		this.setState({ value: e.target.value })
+		// const value = e.target.value;
+		// this.props.selectUser(value); 
+		// this.props.loadCityForSelectedUser();
+	}
+
+	componentDidUpdate() {
+		const value = this.state.value;
 		this.props.selectUser(value); 
 		this.props.loadCityForSelectedUser();
 	}
@@ -21,14 +32,12 @@ class UserList extends Component {
 		return(
 			<div className='col-12 card mb-3'>
 				<div className='card-body'>
-					<div className='form-inline'>
-						<div className='form-group w-100 mb-0'>
-							<div className='text-left w-25'><label className='d-inline'>User</label></div>
-							<select onChange={this.handleSelectChange} className='form-control w-75'>
-								<option disabled hidden selected value> -- select a user -- </option>
-								{ this.renderList() }
-							</select>
-						</div>
+					<div className='form-group w-100 mb-0'>
+						<label>User</label>
+						<select onChange={ this.handleSelectChange } className='form-control'>
+							<option disabled hidden selected value> -- select a user -- </option>
+							{ this.renderList() }
+						</select>
 					</div>
 				</div>
 			</div>
@@ -44,5 +53,5 @@ const mapStateToProps = state => {
 
 export default connect(
 	mapStateToProps, 
-	{ selectUser, loadCityForSelectedUser}
+	{ selectUser, loadCityForSelectedUser }
 )(UserList);

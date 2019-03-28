@@ -55,10 +55,12 @@ export const loadUsers= () => async (dispatch, getState)=>{
 }
 
 export const loadCityForSelectedUser = () => async (dispatch, getState) => {
-	const usercollection = await userCollection();
-    let cities = await usercollection.findOne({_id: {$eq: getState().selectedUser}}).exec();
-    cities = cities.get("cities");
-	dispatch(initialiseCity(cities));
+	if(getState().selectedUser) {
+		const usercollection = await userCollection();
+	  let cities = await usercollection.findOne({_id: {$eq: getState().selectedUser}}).exec();
+	  cities = cities.get("cities");
+		dispatch(initialiseCity(cities));
+	}
 }
 
 //This function below is not quite ready yet, update should be used instead of insert
