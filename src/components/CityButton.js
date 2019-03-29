@@ -21,7 +21,7 @@ export class CityButton extends React.Component {
 	};
 
 	renderPublicButton() {
-		const faded = this.props.city.isPublic ? "" : "faded";
+		const faded = this.props.city.isPublic ? '' : 'faded';
 		return (
 			<div 
 				className={`d-flex align-items-center justify-content-center mr-4 ${faded} public-button`}
@@ -38,7 +38,7 @@ export class CityButton extends React.Component {
 					className='mr-auto city-button-main'
 					onClick={ this.handleCityClick }>
 					<div className='name'>{ this.props.city.cityName }</div>
-					<div className='ref'>{ this.props.city.cityRef }</div>
+					<div className='ref'>{ this.props.city._id }</div>
 				</div>
 				{ this.renderPublicButton() }
 				<div className='d-flex align-items-center justify-content-center'>

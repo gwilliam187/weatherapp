@@ -8,7 +8,7 @@ class CityList extends React.Component {
 		if(this.props.cities.length > 0) {
 			return this.props.cities.map(city => {
 				return (
-					<CityButton city={ city } key={ city.cityRef } />
+					<CityButton city={ city } key={ city._id } />
 				);
 			});
 		} else {

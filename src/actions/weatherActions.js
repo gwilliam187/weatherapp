@@ -7,11 +7,11 @@ import { FETCH_WEATHERS } from './actionTypes';
 
 export const fetchWeather = city => async dispatch => {
 	return await openWeather
-		.get(`?q=${city.cityRef}`)
+		.get(`?q=${city._id}`)
 		.catch(error => { 
 			return {
 				city: city, 
-				message: `${city.cityRef} doesn't exist` 
+				message: `${city._id} doesn't exist` 
 			} 
 		});
 };

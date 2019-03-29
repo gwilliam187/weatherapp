@@ -1,7 +1,7 @@
 import React from 'react';
 import { ToastContainer, toast, Flip } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { loadCities, updateCityToUser, addUser } from '../actions';
 import { fetchWeathersForSelectedCities } from '../actions/weatherActions';
@@ -13,7 +13,6 @@ import CityList from './CityList';
 import CityInput from './CityInput';
 import WeatherDisplay from './WeatherDisplay';
 import DiffDisplay from './DiffDisplay';
-
 import './custom-style.css';
 
 class App extends React.Component {

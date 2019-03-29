@@ -4,8 +4,8 @@ export const selectCity = (city) => {
 	return {
 		type: SELECT_CITY,
 		payload: {
-			cityName: city.cityName,
-			cityRef: city.cityRef
+			_id: city._id,
+			cityName: city.cityName
 		}
 	};
 };
