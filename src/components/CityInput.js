@@ -27,8 +27,8 @@ export class CityInput extends React.Component {
 				cityName = cityName.toLowerCase();
 				cityName = cityName.replace(cityName[0], cityName[0].toUpperCase());
 				const city = {
+					_id: this.state.term.toLowerCase(),
 					cityName: cityName,
-					cityRef: this.state.term.toLowerCase(),
 					isPublic: false
 				};
 				this.props.addCity(city);

@@ -18,7 +18,7 @@ class App extends React.Component {
 	componentDidMount(){
 		//this.props.addUser("steven_klarens");
 		this.props.loadCities();
-		this.props.updateCityToUser();
+		// this.props.updateCityToUser();
 	}
 
 	componentDidUpdate() {

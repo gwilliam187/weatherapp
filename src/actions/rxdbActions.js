@@ -33,12 +33,19 @@ export const citiesCollection = async(dbName)=>{
 	})
 	//const remoteDB = "";
 	//func: function(doc){ return doc.isPublic==='true'}.toString()
+	//citiesCollection.sync({remote: syncURL+dbName+'/', filter: "acceptOnlyPublicCity/isPublicFilter", /*query_params: {"isPublic": true} */ live: true, retry: true});
 	citiesCollection.sync({
-		remote: syncURL+dbName+'/', 
-		filter: "acceptOnlyPublicCity/isPublicFilter", 		
-		query_params: {"isPublic": true}, 
-		live: true, 
-		retry: true
+		remote: syncURL+dbName+'/',
+		waitForLeadership: true,
+		direction:{
+			pull: true,
+			push: true
+		},
+		options:{
+			live:true,
+			retry: true
+		},
+		query: citiesCollection.find().where('isPublic').eq(true)
 	});
 	//citiesCollection.sync(dbName, syncURL+dbName+'/', {live: true, retry: true, filter:"acceptOnlyPublicCity/isPublicFilter"})
 	// db.collection({
@@ -80,13 +87,13 @@ export const loadCityForSelectedUser = () => async (dispatch, getState) => {
 export const updateCityToUser = () => async (dispatch, getState) =>{
     const dummyCities =
         {
-			_id: "potsdam,de",
-			cityName: "Potsdam",
-			isPublic: false
+			_id: "berlin,de",
+			cityName: "Berlin",
+			isPublic: true
         }
 	
 	let citiescollection = await citiesCollection(getState().selectedUser);
-	await citiescollection.upsert(dummyCities)
+	// await citiescollection.upsert(dummyCities)
 	//The reassignment below calls sync, reassignment does not change anything
     citiescollection = await citiesCollection(getState().selectedUser);
 	dispatch(addCity(dummyCities));
