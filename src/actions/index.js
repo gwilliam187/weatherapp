@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import {createDB, citiesCollection, login, loadCities, addUser, updateCityToUser} from './rxdbActions' ;
 
-import { selectCity, unselectCity } from './selectedCityActions';
 import { fetchWeather, setWeathers } from './weatherActions';
 import { updateCitiesErrorMessage } from './citiesErrorMessageActions';
 import { selectUser } from './userActions';

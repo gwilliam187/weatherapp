@@ -18,7 +18,7 @@ class App extends React.Component {
 	componentDidMount(){
 		//this.props.addUser("steven_klarens");
 		this.props.loadCities();
-		this.props.updateCityToUser();
+		// this.props.updateCityToUser();
 	}
 
 	componentDidUpdate() {
@@ -27,7 +27,6 @@ class App extends React.Component {
 
 	renderSidebar() {
 		if(this.props.selectedUser) {
-		// if(true) {
 			return (
 				<div className='col-lg-4'>
 					<div className='row'>
@@ -125,7 +124,4 @@ const mapDispatchToProps = {
 	addUser
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

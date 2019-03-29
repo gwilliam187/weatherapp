@@ -85,13 +85,13 @@ export const login = (username) => async(dispatch)=>{
 
 export const loadCities= () => async (dispatch, getState)=>{
 	const citiescollection = await citiesCollection(getState().selectedUser);
-    
 	citiescollection.find().$.subscribe( cities => {
 		if	(!cities){
 			return;
 		}
+		// console.log(cities)
 		dispatch(initialiseCity(cities))
-    } );
+   });
 }
 
 export const loadCityForSelectedUser = () => async (dispatch, getState) => {
@@ -113,13 +113,13 @@ export const updateCityToUser = () => async (dispatch, getState) =>{
         }
 	
 	let citiescollection = await citiesCollection(getState().selectedUser);
-	await citiescollection.upsert(dummyCities)
+	// await citiescollection.upsert(dummyCities)
 	//The reassignment below calls sync, reassignment does not change anything
     citiescollection = await citiesCollection(getState().selectedUser);
 	dispatch(addCity(dummyCities));
 }
 
-export const addUser = (username)=> async(dispatch, getState)=>{
+export const addUser = (username) => async(dispatch, getState) => {
     // let usercollection = await userCollection();
 
     // await usercollection.upsert({
