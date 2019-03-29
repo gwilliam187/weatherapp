@@ -33,7 +33,13 @@ export const citiesCollection = async(dbName)=>{
 	})
 	//const remoteDB = "";
 	//func: function(doc){ return doc.isPublic==='true'}.toString()
-	citiesCollection.sync({remote: syncURL+dbName+'/', filter: "acceptOnlyPublicCity/isPublicFilter", query_params: {"isPublic": true} , live: true, retry: true});
+	citiesCollection.sync({
+		remote: syncURL+dbName+'/', 
+		filter: "acceptOnlyPublicCity/isPublicFilter", 		
+		query_params: {"isPublic": true}, 
+		live: true, 
+		retry: true
+	});
 	//citiesCollection.sync(dbName, syncURL+dbName+'/', {live: true, retry: true, filter:"acceptOnlyPublicCity/isPublicFilter"})
 	// db.collection({
 	// 	name: 'citiescollection',
