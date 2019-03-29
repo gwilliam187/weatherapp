@@ -49,13 +49,13 @@ export const citiesCollection = async(dbName)=>{
 
 export const loadCities= () => async (dispatch, getState)=>{
 	const citiescollection = await citiesCollection(getState().selectedUser);
-    
 	citiescollection.find().$.subscribe( cities => {
 		if	(!cities){
 			return;
 		}
+		// console.log(cities)
 		dispatch(initialiseCity(cities))
-    } );
+   });
 }
 
 export const loadCityForSelectedUser = () => async (dispatch, getState) => {
@@ -83,7 +83,7 @@ export const updateCityToUser = () => async (dispatch, getState) =>{
 	dispatch(addCity(dummyCities));
 }
 
-export const addUser = (username)=> async(dispatch, getState)=>{
+export const addUser = (username) => async(dispatch, getState) => {
     // let usercollection = await userCollection();
 
     // await usercollection.upsert({
