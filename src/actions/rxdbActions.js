@@ -78,6 +78,8 @@ export const login = (username) => async(dispatch)=>{
 				dispatch({type:"OTHER_ERROR"})
 			}
 		}
+	).catch(
+		dispatch({type: "USER_NOT_EXIST"})
 	)
 }
 
