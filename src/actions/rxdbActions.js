@@ -2,14 +2,14 @@ import * as RxDB from 'rxdb';
 
 import { initialiseCity, addCity } from './cityActions';
 import { schema } from '../Schema';
+import {INITIALISE_CITY} from './actionTypes';
 
 RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
 
-const syncURL = 'http://192.168.200.46:5984/';
-const dbName = 'the_awesome_weather_app';
+const syncURL = 'http://admin:password@192.168.200.46:5984/';
 
-export const createDB = async()=>{
+export const createDB = async(dbName)=>{
 	const db = await RxDB.create({   
             name: dbName, adapter: 'idb', 
             password: 'password',
@@ -24,40 +24,44 @@ export const createDB = async()=>{
 	return db;
 }
 
-export const userCollection = async()=>{
-	const db = await createDB();
-	const userCollection = await db.collection({
-		name: 'usercollection',
+export const citiesCollection = async(dbName)=>{
+	const db = await createDB(dbName);
+	const citiesCollection = await db.collection({
+		name: 'citiescollection',
 		schema: schema
 	})
-    userCollection.sync({ remote: syncURL + dbName + '/' });
+	citiesCollection.sync({ remote: syncURL + dbName + '/' });
+	
+	// db.collection({
+	// 	name: 'citiescollection',
+	// 	schema: schema,
+	// 	migrationStrategies: {
+	// 	  // 1 means, this transforms data from version 0 to version 1
+	// 	  1: function(oldDoc){
+	// 		oldDoc.time = new Date(oldDoc.time).getTime(); // string to unix
+	// 		return oldDoc;
+	// 	  }
+	// 	}
+	//   });
     
-	return db.usercollection;
+	return db.citiescollection;
 }
 
-export const loadUsers= () => async (dispatch, getState)=>{
-	const usercollection = await userCollection();
+export const loadCities= () => async (dispatch, getState)=>{
+	const citiescollection = await citiesCollection(getState().selectedUser);
     
-	usercollection.find().$.subscribe( users => {
-		if	(!users){
+	citiescollection.find().$.subscribe( cities => {
+		if	(!cities){
 			return;
 		}
-		let userList = [];
-		users.forEach((user)=>{
-			userList.push(user.get('_id'))
-		})
-		dispatch({type: "INITIALISE_USERS", payload: userList})
+		dispatch(initialiseCity(cities))
     } );
-    
-    // let cities = await usercollection.findOne({_id: {$eq: 'John'}}).exec();
-    // cities = cities.get("cities");
-	// dispatch(initialiseCity(cities));
 }
 
 export const loadCityForSelectedUser = () => async (dispatch, getState) => {
 	if(getState().selectedUser) {
-		const usercollection = await userCollection();
-	  let cities = await usercollection.findOne({_id: {$eq: getState().selectedUser}}).exec();
+		const citiescollection = await citiesCollection();
+	  let cities = await citiescollection.find().exec();
 	  cities = cities.get("cities");
 		dispatch(initialiseCity(cities));
 	}
@@ -65,47 +69,54 @@ export const loadCityForSelectedUser = () => async (dispatch, getState) => {
 
 //This function below is not quite ready yet, update should be used instead of insert
 export const updateCityToUser = () => async (dispatch, getState) =>{
-	let usercollection = await userCollection();
-    const dummyCities = [
+    const dummyCities =
         {
-            cityName: "Frankfurt",
-            cityRef: "frankfurt,de"
-        },
-        {
-            cityName: "Bandung",
-            cityRef: "bandung,id"
+			_id: "jakarta,id",
+			cityName: "Jakarta",
+			isPublic: false
         }
-    ]
-    let userDocument = await usercollection.findOne({_id: {$eq: getState().selectedUser }}).exec();
-    await userDocument.update({
-        $set:{
-            cities: dummyCities//getState().cities
-        }
-    })
+	
+	let citiescollection = await citiesCollection(getState().selectedUser);
+	await citiescollection.upsert(dummyCities)
 	//The reassignment below calls sync, reassignment does not change anything
-    usercollection = await userCollection();
-    let cities = userDocument.get("cities");
-	dispatch(initialiseCity(cities));
+    citiescollection = await citiesCollection(getState().selectedUser);
+	dispatch(addCity(dummyCities));
 }
 
-export const addUser = async()=>{
-    let usercollection = await userCollection();
+export const addUser = (username)=> async(dispatch, getState)=>{
+    // let usercollection = await userCollection();
 
-    await usercollection.upsert({
-		_id: 'Sharon',
-		cities: [
-			{
-				cityName: "Singapore",
-				cityRef: "singapore,sg"
-			},
-			{
-				cityName: "Kuala Lumpur",
-				cityRef: "kuala lumpur,my"
-			},
-			{
-				cityName: "Soest",
-				cityRef: "Soest,de"
-			}
-		]
-    })
+    // await usercollection.upsert({
+	// 	_id: 'Sharon',
+	// 	cities: [
+	// 		{
+	// 			cityName: "Singapore",
+	// 			cityRef: "singapore,sg"
+	// 		},
+	// 		{
+	// 			cityName: "Kuala Lumpur",
+	// 			cityRef: "kuala lumpur,my"
+	// 		},
+	// 		{
+	// 			cityName: "Soest",
+	// 			cityRef: "Soest,de"
+	// 		}
+	// 	]
+	// })
+	
+	const db = await RxDB.create({
+		name: username,           // <- name
+		adapter: 'idb',          // <- storage-adapter
+		ignoreDuplicate: true
+	});
+
+	const citiesCollection = await db.collection({
+		name: 'citiescollection',
+		schema: schema
+	})
+	citiesCollection.sync({ remote: syncURL + username + '/' });
+	dispatch({
+		type: "NONE",
+		payload: "NULL"
+	});
 }

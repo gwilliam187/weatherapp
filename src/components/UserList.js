@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { selectUser, loadCityForSelectedUser } from '../actions';
+import { selectUser, loadCities } from '../actions';
 import { connect } from 'react-redux';
 
 class UserList extends Component {
@@ -17,7 +17,7 @@ class UserList extends Component {
 	componentDidUpdate() {
 		const value = this.state.value;
 		this.props.selectUser(value); 
-		this.props.loadCityForSelectedUser();
+		this.props.loadCities();
 	}
 
 	renderList() {
@@ -53,5 +53,5 @@ const mapStateToProps = state => {
 
 export default connect(
 	mapStateToProps, 
-	{ selectUser, loadCityForSelectedUser }
+	{ selectUser, loadCities }
 )(UserList);
