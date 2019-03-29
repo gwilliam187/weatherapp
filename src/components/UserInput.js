@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { login } from '../actions/';
 
 class UserInput extends Component {
 	state = {
@@ -21,6 +22,7 @@ class UserInput extends Component {
 	}
 
 	login() {
+		this.props.login(this.state.value);
 		console.log(`login with ${ this.state.value }`);
 	}
 
@@ -49,4 +51,7 @@ class UserInput extends Component {
 	}
 }
 
-export default UserInput;
+export default connect(
+	null, 
+	{ login }
+)(UserInput);
