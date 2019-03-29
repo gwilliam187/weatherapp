@@ -7,6 +7,8 @@ import { loadCities, updateCityToUser, addUser } from '../actions';
 import { fetchWeathersForSelectedCities } from '../actions/weatherActions';
 
 import UserList from './UserList';
+import UserInput from './UserInput';
+import UserBar from './UserBar';
 import CityList from './CityList';
 import CityInput from './CityInput';
 import WeatherDisplay from './WeatherDisplay';
@@ -26,10 +28,12 @@ class App extends React.Component {
 	}
 
 	renderSidebar() {
-		if(this.props.selectedUser) {
+		// if(this.props.selectedUser) {
+		if(true) {
 			return (
-				<div className='col-4'>
+				<div className='col-lg-4'>
 					<div className='row'>
+						<UserBar />
 						<CityList />
 						<CityInput />
 					</div>
@@ -38,8 +42,8 @@ class App extends React.Component {
 		} else {
 			return (
 				<div className='col-12 d-flex'>
-					<div className='row w-100 align-self-end'>
-		
+					<div className='row flex-grow-1 align-self-end'>
+						<UserInput />
 					</div>
 				</div>
 			);
@@ -84,9 +88,9 @@ class App extends React.Component {
 	render() {
 		return (
 			<div className="container app">
-				<div className='row w-100'>
+				<div className='row flex-grow-1'>
 					{ this.renderSidebar() }
-					<div className='col-8'>
+					<div className='col-lg-8'>
 						<WeatherDisplay />
 						<DiffDisplay />
 					</div>
