@@ -23,7 +23,7 @@ class CityList extends React.Component {
 			<div className='col-12 card mb-3 city-list'>
 				<div className='card-body'>
 					<label>Cities</label>
-					{this.renderList()}
+					{ this.renderList() }
 				</div>
 			</div>
 		);

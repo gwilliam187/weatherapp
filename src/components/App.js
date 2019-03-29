@@ -5,7 +5,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { loadCities, updateCityToUser, addUser } from '../actions';
 import { fetchWeathersForSelectedCities } from '../actions/weatherActions';
-
 import UserList from './UserList';
 import UserInput from './UserInput';
 import UserBar from './UserBar';
@@ -27,8 +26,8 @@ class App extends React.Component {
 	}
 
 	renderSidebar() {
-		// if(this.props.selectedUser) {
-		if(true) {
+		if(this.props.selectedUser) {
+		// if(true) {
 			return (
 				<div className='col-lg-4'>
 					<div className='row'>
