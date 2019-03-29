@@ -1,0 +1,7 @@
+{
+  "_id": "_design/acceptOnlyPublicCity",
+  "_rev": "16-1c737953d2ca92b3ab2979bd631b6454",
+  "filters": {
+    "isPublicFilter": "function(doc, req) { return doc.isPublic === 'true' }.toString()"
+  }
+}
