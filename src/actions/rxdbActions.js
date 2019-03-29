@@ -2,7 +2,7 @@ import * as RxDB from 'rxdb';
 
 import { initialiseCity, addCity } from './cityActions';
 import { schema } from '../Schema';
-import { truncate } from 'fs';
+import axios from 'axios';
 
 RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
@@ -63,6 +63,24 @@ export const citiesCollection = async(dbName)=>{
 	return db.citiescollection;
 }
 
+export const login = (username) => async(dispatch)=>{
+	//dispatch({type:"RESET_USER_ERROR_WARNING"});
+	axios.get(syncURL+username+'/').then(
+		(res)=>{
+			if	(res.data.db_name){
+				console.log("user exist")
+				dispatch({type:"SELECT_USER", payload: username})
+			}else if (res.data.error){
+				console.log("user not exist")
+				dispatch({type: "USER_NOT_EXIST"})
+			}else{
+				console.dir(res)
+				dispatch({type:"OTHER_ERROR"})
+			}
+		}
+	)
+}
+
 export const loadCities= () => async (dispatch, getState)=>{
 	const citiescollection = await citiesCollection(getState().selectedUser);
 	citiescollection.find().$.subscribe( cities => {
@@ -87,8 +105,8 @@ export const loadCityForSelectedUser = () => async (dispatch, getState) => {
 export const updateCityToUser = () => async (dispatch, getState) =>{
     const dummyCities =
         {
-			_id: "berlin,de",
-			cityName: "Berlin",
+			_id: "singapore,sg",
+			cityName: "Singapore",
 			isPublic: true
         }
 	
