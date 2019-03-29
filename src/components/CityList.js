@@ -8,7 +8,7 @@ class CityList extends React.Component {
 		if(this.props.cities.length > 0) {
 			return this.props.cities.map(city => {
 				return (
-					<CityButton city={ city } key={ city.cityRef } />
+					<CityButton city={ city } key={ city._id } />
 				);
 			});
 		} else {
@@ -23,7 +23,7 @@ class CityList extends React.Component {
 			<div className='col-12 card mb-3 city-list'>
 				<div className='card-body'>
 					<label>Cities</label>
-					{this.renderList()}
+					{ this.renderList() }
 				</div>
 			</div>
 		);

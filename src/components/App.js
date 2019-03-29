@@ -1,11 +1,10 @@
 import React from 'react';
 import { ToastContainer, toast, Flip } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { loadCities, updateCityToUser, addUser } from '../actions';
 import { fetchWeathersForSelectedCities } from '../actions/weatherActions';
-
 import UserList from './UserList';
 import UserInput from './UserInput';
 import UserBar from './UserBar';
@@ -13,7 +12,6 @@ import CityList from './CityList';
 import CityInput from './CityInput';
 import WeatherDisplay from './WeatherDisplay';
 import DiffDisplay from './DiffDisplay';
-
 import './custom-style.css';
 
 class App extends React.Component {
@@ -28,8 +26,8 @@ class App extends React.Component {
 	}
 
 	renderSidebar() {
-		// if(this.props.selectedUser) {
-		if(true) {
+		if(this.props.selectedUser) {
+		// if(true) {
 			return (
 				<div className='col-lg-4'>
 					<div className='row'>

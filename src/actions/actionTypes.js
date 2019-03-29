@@ -1,5 +1,6 @@
 //User Actions
 export const SELECT_USER = 'SELECT_USER';
+export const UNSELECT_USER = 'UNSELECT_USER';
 export const INITIALISE_USERS = 'INITIALISE_USERS';
 
 // City Actions

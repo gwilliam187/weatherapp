@@ -12,10 +12,10 @@ const syncURL = 'http://192.168.200.46:5984/'
 
 export const createDB = async(dbName)=>{
 	const db = await RxDB.create({   
-            name: dbName, adapter: 'idb', 
-            password: 'password',
-            ignoreDuplicate: true
-        }
+      name: dbName, adapter: 'idb', 
+      password: 'password',
+      ignoreDuplicate: true
+    }
 	);
 	addCity();
 	db.waitForLeadership().then(() => {

@@ -200,6 +200,24 @@ i.back-button:hover {
 	color: #444444;
 }
 
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/*::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}*/
+ 
+::-webkit-scrollbar-thumb {
+  background: #dcdcdc; 
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c8c8c8; 
+}
+
 .w-60 {
 	width: 60% !important;
 }
