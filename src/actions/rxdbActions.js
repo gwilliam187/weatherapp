@@ -2,11 +2,13 @@ import * as RxDB from 'rxdb';
 
 import { initialiseCity, addCity } from './cityActions';
 import { schema } from '../Schema';
+import { truncate } from 'fs';
 
 RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
 
-const syncURL = 'http://admin:password@192.168.200.46:5984/';
+const putURL = 'http://admin:password@192.168.200.46:5984/';
+const syncURL = 'http://192.168.200.46:5984/'
 
 export const createDB = async(dbName)=>{
 	const db = await RxDB.create({   
@@ -29,9 +31,10 @@ export const citiesCollection = async(dbName)=>{
 		name: 'citiescollection',
 		schema: schema
 	})
-	const remoteDB = syncURL+dbName+'/';
-	citiesCollection.sync(remoteDB, {filter: 'acceptOnlyPublicCity/isPublicFilter', query_params: "isPublic" , live: true, retry: true});
-	
+	//const remoteDB = "";
+	//func: function(doc){ return doc.isPublic==='true'}.toString()
+	citiesCollection.sync({remote: syncURL+dbName+'/', filter: "acceptOnlyPublicCity/isPublicFilter", query_params: {"isPublic": true} , live: true, retry: true});
+	//citiesCollection.sync(dbName, syncURL+dbName+'/', {live: true, retry: true, filter:"acceptOnlyPublicCity/isPublicFilter"})
 	// db.collection({
 	// 	name: 'citiescollection',
 	// 	schema: schema,
@@ -71,8 +74,8 @@ export const loadCityForSelectedUser = () => async (dispatch, getState) => {
 export const updateCityToUser = () => async (dispatch, getState) =>{
     const dummyCities =
         {
-			_id: "jakarta,id",
-			cityName: "Jakarta",
+			_id: "potsdam,de",
+			cityName: "Potsdam",
 			isPublic: false
         }
 	
