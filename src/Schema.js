@@ -1,22 +1,14 @@
 export const schema = {
-    title: 'user schema',
+    title: 'city schema',
     description: 'Blablablablablabla',
     version: 0,
     type: 'object',
     properties: {
-      cities: {
-        type: 'array',
-        items : {
-            type: "object",
-            properties:{
-                "cityName" : {
-                    type: "string"
-                },
-                "cityRef" : {
-                    type: "string"
-                }
-            }
+        "cityName" : {
+            type: "string"
+        },
+        "isPublic" : {
+            type: "boolean"
         }
-      }
     }
 }

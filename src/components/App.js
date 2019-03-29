@@ -3,7 +3,7 @@ import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 
-import { loadUsers, updateCityToUser } from '../actions';
+import { loadCities, updateCityToUser, addUser } from '../actions';
 import { fetchWeathersForSelectedCities } from '../actions/weatherActions';
 
 import UserList from './UserList';
@@ -18,7 +18,9 @@ import './custom-style.css';
 
 class App extends React.Component {
 	componentDidMount(){
-		this.props.loadUsers();
+		this.props.addUser("steven_klarens");
+		this.props.loadCities();
+		this.props.updateCityToUser();
 	}
 
 	componentDidUpdate() {
@@ -120,8 +122,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
 	fetchWeathersForSelectedCities, 
-	loadUsers, 
-	updateCityToUser
+	loadCities, 
+	updateCityToUser,
+	addUser
 };
 
 export default connect(
