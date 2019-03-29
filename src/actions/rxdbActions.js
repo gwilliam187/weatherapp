@@ -2,7 +2,6 @@ import * as RxDB from 'rxdb';
 
 import { initialiseCity, addCity } from './cityActions';
 import { schema } from '../Schema';
-import {INITIALISE_CITY} from './actionTypes';
 
 RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
@@ -30,7 +29,8 @@ export const citiesCollection = async(dbName)=>{
 		name: 'citiescollection',
 		schema: schema
 	})
-	citiesCollection.sync({ remote: syncURL + dbName + '/' });
+	const remoteDB = syncURL+dbName+'/';
+	citiesCollection.sync(remoteDB, {filter: 'acceptOnlyPublicCity/isPublicFilter', query_params: "isPublic" , live: true, retry: true});
 	
 	// db.collection({
 	// 	name: 'citiescollection',
@@ -114,7 +114,8 @@ export const addUser = (username)=> async(dispatch, getState)=>{
 		name: 'citiescollection',
 		schema: schema
 	})
-	citiesCollection.sync({ remote: syncURL + username + '/' });
+	const remoteDB = syncURL+username+'/';
+	citiesCollection.sync(remoteDB, {filter: 'acceptOnlyPublicCity/isPublicFilter', query_params: "isPublic" , live: true, retry: true});
 	dispatch({
 		type: "NONE",
 		payload: "NULL"

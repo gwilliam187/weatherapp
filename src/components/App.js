@@ -16,7 +16,7 @@ import './custom-style.css';
 
 class App extends React.Component {
 	componentDidMount(){
-		this.props.addUser("steven_klarens");
+		//this.props.addUser("steven_klarens");
 		this.props.loadCities();
 		this.props.updateCityToUser();
 	}
