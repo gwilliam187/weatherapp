@@ -97,9 +97,8 @@ export const loadCities= () => async (dispatch, getState)=>{
 export const loadCityForSelectedUser = () => async (dispatch, getState) => {
 	if(getState().selectedUser) {
 		const citiescollection = await citiesCollection();
-	  let cities = await citiescollection.find().exec();
-	  cities = cities.get("cities");
-		dispatch(initialiseCity(cities));
+	let cities = await citiescollection.find().exec();
+	dispatch(initialiseCity(cities));
 	}
 }
 
