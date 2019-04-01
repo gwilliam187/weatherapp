@@ -110,6 +110,7 @@ export const toggleCityIsPublic = (city) => async(dispatch, getState)=>{
 					isPublic : !city.isPublic
 				}
 			})
+			toast(`Updated city "${ city.cityName }" to Public`);
 		}else{
 			await doc.remove();
 			await citiescollection.upsert({
@@ -117,6 +118,7 @@ export const toggleCityIsPublic = (city) => async(dispatch, getState)=>{
 				cityName : city.cityName,
 				isPublic: !city.isPublic
 			});
+			toast(`Updated city "${ city.cityName }" to Private`);
 		}
 	})
 	citiescollection = await citiesCollection(getState().selectedUser);

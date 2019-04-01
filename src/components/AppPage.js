@@ -95,19 +95,6 @@ class AppPage extends React.Component {
 						<DiffDisplay />
 					</div>
 				</div>
-				<ToastContainer
-					toastClassName='custom-toast'
-					position="top-right"
-					autoClose={3000}
-					hideProgressBar
-					newestOnTop={false}
-					closeOnClick
-					rtl={false}
-					pauseOnVisibilityChange
-					draggable
-					pauseOnHover
-					transition={Flip}
-				/>
 			</div>
 		);
 	}

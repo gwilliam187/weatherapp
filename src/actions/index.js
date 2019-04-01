@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import {createDB, citiesCollection, login, loadCities, addUser, toggleCityIsPublic} from './rxdbActions' ;
 
 import { fetchWeather, setWeathers } from './weatherActions';
