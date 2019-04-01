@@ -142,8 +142,7 @@ export const addCityDocument = (cityObj) => async (dispatch, getState)=>{
 }
 
 export const removeCityDocument = (cityObj) => async(dispatch, getState)=>{
-	console.log('asdf');
-	if	(cityObj._id && cityObj.cityName && cityObj.isPublic){
+	if	(cityObj._id && cityObj.cityName){
 		let citiescollection = await citiesCollection(getState().selectedUser);
 		citiescollection.findOne().where("_id").eq(cityObj._id).exec().then( async(doc)=>{
 			await doc.remove();
