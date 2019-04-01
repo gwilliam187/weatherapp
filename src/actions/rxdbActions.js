@@ -7,8 +7,9 @@ import axios from 'axios';
 RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
 
-const putURL = 'http://admin:password@192.168.200.46:5984/';
-const syncURL = 'http://192.168.200.46:5984/'
+const ipAddress = '192.168.200.134:5984';
+const putURL = `http://admin:password@${ ipAddress }/`;
+const syncURL = `http://${ ipAddress }/`
 
 export const createDB = async(dbName)=>{
 	const db = await RxDB.create({   
@@ -87,8 +88,12 @@ export const loadCities= () => async (dispatch, getState)=>{
 		if	(!cities){
 			return;
 		}
-		// console.log(cities)
-		dispatch(initialiseCity(cities))
+
+		cities.forEach(city => {
+			console.log(city.toJson());
+		});
+		
+		dispatch(initialiseCity(cities));
    });
 }
 
