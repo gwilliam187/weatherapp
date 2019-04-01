@@ -1,11 +1,10 @@
 import React from 'react';
-import { ToastContainer, toast, Flip } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { loadCities, addUser } from '../actions';
 import { fetchWeathersForSelectedCities } from '../actions/weatherActions';
-import UserList from './UserList';
 import UserInput from './UserInput';
 import UserBar from './UserBar';
 import CityList from './CityList';
@@ -20,7 +19,6 @@ toast.configure({
 
 class AppPage extends React.Component {
 	componentDidMount() {
-		//this.props.addUser("steven_klarens");
 		this.props.loadCities();
 	}
 
