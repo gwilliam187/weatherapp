@@ -103,7 +103,7 @@ export const loadCities= () => async (dispatch, getState)=>{
 				"isPublic" : city.get("isPublic")
 			})
 		})
-		console.log(exportCities)
+		//console.log(exportCities)
 		dispatch(initialiseCity(exportCities))
    });
 }
