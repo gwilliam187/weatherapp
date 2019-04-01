@@ -54,7 +54,7 @@ class WeatherDisplay extends React.Component {
 								<WeatherCard type='minMaxTemp' name='Max.' 
 									mainVal={Math.round(weathers[0].main.temp_max)} />
 								<WeatherCard type='wind' name='Wind' 
-									mainVal={Math.round(weathers[0].wind.speed)} secVal={Math.round(weathers[0].wind.deg)} />
+									mainVal={Math.round(weathers[0].wind.speed)} secVal={(weathers[0].wind.deg)} />
 							</div>
 						</div>
 					</div>
@@ -75,7 +75,7 @@ class WeatherDisplay extends React.Component {
 								<WeatherCard type='minMaxTemp' name='Max.' 
 									mainVal={Math.round(weathers[1].main.temp_max)} />
 								<WeatherCard type='wind' name='Wind' 
-									mainVal={Math.round(weathers[1].wind.speed)} secVal={Math.round(weathers[1].wind.deg)} />
+									mainVal={Math.round(weathers[1].wind.speed)} secVal={(weathers[1].wind.deg)} />
 							</div>
 						</div>
 					</div>
