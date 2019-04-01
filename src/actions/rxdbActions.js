@@ -136,14 +136,13 @@ export const addCityDocument = (cityObj) => async (dispatch, getState)=>{
 }
 
 export const removeCityDocument = (cityObj) => async(dispatch, getState)=>{
-	let citiescollection = await citiesCollection(getState().selectedUser);
-	
-	if	(cityObj._id && cityObj.cityName){
+	if	(cityObj._id && cityObj.cityName && cityObj.isPublic){
+		let citiescollection = await citiesCollection(getState().selectedUser);
 		citiescollection.findOne().where("_id").eq(cityObj._id).exec().then( async(doc)=>{
 			await doc.remove();
 		})
+		citiescollection = await citiesCollection(getState().selectedUser);
 	}
-	citiescollection = await citiesCollection(getState().selectedUser);
 }
 
 //This function below is not quite ready yet, update should be used instead of insert
