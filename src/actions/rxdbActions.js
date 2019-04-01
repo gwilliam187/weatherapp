@@ -129,9 +129,9 @@ export const loadCityForSelectedUser = () => async (dispatch, getState) => {
 
 export const addCityDocument = (cityObj) => async (dispatch, getState)=>{
 	let citiescollection = await citiesCollection(getState().selectedUser);
-	if	(cityObj._id && cityObj.cityName && cityObj.isPublic){
-		citiescollection.upsert(cityObj);
-		dispatch(addCity(cityObj));
+	
+	if	(cityObj._id && cityObj.cityName){
+		await citiescollection.upsert(cityObj);
 	}
 }
 
