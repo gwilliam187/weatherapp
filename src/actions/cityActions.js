@@ -16,16 +16,28 @@ export const addCity = (city) => {
 };
 
 export const removeCity = (city) => {
-	toast(`Removed city "${city.cityName}"`);
+	// toast(`Removed city "${city.cityName}"`);
 	return {
 		type: REMOVE_CITY,
 		payload: city
 	};
 };
 
-// export const toggleCityIsPublic = (city) => {
-// 	return  {
-// 		type: TOGGLE_CITY_IS_PUBLIC,
-// 		payload: city
-// 	};
-// };
+export const toggleCityIsPublic = (city) => async(dispatch, getState) => {
+	let cities = getState().cities;
+	// cities = cities.map(currentCity=>{
+	// 	if	(city===currentCity){
+	// 		currentCity.isPublic = !currentCity.isPublic;
+	// 		return cities;
+	// 	}
+	// })
+	console.log(cities);
+	cities = cities.map(curr => {
+		curr = curr === city ? {...curr, isPublic: !curr.isPublic } : curr
+	});
+	
+	dispatch( {
+		type: TOGGLE_CITY_IS_PUBLIC,
+		payload: cities
+	});
+};

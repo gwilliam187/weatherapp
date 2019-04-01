@@ -48,7 +48,7 @@ export class CityInput extends React.Component {
 
 	render() {
 		return(
-			<div className='card col-12'>
+			<div className='col-12 mb-3 card'>
 				<div className='card-body'>
 					<label>Add city</label>
 					<input 

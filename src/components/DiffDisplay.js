@@ -9,7 +9,7 @@ class DiffDisplay extends React.Component {
 			return null;
 		} else {
 			return (
-				<div className='p-4 card diff-display'>
+				<div className='mb-3 p-4 card diff-display'>
 					<div className='text-center'><h4>Difference</h4></div>
 					<div className='row'>
 						<div className='col-6'>
