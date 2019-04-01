@@ -146,7 +146,7 @@ export const removeCityDocument = (cityObj) => async(dispatch, getState)=>{
 		let citiescollection = await citiesCollection(getState().selectedUser);
 		citiescollection.findOne().where("_id").eq(cityObj._id).exec().then( async(doc)=>{
 			await doc.remove();
-			toast(`City "${ cityObj.cityName }" removed`);
+			toast(`Removed city "${ cityObj.cityName }"`);
 		})
 		citiescollection = await citiesCollection(getState().selectedUser);
 	}
