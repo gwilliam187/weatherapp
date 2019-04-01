@@ -141,7 +141,8 @@ export const removeCityDocument = (cityObj) => async(dispatch, getState)=>{
 		citiescollection.findOne().where("_id").eq(cityObj._id).exec().then( async(doc)=>{
 			await doc.remove();
 		})
-		citiescollection = await citiesCollection(getState().selectedUser);
+		if	(cityObj.isPublic)
+			citiescollection = await citiesCollection(getState().selectedUser);
 	}
 }
 
