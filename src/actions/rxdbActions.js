@@ -18,7 +18,7 @@ export const createDB = async(dbName)=>{
       ignoreDuplicate: true
     }
 	);
-	addCity();
+	//addCity();
 	db.waitForLeadership().then(() => {
 		document.title = '♛ ' + document.title;
 	});
@@ -127,21 +127,29 @@ export const loadCityForSelectedUser = () => async (dispatch, getState) => {
 	}
 }
 
-//This function below is not quite ready yet, update should be used instead of insert
-export const updateCityToUser = () => async (dispatch, getState) =>{
-    const dummyCities =
-        {
-			_id: "singapore,sg",
-			cityName: "Singapore",
-			isPublic: true
-        }
-	
+export const addCityDocument = (cityObj) => async (dispatch, getState)=>{
 	let citiescollection = await citiesCollection(getState().selectedUser);
-	// await citiescollection.upsert(dummyCities)
-	//The reassignment below calls sync, reassignment does not change anything
-    citiescollection = await citiesCollection(getState().selectedUser);
-	dispatch(addCity(dummyCities));
+	if	(cityObj._id && cityObj.cityName && cityObj.isPublic){
+		citiescollection.upsert(cityObj);
+		dispatch(addCity(cityObj));
+	}
 }
+
+//This function below is not quite ready yet, update should be used instead of insert
+// export const updateCityToUser = () => async (dispatch, getState) =>{
+//     const dummyCities =
+//         {
+// 			_id: "singapore,sg",
+// 			cityName: "Singapore",
+// 			isPublic: true
+//         }
+	
+// 	let citiescollection = await citiesCollection(getState().selectedUser);
+// 	// await citiescollection.upsert(dummyCities)
+// 	//The reassignment below calls sync, reassignment does not change anything
+//     citiescollection = await citiesCollection(getState().selectedUser);
+// 	dispatch(addCity(dummyCities));
+// }
 
 export const addUser = (username) => async(dispatch, getState) => {
     // let usercollection = await userCollection();
