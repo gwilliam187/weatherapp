@@ -1,6 +1,6 @@
 import { SELECT_USER, UNSELECT_USER } from '../actions/actionTypes';
 
-export default (state = "steven_klarens", action) => {
+export default (state=null, action) => {
 	switch(action.type) {
 		case SELECT_USER:
 			return action.payload;
