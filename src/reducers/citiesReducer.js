@@ -19,9 +19,10 @@ export default (state = [], action) => {
 		case REMOVE_CITY:
 			return state.filter(el => el !== action.payload);
 		case TOGGLE_CITY_IS_PUBLIC:
-			// return state.map(curr => {
-			// 	return curr === action.payload ? {...curr, isPublic: curr.isPublic } : curr
-			// });
+			//  return state.map(curr => {
+			//  	return curr === action.payload ? {...curr, isPublic: !curr.isPublic } : curr
+			//  });
+			// {...state, state: action.payload };
 			return action.payload;
 		default: 
 			return state;

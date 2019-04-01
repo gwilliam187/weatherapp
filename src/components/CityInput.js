@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { addCity } from '../actions/cityActions';
+import {addCityDocument} from '../actions/rxdbActions';
 import { updateCitiesErrorMessage } from '../actions';
 
 export class CityInput extends React.Component {
@@ -27,11 +28,12 @@ export class CityInput extends React.Component {
 				cityName = cityName.toLowerCase();
 				cityName = cityName.replace(cityName[0], cityName[0].toUpperCase());
 				const city = {
-					_id: this.state.term.toLowerCase(),
-					cityName: cityName,
-					isPublic: false
+					"_id" : this.state.term.toLowerCase(),
+					"cityName": cityName,
+					"isPublic": false
 				};
 				this.props.addCity(city);
+				this.props.addCityDocument(city);
 				// console.log(city);
 			} else {
 				this.props.updateCitiesErrorMessage(null, 'INVALID_INPUT');
@@ -73,7 +75,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
 	addCity, 
-	updateCitiesErrorMessage
+	updateCitiesErrorMessage,
+	addCityDocument
 }
 
 export default connect(
