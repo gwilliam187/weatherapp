@@ -19,7 +19,7 @@ toast.configure({
 });
 
 class AppPage extends React.Component {
-	componentDidMount(){
+	componentDidMount() {
 		//this.props.addUser("steven_klarens");
 		this.props.loadCities();
 	}
