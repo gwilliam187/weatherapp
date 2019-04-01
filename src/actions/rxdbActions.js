@@ -92,7 +92,7 @@ export const loadCities= () => async (dispatch, getState)=>{
 		}
 
 		cities.forEach(city => {
-			console.log(city.toJson());
+			console.log(city.toJSON());
 		});
 		
 		dispatch(initialiseCity(cities));
