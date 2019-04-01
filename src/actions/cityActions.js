@@ -23,9 +23,9 @@ export const removeCity = (city) => {
 	};
 };
 
-export const toggleCityIsPublic = (city) => {
-	return  {
-		type: TOGGLE_CITY_IS_PUBLIC,
-		payload: city
-	};
-};
+// export const toggleCityIsPublic = (city) => {
+// 	return  {
+// 		type: TOGGLE_CITY_IS_PUBLIC,
+// 		payload: city
+// 	};
+// };

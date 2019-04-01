@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { removeCity, toggleCityIsPublic } from '../actions/cityActions';
+import { removeCity, toggleCityIsPublic } from '../actions';
 import { selectCity } from '../actions/selectedCityActions';
 import { updateCitiesErrorMessage } from '../actions'
 

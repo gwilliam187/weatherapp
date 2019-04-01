@@ -91,28 +91,39 @@ export const loadCities= () => async (dispatch, getState)=>{
 			return;
 		}
 
-		cities.forEach(city => {
-			console.log(city.toJSON());
-		});
-
-		const exportCities = [];
-		cities.map(city=>{
-			exportCities.push({
-				"_id" : city.get("_id"),
-				"cityName" : city.get("cityName"),
-				"isPublic" : city.get("isPublic")
-			})
-		})
-		//console.log(exportCities)
-		dispatch(initialiseCity(exportCities))
+		dispatch(initialiseCity(cities))
    });
+}
+
+export const toggleCityIsPublic = (city) => async(dispatch, getState)=>{
+	let citiescollection = await citiesCollection(getState().selectedUser);
+	citiescollection.findOne().where("_id").eq(city._id).exec().then( async(doc)=>{
+		console.log(doc.toJSON())
+		if	(!city.isPublic){
+			await doc.update({
+				$set: {
+					isPublic : !city.isPublic
+				}
+			})
+		}else{
+			await doc.remove();
+			await citiescollection.upsert({
+				_id: city._id,
+				cityName : city.cityName,
+				isPublic: !city.isPublic
+			});
+		}
+	})
+	citiescollection = await citiesCollection(getState().selectedUser);
+	let cities = await citiescollection.find().exec();
+	dispatch(initialiseCity(cities));
 }
 
 export const loadCityForSelectedUser = () => async (dispatch, getState) => {
 	if(getState().selectedUser) {
 		const citiescollection = await citiesCollection();
-	let cities = await citiescollection.find().exec();
-	dispatch(initialiseCity(cities));
+		let cities = await citiescollection.find().exec();
+		dispatch(initialiseCity(cities));
 	}
 }
 
