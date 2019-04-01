@@ -148,7 +148,8 @@ export const removeCityDocument = (cityObj) => async(dispatch, getState)=>{
 			await doc.remove();
 			toast(`Removed city "${ cityObj.cityName }"`);
 		})
-		citiescollection = await citiesCollection(getState().selectedUser);
+		if	(cityObj.isPublic)
+			citiescollection = await citiesCollection(getState().selectedUser);
 	}
 }
 
