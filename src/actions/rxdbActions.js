@@ -3,6 +3,7 @@ import * as RxDB from 'rxdb';
 import { initialiseCity, addCity } from './cityActions';
 import { schema } from '../Schema';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
@@ -12,13 +13,15 @@ const putURL = `http://admin:password@${ ipAddress }/`;
 const syncURL = `http://${ ipAddress }/`
 
 export const createDB = async(dbName)=>{
+	let toastId = toast('Creating DB', { autoClose: false });
 	const db = await RxDB.create({   
       name: dbName, adapter: 'idb', 
       password: 'password',
       ignoreDuplicate: true
     }
 	);
-	addCity();
+	toast.update(toastId, { render: "RxDB created", type: toast.TYPE.SUCCESS, autoClose: 3000 });
+
 	db.waitForLeadership().then(() => {
 		document.title = '♛ ' + document.title;
 	});
@@ -28,6 +31,7 @@ export const createDB = async(dbName)=>{
 
 export const citiesCollection = async(dbName)=>{
 	const db = await createDB(dbName);
+	
 	const citiesCollection = await db.collection({
 		name: 'citiescollection',
 		schema: schema
@@ -86,7 +90,6 @@ export const login = (username) => async(dispatch)=>{
 
 export const loadCities= () => async (dispatch, getState)=>{
 	const citiescollection = await citiesCollection(getState().selectedUser);
-	console.log(citiescollection);
 	citiescollection.find().$.subscribe( cities => {
 		if	(!cities){
 			return;

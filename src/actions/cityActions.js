@@ -33,7 +33,7 @@ export const toggleCityIsPublic = (city) => async(dispatch, getState) => {
 	// })
 	console.log(cities);
 	cities = cities.map(curr => {
-		curr.isPublic = curr === city ? {...curr, isPublic: !curr.isPublic } : curr
+		curr = curr === city ? {...curr, isPublic: !curr.isPublic } : curr
 	});
 	
 	dispatch( {
