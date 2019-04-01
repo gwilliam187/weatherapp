@@ -13,15 +13,15 @@ const putURL = `http://admin:password@${ ipAddress }/`;
 const syncURL = `http://${ ipAddress }/`
 
 export const createDB = async(dbName)=>{
-	console.log('createdb')
-	let toastId = toast('Creating DB', { autoClose: false });
+	// console.log('createdb')
+	// let toastId = toast('Creating DB', { autoClose: false });
 	const db = await RxDB.create({   
       name: dbName, adapter: 'idb', 
       password: 'password',
       ignoreDuplicate: true
     }
 	);
-	toast.update(toastId, { render: "RxDB created", type: toast.TYPE.SUCCESS, autoClose: 3000 });
+	// toast.update(toastId, { render: "RxDB created", type: toast.TYPE.SUCCESS, autoClose: 3000 });
 
 	db.waitForLeadership().then(() => {
 		document.title = '♛ ' + document.title;
@@ -137,14 +137,17 @@ export const addCityDocument = (cityObj) => async (dispatch, getState)=>{
 	
 	if	(cityObj._id && cityObj.cityName){
 		await citiescollection.upsert(cityObj);
+		toast(`Added city "${ cityObj.cityName }"`);
 	}
 }
 
 export const removeCityDocument = (cityObj) => async(dispatch, getState)=>{
+	console.log('asdf');
 	if	(cityObj._id && cityObj.cityName && cityObj.isPublic){
 		let citiescollection = await citiesCollection(getState().selectedUser);
 		citiescollection.findOne().where("_id").eq(cityObj._id).exec().then( async(doc)=>{
 			await doc.remove();
+			toast(`City "${ cityObj.cityName }" removed`);
 		})
 		citiescollection = await citiesCollection(getState().selectedUser);
 	}
