@@ -14,6 +14,10 @@ import WeatherDisplay from './WeatherDisplay';
 import DiffDisplay from './DiffDisplay';
 import './custom-style.css';
 
+toast.configure({
+	autoClose: 3000
+});
+
 class AppPage extends React.Component {
 	componentDidMount(){
 		//this.props.addUser("steven_klarens");
