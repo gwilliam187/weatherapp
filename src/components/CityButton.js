@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { removeCity, toggleCityIsPublic } from '../actions';
 import { selectCity } from '../actions/selectedCityActions';
 import { updateCitiesErrorMessage } from '../actions'
+import { removeCityDocument } from '../actions/rxdbActions';
 
 export class CityButton extends React.Component {
 	
@@ -18,6 +19,7 @@ export class CityButton extends React.Component {
 
 	handleCloseClick = () => {
 		this.props.removeCity(this.props.city);
+		this.props.removeCityDocument(this.props.city);
 	};
 
 	renderPublicButton() {
@@ -55,7 +57,8 @@ const mapDispatchToProps = {
 	selectCity, 
 	removeCity,
 	toggleCityIsPublic,
-	updateCitiesErrorMessage
+	updateCitiesErrorMessage,
+	removeCityDocument
 }
 
 export default connect(
