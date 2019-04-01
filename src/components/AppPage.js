@@ -2,11 +2,10 @@ import React from 'react';
 import { ToastContainer, toast, Flip } from 'react-toastify';
 import { connect } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
+import { Redirect } from 'react-router-dom';
 
 import { loadCities, addUser } from '../actions';
 import { fetchWeathersForSelectedCities } from '../actions/weatherActions';
-import UserList from './UserList';
-import UserInput from './UserInput';
 import UserBar from './UserBar';
 import CityList from './CityList';
 import CityInput from './CityInput';
@@ -36,13 +35,7 @@ class AppPage extends React.Component {
 				</div>
 			);
 		} else {
-			return (
-				<div className='col-12 d-flex'>
-					<div className='row flex-grow-1 align-self-end'>
-						<UserInput />
-					</div>
-				</div>
-			);
+			return (<Redirect to="/" />)
 		}
 	}
 
