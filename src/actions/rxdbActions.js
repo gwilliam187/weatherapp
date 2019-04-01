@@ -94,8 +94,17 @@ export const loadCities= () => async (dispatch, getState)=>{
 		cities.forEach(city => {
 			console.log(city.toJSON());
 		});
-		
-		dispatch(initialiseCity(cities));
+
+		const exportCities = [];
+		cities.map(city=>{
+			exportCities.push({
+				"_id" : city.get("_id"),
+				"cityName" : city.get("cityName"),
+				"isPublic" : city.get("isPublic")
+			})
+		})
+		console.log(exportCities)
+		dispatch(initialiseCity(exportCities))
    });
 }
 

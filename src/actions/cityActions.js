@@ -23,10 +23,21 @@ export const removeCity = (city) => {
 	};
 };
 
-export const toggleCityIsPublic = (city) => {
-	return {
+export const toggleCityIsPublic = (city) => async(dispatch, getState) => {
+	let cities = getState().cities;
+	// cities = cities.map(currentCity=>{
+	// 	if	(city===currentCity){
+	// 		currentCity.isPublic = !currentCity.isPublic;
+	// 		return cities;
+	// 	}
+	// })
+	console.log(cities);
+	cities = cities.map(curr => {
+		curr.isPublic = curr === city ? {...curr, isPublic: !curr.isPublic } : curr
+	});
+	
+	dispatch( {
 		type: TOGGLE_CITY_IS_PUBLIC,
-		payload: city
-	};
+		payload: cities
+	});
 };
-
