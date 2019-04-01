@@ -1,5 +1,4 @@
 import { ADD_CITY, REMOVE_CITY, TOGGLE_CITY_IS_PUBLIC, INITIALISE_CITY } from './actionTypes';
-import { toast } from 'react-toastify';
 
 export const initialiseCity = (cities) =>{
 	return {
@@ -34,6 +33,7 @@ export const toggleCityIsPublic = (city) => async(dispatch, getState) => {
 	console.log(cities);
 	cities = cities.map(curr => {
 		curr = curr === city ? {...curr, isPublic: !curr.isPublic } : curr
+		return curr;
 	});
 	
 	dispatch( {

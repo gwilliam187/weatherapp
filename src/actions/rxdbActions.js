@@ -1,6 +1,6 @@
 import * as RxDB from 'rxdb';
 
-import { initialiseCity, addCity } from './cityActions';
+import { initialiseCity } from './cityActions';
 import { schema } from '../Schema';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -9,7 +9,7 @@ RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
 
 const ipAddress = '192.168.200.134:5984';
-const putURL = `http://admin:password@${ ipAddress }/`;
+// const putURL = `http://admin:password@${ ipAddress }/`;
 const syncURL = `http://${ ipAddress }/`
 
 export const createDB = async(dbName)=>{
@@ -110,6 +110,7 @@ export const toggleCityIsPublic = (city) => async(dispatch, getState)=>{
 					isPublic : !city.isPublic
 				}
 			})
+			toast(`Updated city "${ city.cityName }" to Public`);
 		}else{
 			await doc.remove();
 			await citiescollection.upsert({
@@ -117,6 +118,7 @@ export const toggleCityIsPublic = (city) => async(dispatch, getState)=>{
 				cityName : city.cityName,
 				isPublic: !city.isPublic
 			});
+			toast(`Updated city "${ city.cityName }" to Private`);
 		}
 	})
 	citiescollection = await citiesCollection(getState().selectedUser);
@@ -146,7 +148,7 @@ export const removeCityDocument = (cityObj) => async(dispatch, getState)=>{
 		let citiescollection = await citiesCollection(getState().selectedUser);
 		citiescollection.findOne().where("_id").eq(cityObj._id).exec().then( async(doc)=>{
 			await doc.remove();
-			toast(`City "${ cityObj.cityName }" removed`);
+			toast(`Removed city "${ cityObj.cityName }"`);
 		})
 		if	(cityObj.isPublic)
 			citiescollection = await citiesCollection(getState().selectedUser);

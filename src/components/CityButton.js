@@ -18,7 +18,6 @@ export class CityButton extends React.Component {
 	};
 
 	handleCloseClick = () => {
-		this.props.removeCity(this.props.city);
 		this.props.removeCityDocument(this.props.city);
 	};
 

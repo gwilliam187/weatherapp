@@ -1,11 +1,12 @@
 import React from 'react';
-import { ToastContainer, toast, Flip } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 import { Redirect } from 'react-router-dom';
 
 import { loadCities, addUser } from '../actions';
 import { fetchWeathersForSelectedCities } from '../actions/weatherActions';
+import UserInput from './UserInput';
 import UserBar from './UserBar';
 import CityList from './CityList';
 import CityInput from './CityInput';
@@ -13,9 +14,12 @@ import WeatherDisplay from './WeatherDisplay';
 import DiffDisplay from './DiffDisplay';
 import './custom-style.css';
 
+toast.configure({
+	autoClose: 3000
+});
+
 class AppPage extends React.Component {
-	componentDidMount(){
-		//this.props.addUser("steven_klarens");
+	componentDidMount() {
 		this.props.loadCities();
 	}
 
@@ -84,19 +88,6 @@ class AppPage extends React.Component {
 						<DiffDisplay />
 					</div>
 				</div>
-				<ToastContainer
-					toastClassName='custom-toast'
-					position="top-right"
-					autoClose={3000}
-					hideProgressBar
-					newestOnTop={false}
-					closeOnClick
-					rtl={false}
-					pauseOnVisibilityChange
-					draggable
-					pauseOnHover
-					transition={Flip}
-				/>
 			</div>
 		);
 	}
