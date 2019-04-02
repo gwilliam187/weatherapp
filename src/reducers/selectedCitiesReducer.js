@@ -8,6 +8,8 @@ export default (state = [], action) => {
 			}
 		case 'UNSELECT_CITY':
 			return state.filter(el => el !== action.payload);
+		case 'UNSELECT_USER':
+			return [];
 		default:
 			return state;
 	}
