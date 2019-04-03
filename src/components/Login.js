@@ -2,7 +2,7 @@ import React from 'react'
 import UserInput from './UserInput';
 
 class Login extends React.Component{
-	render(){
+	render() {
 		return (
 			<div className="container app">
 				<div className='row flex-grow-1'>
