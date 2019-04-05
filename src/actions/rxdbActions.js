@@ -39,7 +39,7 @@ export const citiesCollection = async(dbName)=>{
 		schema: schema
 	})
 
-	citiesCollection.sync({
+	const replicationState = citiesCollection.sync({
 		remote: syncURL+dbName+'/',
 		waitForLeadership: true,
 		direction:{
