@@ -5,8 +5,7 @@ import { Redirect } from 'react-router-dom';
 
 class UserInput extends Component {
 	state = {
-		value: '',
-		screenState: 0
+		value: ''
 	};
 
 	handleOnChange = (e) => {
@@ -15,16 +14,12 @@ class UserInput extends Component {
 
 	handleOnKeyDown = (e) => {
 		if(e.key === 'Enter') {
-			this.login();
-			if	(this.props.selectedUser)
-				this.setState({screenState: 1});
+			this.login();			
 		}
 	}
 
 	handleOnClick = (e) => {
 		this.login();
-		if	(this.props.selectedUser)
-			this.setState({screenState: 1});
 	}
 
 	login() {
@@ -33,7 +28,7 @@ class UserInput extends Component {
 	}
 
 	render() {
-		if	(this.state.screenState===0){
+		if	(this.props.loginState===0){
 			return (
 				<div className='col-12 card mb-3'>
 					<div className='card-body'>
@@ -63,7 +58,7 @@ class UserInput extends Component {
 
 const mapStateToProps = state => {
 	return {
-		selectedUser: state.selectedUser
+		loginState : state.loginState
 	};
 };
 
