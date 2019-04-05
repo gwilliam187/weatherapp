@@ -8,10 +8,20 @@ import { toast } from 'react-toastify';
 RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
 
+<<<<<<< HEAD
 //const ipAddress = '128.199.140.182:6984';
 const ipAddress = '192.168.200.163:5984';
 // const putURL = `http://admin:password@${ ipAddress }/`;
 const syncURL = `http://${ ipAddress }/`
+=======
+const ipAddress = '192.168.200.163:5984';
+const syncURL = `http://${ ipAddress }/`;
+// const ipAddress = '128.199.140.182:6984';
+// const putURL = `http://admin:password@${ ipAddress }/`;
+// const syncURL = `https://${ ipAddress }/`;
+
+
+>>>>>>> fc13d00d4d33c68f3922bc6e35a08946d64225d8
 
 export const createDB = async(dbName)=>{
 	// console.log('createdb')
@@ -52,6 +62,20 @@ export const citiesCollection = async(dbName)=>{
 		},
 		query: citiesCollection.find().where('isPublic').eq(true)
 	});
+
+	replicationState.docs$.subscribe(docData => { 
+		toast(`Replicated document "${ docData._id }"`);
+		console.dir(docData);
+	});
+	replicationState.denied$.subscribe(docData => {
+		toast(`Denied document "${ docData._id }"`);
+		console.dir(docData);
+	});
+	replicationState.error$.subscribe(error => {
+		toast(`Error: ${ error }`);
+		console.dir(error)
+	});
+
 	//citiesCollection.sync(dbName, syncURL+dbName+'/', {live: true, retry: true, filter:"acceptOnlyPublicCity/isPublicFilter"})
 	// db.collection({
 	// 	name: 'citiescollection',
