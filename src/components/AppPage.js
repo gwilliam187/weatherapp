@@ -20,7 +20,12 @@ toast.configure({
 
 class AppPage extends React.Component {
 	componentDidMount() {
-		this.props.loadCities();
+		if	(this.props.selectedUser)
+			this.props.loadCities();
+		else	
+			return(
+				<Redirect to="/" />
+			)
 	}
 
 	componentDidUpdate() {

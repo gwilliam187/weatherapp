@@ -8,9 +8,10 @@ import { toast } from 'react-toastify';
 RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
 
-const ipAddress = '128.199.140.182:6984';
+//const ipAddress = '128.199.140.182:6984';
+const ipAddress = '192.168.200.163:5984';
 // const putURL = `http://admin:password@${ ipAddress }/`;
-const syncURL = `https://${ ipAddress }/`
+const syncURL = `http://${ ipAddress }/`
 
 export const createDB = async(dbName)=>{
 	// console.log('createdb')
@@ -37,9 +38,7 @@ export const citiesCollection = async(dbName)=>{
 		name: 'citiescollection',
 		schema: schema
 	})
-	//const remoteDB = "";
-	//func: function(doc){ return doc.isPublic==='true'}.toString()
-	//citiesCollection.sync({remote: syncURL+dbName+'/', filter: "acceptOnlyPublicCity/isPublicFilter", /*query_params: {"isPublic": true} */ live: true, retry: true});
+
 	citiesCollection.sync({
 		remote: syncURL+dbName+'/',
 		waitForLeadership: true,
@@ -113,15 +112,15 @@ export const toggleCityIsPublic = (city) => async(dispatch, getState)=>{
 			toast(`Updated city "${ city.cityName }" to Public`);
 		}else{
 			await doc.remove();
-			await citiescollection.upsert({
+			await citiescollection.insert({
 				_id: city._id,
 				cityName : city.cityName,
 				isPublic: !city.isPublic
 			});
-			toast(`Updated city "${ city.cityName }" to Private`);
 		}
 	})
 	citiescollection = await citiesCollection(getState().selectedUser);
+	toast(`Updated city "${ city.cityName }" to Private`);
 	let cities = await citiescollection.find().exec();
 	dispatch(initialiseCity(cities));
 }
