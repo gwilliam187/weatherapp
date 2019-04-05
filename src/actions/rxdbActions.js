@@ -8,20 +8,10 @@ import { toast } from 'react-toastify';
 RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
 
-<<<<<<< HEAD
 //const ipAddress = '128.199.140.182:6984';
 const ipAddress = '192.168.200.163:5984';
 // const putURL = `http://admin:password@${ ipAddress }/`;
 const syncURL = `http://${ ipAddress }/`
-=======
-const ipAddress = '192.168.200.163:5984';
-const syncURL = `http://${ ipAddress }/`;
-// const ipAddress = '128.199.140.182:6984';
-// const putURL = `http://admin:password@${ ipAddress }/`;
-// const syncURL = `https://${ ipAddress }/`;
-
-
->>>>>>> fc13d00d4d33c68f3922bc6e35a08946d64225d8
 
 export const createDB = async(dbName)=>{
 	// console.log('createdb')
