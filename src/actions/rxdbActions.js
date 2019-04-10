@@ -9,7 +9,7 @@ RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
 
 //const ipAddress = '128.199.140.182:6984';
-const ipAddress = '192.168.200.163:5984';
+const ipAddress = '192.168.200.172:5984';
 // const putURL = `http://admin:password@${ ipAddress }/`;
 const syncURL = `http://${ ipAddress }/`
 
@@ -137,6 +137,22 @@ export const toggleCityIsPublic = (city) => async(dispatch, getState)=>{
 	toast(`Updated city "${ city.cityName }" to Private`);
 	let cities = await citiescollection.find().exec();
 	dispatch(initialiseCity(cities));
+}
+
+export const updateCityName = (city) => async(dispatch, getState) => {
+	let citiescollection = await citiesCollection(getState().selectedUser);
+	citiescollection.findOne().where("_id").eq(city._id).exec().then(async doc => {
+		console.log(doc.toJSON())
+		await doc.update({
+			$set: {
+				cityName : city.newName
+			}
+		})
+		toast(`Updated city "${ city.cityName }" to "${ city.newName }"`);
+	})
+	citiescollection = await citiesCollection(getState().selectedUser);
+	let cities = await citiescollection.find().exec();
+	// dispatch(initialiseCity(cities));
 }
 
 export const loadCityForSelectedUser = () => async (dispatch, getState) => {

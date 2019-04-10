@@ -97,13 +97,25 @@ i.back-button:hover {
 	cursor: pointer;
 }
 
-.city-button .close-button {
+.city-button .close-button, 
+.update-button, 
+.cancel-button {
 	color: #969696;
 	font-size: 1.2rem;
 }
 
 .city-button .close-button:hover {
 	color: #707070;
+	cursor: pointer;
+}
+
+.update-button:hover {
+	color: #28a745;
+	cursor: pointer;
+}
+
+.cancel-button:hover {
+	color: #dc3545;
 	cursor: pointer;
 }
 
@@ -114,11 +126,11 @@ i.back-button:hover {
 	/*transition-duration: 0.4s;*/
 }
 
-.city-button-main div.name {
-	font-size: 1.3rem;
+div.name {
+	font-size: 1.2rem;
 }
 
-.city-button-main div.ref {
+div.ref {
 	color: #969696;
 	font-size: 0.8rem;
 }
