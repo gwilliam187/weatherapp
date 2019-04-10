@@ -9,7 +9,8 @@ RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
 
 //const ipAddress = '128.199.140.182:6984';
-const ipAddress = '192.168.200.172:5984';
+// const ipAddress = '192.168.200.172:5984';
+const ipAddress = 'sgu.pdm-commsult.intranet:5984';
 
 // const putURL = `http://admin:password@${ ipAddress }/`;
 const syncURL = `http://${ ipAddress }/`
