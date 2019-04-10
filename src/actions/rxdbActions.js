@@ -10,6 +10,7 @@ RxDB.plugin(require('pouchdb-adapter-http'));
 
 //const ipAddress = '128.199.140.182:6984';
 const ipAddress = '192.168.200.172:5984';
+
 // const putURL = `http://admin:password@${ ipAddress }/`;
 const syncURL = `http://${ ipAddress }/`
 
@@ -48,7 +49,8 @@ export const citiesCollection = async(dbName)=>{
 		},
 		options:{
 			live:true,
-			retry: true
+			retry: true,
+			conflicts: true
 		},
 		query: citiesCollection.find().where('isPublic').eq(true)
 	});
@@ -108,6 +110,7 @@ export const loadCities= () => async (dispatch, getState)=>{
 		if	(!cities){
 			return;
 		}
+		console.log(cities)
 
 		dispatch(initialiseCity(cities))
    });
@@ -152,7 +155,8 @@ export const updateCityName = (city) => async(dispatch, getState) => {
 	})
 	citiescollection = await citiesCollection(getState().selectedUser);
 	let cities = await citiescollection.find().exec();
-	// dispatch(initialiseCity(cities));
+	dispatch(initialiseCity(cities));
+
 }
 
 export const loadCityForSelectedUser = () => async (dispatch, getState) => {
