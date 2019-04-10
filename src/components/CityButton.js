@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { removeCity, toggleCityIsPublic } from '../actions';
+import { removeCity, toggleCityIsPublic, toggleCityName } from '../actions';
 import { selectCity } from '../actions/selectedCityActions';
 import { updateCitiesErrorMessage } from '../actions'
 import { removeCityDocument } from '../actions/rxdbActions';
@@ -15,6 +15,7 @@ export class CityButton extends React.Component {
 
 	handlePublicClick = () => {
 		this.props.toggleCityIsPublic(this.props.city);
+		//this.props.toggleCityName(this.props.city);
 	};
 
 	handleCloseClick = () => {

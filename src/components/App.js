@@ -6,11 +6,13 @@ import Login from './Login';
 
 class App extends React.Component {
 	render(){
+		const baseUrl = process.env.PUBLIC_URL;
+
 		return(
 			<BrowserRouter>
 				<Switch>
-					<Route exact path="/" component={ Login } />
-					<Route path="/App" component={ AppPage } />
+					<Route exact path={baseUrl+"/"} component={ Login } />
+					<Route path={baseUrl+"/App"} component={ AppPage } />
 				</Switch>
 			</BrowserRouter>
 		)
