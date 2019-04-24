@@ -191,7 +191,8 @@ export const toggleCityIsPublic = (city) => async(dispatch, getState)=>{
 		if	(!city.isPublic){
 			await doc.update({
 				$set: {
-					isPublic : !city.isPublic
+					isPublic : !city.isPublic,
+					fromBackend: false
 				}
 			})
 			toast(`Updated city "${ city.cityName }" to Public`);
@@ -200,7 +201,8 @@ export const toggleCityIsPublic = (city) => async(dispatch, getState)=>{
 			await citiescollection.insert({
 				_id: city._id,
 				cityName : city.cityName,
-				isPublic: !city.isPublic
+				isPublic: !city.isPublic,
+				fromBackend: false
 			});
 		}
 	})
@@ -216,7 +218,8 @@ export const updateCityName = (city) => async(dispatch, getState) => {
 		console.log(doc.toJSON())
 		await doc.update({
 			$set: {
-				cityName : city.newName
+				cityName : city.newName,
+				fromBackend: false
 			}
 		})
 		toast(`Updated city "${ city.cityName }" to "${ city.newName }"`);

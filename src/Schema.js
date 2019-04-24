@@ -9,6 +9,9 @@ export const citySchema = {
         },
         "isPublic" : {
             type: "boolean"
+        },
+        "fromBackend": {
+            type: "boolean"
         }
     }
 }
