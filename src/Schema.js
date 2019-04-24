@@ -1,4 +1,4 @@
-export const schema = {
+export const citySchema = {
     title: 'city schema',
     description: 'Blablablablablabla',
     version: 0,
@@ -9,6 +9,18 @@ export const schema = {
         },
         "isPublic" : {
             type: "boolean"
+        }
+    }
+}
+
+export const treeSchema = {
+    title: 'tree schema',
+    description: 'Tree blablablablabla',
+    version: 0,
+    type: 'object',
+    properties: {
+        "description":{
+            type: "string"
         }
     }
 }

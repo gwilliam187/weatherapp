@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 import { Redirect } from 'react-router-dom';
 
-import { loadCities, addUser } from '../actions';
+import { loadCities, loadTrees } from '../actions';
 import { fetchWeathersForSelectedCities } from '../actions/weatherActions';
 import UserInput from './UserInput';
 import UserBar from './UserBar';
@@ -13,6 +13,7 @@ import CityInput from './CityInput';
 import WeatherDisplay from './WeatherDisplay';
 import DiffDisplay from './DiffDisplay';
 import './custom-style.css';
+import TreeList from "./TreeList";
 
 toast.configure({
 	autoClose: 3000
@@ -26,6 +27,8 @@ class AppPage extends React.Component {
 			return(
 				<Redirect to="/" />
 			)
+
+		this.props.loadTrees();
 	}
 
 	componentDidUpdate() {
@@ -38,6 +41,7 @@ class AppPage extends React.Component {
 				<div className='col-lg-4'>
 					<div className='row'>
 						<UserBar />
+						<TreeList />
 						<CityList />
 						<CityInput />
 					</div>
@@ -108,7 +112,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
 	fetchWeathersForSelectedCities, 
 	loadCities, 
-	addUser
+	loadTrees
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppPage);
