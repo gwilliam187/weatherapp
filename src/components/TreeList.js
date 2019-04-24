@@ -6,12 +6,12 @@ class TreeList extends React.Component{
 		if	(this.props.trees.length>0){
 			return this.props.trees.map(tree=>{
 				return(
-					<div className='d-flex border-top border-bottom city-button' key={tree._id}>
+					<div className='d-flex border-top border-bottom' key={tree._id}>
 						<div
 							className='mr-auto city-button-main'
 							onClick={ this.handleCityClick }>
 							<div className='name'>{ tree.description }</div>
-							<div className='ref'>{ tree._id }</div>
+							<div className='ref'>{ tree._id n}</div>
 						</div>
 					</div>
 				)
