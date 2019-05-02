@@ -7,7 +7,6 @@ class CityList extends React.Component {
 	renderList() {
 		if(this.props.cities.length > 0) {
 			return this.props.cities.map(city => {
-				console.log(city.toJSON());
 				return (
 					<CityButton city={ city } key={ city._id } />
 				);

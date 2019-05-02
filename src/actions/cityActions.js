@@ -1,8 +1,6 @@
 import { ADD_CITY, REMOVE_CITY, TOGGLE_CITY_IS_PUBLIC, INITIALISE_CITY } from './actionTypes';
 
 export const initialiseCity = (cities) => {
-	console.log('initialiseCity called');
-	console.log(cities);
 	return {
 		type: INITIALISE_CITY,
 		payload: cities

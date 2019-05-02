@@ -8,11 +8,8 @@ import { removeCityDocument, updateCityName } from '../actions/rxdbActions';
 
 export class CityButton extends React.Component {
 	constructor(props) {
-		super(props)
-
-		console.log('constructor here')
-		console.log(props.city.cityName)
-
+		super(props);
+		
 		this.state = {
 			isEditing: false,
 			nameVal: this.props.city.cityName
