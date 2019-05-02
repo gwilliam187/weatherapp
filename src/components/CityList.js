@@ -6,9 +6,8 @@ import CityButton from './CityButton';
 class CityList extends React.Component {
 	renderList() {
 		if(this.props.cities.length > 0) {
-			// console.log(this.props.cities);
 			return this.props.cities.map(city => {
-				 //console.log(city);
+				console.log(city.toJSON());
 				return (
 					<CityButton city={ city } key={ city._id } />
 				);

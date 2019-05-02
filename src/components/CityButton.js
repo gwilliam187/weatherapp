@@ -7,11 +7,17 @@ import { updateCitiesErrorMessage } from '../actions'
 import { removeCityDocument, updateCityName } from '../actions/rxdbActions';
 
 export class CityButton extends React.Component {
+	constructor(props) {
+		super(props)
 
-	state = {
-		isEditing: false,
-		nameVal: this.props.city.cityName
-	};
+		console.log('constructor here')
+		console.log(props.city.cityName)
+
+		this.state = {
+			isEditing: false,
+			nameVal: this.props.city.cityName
+		};
+	}
 	
 	// OnClick Handlers
 	handleCityClick = () => {
@@ -20,7 +26,10 @@ export class CityButton extends React.Component {
 	};
 
 	handleEditClick = () => {
-		this.setState({ isEditing: true });
+		this.setState({ 
+			isEditing: true, 
+			nameVal: this.props.city.cityName 
+		});
 	};
 
 	handlePublicClick = () => {
@@ -90,7 +99,7 @@ export class CityButton extends React.Component {
 				<div 
 					className='mr-auto city-button-main'
 					onClick={ this.handleCityClick }>
-					<div className='name'>{ this.state.nameVal }</div>
+					<div className='name'>{ /* this.state.nameVal */ this.props.city.cityName }</div>
 					<div className='ref'>{ this.props.city._id }</div>
 				</div>
 				{ this.renderPublicButton() }
@@ -117,6 +126,12 @@ export class CityButton extends React.Component {
 	}
 }
 
+const mapStateToProps = state => {
+	return {
+		cities: state.cities
+	};
+};
+
 const mapDispatchToProps = {
 	selectCity, 
 	removeCity,
@@ -127,6 +142,6 @@ const mapDispatchToProps = {
 }
 
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps
 )(CityButton);

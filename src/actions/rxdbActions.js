@@ -161,6 +161,7 @@ export const login = (username) => async(dispatch)=>{
 }
 
 export const loadCities= () => async (dispatch, getState)=>{
+	console.log('loadCities called');
 	const citiescollection = await citiesCollection(getState().selectedUser);
 	citiescollection.find().$.subscribe( cities => {
 		if	(!cities){
