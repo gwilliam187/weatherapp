@@ -15,3 +15,6 @@ export const UNSELECT_CITY = 'UNSELECT_CITY';
 
 // Weather Actions
 export const FETCH_WEATHERS = 'FETCH_WEATHERS';
+
+// Cities Action
+export const INITIALISE_TREE = 'INITIALISE_TREE';

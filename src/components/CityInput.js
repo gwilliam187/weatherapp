@@ -30,7 +30,8 @@ export class CityInput extends React.Component {
 				const city = {
 					"_id" : this.state.term.toLowerCase(),
 					"cityName": cityName,
-					"isPublic": false
+					"isPublic": false,
+					"fromBackend": false
 				};
 				this.props.addCity(city);
 				this.props.addCityDocument(city);

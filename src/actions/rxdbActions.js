@@ -1,7 +1,8 @@
 ﻿import * as RxDB from 'rxdb';
 
 import { initialiseCity } from './cityActions';
-import { schema } from '../Schema';
+import { initialiseTree } from "./treeAction";
+import { citySchema, treeSchema } from '../Schema';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -38,7 +39,7 @@ export const citiesCollection = async(dbName)=>{
 	
 	const citiesCollection = await db.collection({
 		name: 'citiescollection',
-		schema: schema
+		schema: citySchema
 	})
 
 	const replicationState = citiesCollection.sync({
@@ -85,6 +86,60 @@ export const citiesCollection = async(dbName)=>{
 	return db.citiescollection;
 }
 
+export const treeCollection = async()=>{
+	const dbName = "trees"
+
+	const db = await createDB(dbName);
+
+	const treeCollection = await db.collection({
+		name: 'treecollection',
+		schema: treeSchema
+	})
+
+	const replicationState = treeCollection.sync({
+		remote: syncURL+dbName+'/',
+		waitForLeadership: true,
+		direction:{
+			pull: true,
+			push: true
+		},
+		options:{
+			live:true,
+			retry: true,
+			conflicts: true
+		}
+		//query: treeCollection.find().where('isPublic').eq(true)
+	});
+
+	replicationState.docs$.subscribe(docData => {
+		toast(`Replicated document "${ docData._id }"`);
+		console.dir(docData);
+	});
+	replicationState.denied$.subscribe(docData => {
+		toast(`Denied document "${ docData._id }"`);
+		console.dir(docData);
+	});
+	replicationState.error$.subscribe(error => {
+		toast(`Error: ${ error }`);
+		console.dir(error)
+	});
+
+	//citiesCollection.sync(dbName, syncURL+dbName+'/', {live: true, retry: true, filter:"acceptOnlyPublicCity/isPublicFilter"})
+	// db.collection({
+	// 	name: 'citiescollection',
+	// 	schema: schema,
+	// 	migrationStrategies: {
+	// 	  // 1 means, this transforms data from version 0 to version 1
+	// 	  1: function(oldDoc){
+	// 		oldDoc.time = new Date(oldDoc.time).getTime(); // string to unix
+	// 		return oldDoc;
+	// 	  }
+	// 	}
+	//   });
+
+	return db.treecollection;
+}
+
 export const login = (username) => async(dispatch)=>{
 	//dispatch({type:"RESET_USER_ERROR_WARNING"});
 	axios.get(syncURL+username+'/').then(
@@ -117,6 +172,18 @@ export const loadCities= () => async (dispatch, getState)=>{
    });
 }
 
+export const loadTrees = ()=>async (dispatch, getState)=>{
+	const treescollection = await treeCollection(getState().selectedUser);
+	treescollection.find().$.subscribe(trees=>{
+		if (!trees) {
+			return
+		}else{
+			console.log(trees)
+			dispatch(initialiseTree(trees))
+		}
+	})
+}
+
 export const toggleCityIsPublic = (city) => async(dispatch, getState)=>{
 	let citiescollection = await citiesCollection(getState().selectedUser);
 	citiescollection.findOne().where("_id").eq(city._id).exec().then( async(doc)=>{
@@ -124,7 +191,8 @@ export const toggleCityIsPublic = (city) => async(dispatch, getState)=>{
 		if	(!city.isPublic){
 			await doc.update({
 				$set: {
-					isPublic : !city.isPublic
+					isPublic : !city.isPublic,
+					fromBackend: false
 				}
 			})
 			toast(`Updated city "${ city.cityName }" to Public`);
@@ -133,7 +201,8 @@ export const toggleCityIsPublic = (city) => async(dispatch, getState)=>{
 			await citiescollection.insert({
 				_id: city._id,
 				cityName : city.cityName,
-				isPublic: !city.isPublic
+				isPublic: !city.isPublic,
+				fromBackend: false
 			});
 		}
 	})
@@ -149,7 +218,8 @@ export const updateCityName = (city) => async(dispatch, getState) => {
 		console.log(doc.toJSON())
 		await doc.update({
 			$set: {
-				cityName : city.newName
+				cityName : city.newName,
+				fromBackend: false
 			}
 		})
 		toast(`Updated city "${ city.cityName }" to "${ city.newName }"`);
@@ -235,7 +305,7 @@ export const addUser = (username) => async(dispatch, getState) => {
 
 	const citiesCollection = await db.collection({
 		name: 'citiescollection',
-		schema: schema
+		schema: citySchema
 	})
 	const remoteDB = syncURL+username+'/';
 	citiesCollection.sync(remoteDB, {filter: 'acceptOnlyPublicCity/isPublicFilter', query_params: "isPublic" , live: true, retry: true});

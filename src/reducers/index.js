@@ -7,6 +7,7 @@ import citiesErrorMessageReducer from './citiesErrorMessageReducer';
 import userListReducer from './userListReducer';
 import selectedUserReducer from './selectedUserReducer';
 import loginReducer from './loginReducer';
+import treeReducer from './treeReducer';
 
 export default combineReducers({
 	users: userListReducer,
@@ -15,5 +16,6 @@ export default combineReducers({
 	loginState: loginReducer,
 	selectedCities: selectedCitiesReducer,
 	weathers: weathersReducer,
-	citiesErrorMessage: citiesErrorMessageReducer
+	citiesErrorMessage: citiesErrorMessageReducer,
+	trees: treeReducer
 });
