@@ -162,6 +162,7 @@ export const updateCityName = (city) => async(dispatch, getState) => {
 
 export const loadCityForSelectedUser = () => async (dispatch, getState) => {
 	if(getState().selectedUser) {
+		console.log('im called')
 		const citiescollection = await citiesCollection();
 		let cities = await citiescollection.find().exec();
 		dispatch(initialiseCity(cities));
