@@ -35,6 +35,7 @@ export const createDB = async(dbName)=>{
 }
 
 export const citiesCollection = async(dbName)=>{
+	console.log('citiesCollection');
 	const db = await createDB(dbName);
 	
 	const citiesCollection = await db.collection({
@@ -57,6 +58,15 @@ export const citiesCollection = async(dbName)=>{
 		query: citiesCollection.find().where('isPublic').eq(true)
 	});
 
+	replicationState.change$.subscribe(changeEvent => {
+		if(changeEvent.direction === 'push') {
+			toast(`Pushed changes`);
+		} else if(changeEvent.direction === 'pull') {
+			toast(`Pulled changes`);
+		}
+		console.log('replicationState change subscriber');
+		console.log(changeEvent);
+	});
 	replicationState.docs$.subscribe(docData => { 
 		toast(`Replicated document "${ docData._id }"`);
 		console.dir(docData);
@@ -111,6 +121,7 @@ export const treeCollection = async()=>{
 		//query: treeCollection.find().where('isPublic').eq(true)
 	});
 
+
 	replicationState.docs$.subscribe(docData => {
 		toast(`Replicated document "${ docData._id }"`);
 		console.dir(docData);
@@ -161,15 +172,21 @@ export const login = (username) => async(dispatch)=>{
 }
 
 export const loadCities= () => async (dispatch, getState)=>{
+	console.log('loadCities');
 	const citiescollection = await citiesCollection(getState().selectedUser);
+
+	citiescollection.update$.subscribe(changeEvent => {
+		toast(`Updated ${ changeEvent.data.doc }`)
+	});
+
 	citiescollection.find().$.subscribe( cities => {
-		if	(!cities){
-			return;
-		}
-		console.log(cities)
+		if(!cities) return
+
+		console.log('Cities Collection');
+		console.log(cities.map(city => city.toJSON()))
 
 		dispatch(initialiseCity(cities))
-   });
+  });
 }
 
 export const loadTrees = ()=>async (dispatch, getState)=>{
@@ -178,7 +195,7 @@ export const loadTrees = ()=>async (dispatch, getState)=>{
 		if (!trees) {
 			return
 		}else{
-			console.log(trees)
+			// console.log(trees)
 			dispatch(initialiseTree(trees))
 		}
 	})
@@ -195,7 +212,7 @@ export const toggleCityIsPublic = (city) => async(dispatch, getState)=>{
 					fromBackend: false
 				}
 			})
-			toast(`Updated city "${ city.cityName }" to Public`);
+			// toast(`Updated city "${ city.cityName }" to Public`);
 		}else{
 			await doc.remove();
 			await citiescollection.insert({
@@ -207,7 +224,7 @@ export const toggleCityIsPublic = (city) => async(dispatch, getState)=>{
 		}
 	})
 	citiescollection = await citiesCollection(getState().selectedUser);
-	toast(`Updated city "${ city.cityName }" to Private`);
+	// toast(`Updated city "${ city.cityName }" to Private`);
 	let cities = await citiescollection.find().exec();
 	dispatch(initialiseCity(cities));
 }
@@ -222,7 +239,7 @@ export const updateCityName = (city) => async(dispatch, getState) => {
 				fromBackend: false
 			}
 		})
-		toast(`Updated city "${ city.cityName }" to "${ city.newName }"`);
+		// toast(`Updated city "${ city.cityName }" to "${ city.newName }"`);
 	})
 	citiescollection = await citiesCollection(getState().selectedUser);
 	let cities = await citiescollection.find().exec();
@@ -232,7 +249,6 @@ export const updateCityName = (city) => async(dispatch, getState) => {
 
 export const loadCityForSelectedUser = () => async (dispatch, getState) => {
 	if(getState().selectedUser) {
-		console.log('im called')
 		const citiescollection = await citiesCollection();
 		let cities = await citiescollection.find().exec();
 		dispatch(initialiseCity(cities));
@@ -243,8 +259,9 @@ export const addCityDocument = (cityObj) => async (dispatch, getState)=>{
 	let citiescollection = await citiesCollection(getState().selectedUser);
 	
 	if	(cityObj._id && cityObj.cityName){
-		await citiescollection.upsert(cityObj);
-		toast(`Added city "${ cityObj.cityName }"`);
+		const doc = await citiescollection.upsert(cityObj);
+		toast(`Added city "${ doc.cityName }"`);
+		// toast(`Added city "${ cityObj.cityName }"`);
 	}
 }
 
@@ -253,7 +270,7 @@ export const removeCityDocument = (cityObj) => async(dispatch, getState)=>{
 		let citiescollection = await citiesCollection(getState().selectedUser);
 		citiescollection.findOne().where("_id").eq(cityObj._id).exec().then( async(doc)=>{
 			await doc.remove();
-			toast(`Removed city "${ cityObj.cityName }"`);
+			toast(`Removed city "${ doc.cityName }"`);
 		})
 		if	(cityObj.isPublic)
 			citiescollection = await citiesCollection(getState().selectedUser);

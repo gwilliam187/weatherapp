@@ -41,7 +41,6 @@ class AppPage extends React.Component {
 				<div className='col-lg-4'>
 					<div className='row'>
 						<UserBar />
-						<TreeList />
 						<CityList />
 						<CityInput />
 					</div>

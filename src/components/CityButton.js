@@ -51,9 +51,16 @@ export class CityButton extends React.Component {
 		this.handleCancelClick();
 	};
 
-	// OnChange Handlers
+	// onChange Handlers
 	handleOnChange = e => {
 		this.setState({ nameVal: e.target.value });
+	};
+
+	// onKeyDown Handlers
+	handleOnKeyDown = e => {
+		if(e.key === 'Enter') {
+			this.handleUpdateClick();
+		}
 	};
 
 	renderPublicButton() {
@@ -75,6 +82,7 @@ export class CityButton extends React.Component {
 							type='text' 
 							value={ this.state.nameVal }
 							onChange={ this.handleOnChange }
+							onKeyDown={ this.handleOnKeyDown }
 							className='form-control mr-2 name' />
 					<i 
 							className='fas fa-check mr-2 update-button' 
@@ -99,7 +107,7 @@ export class CityButton extends React.Component {
 					<div className='name'>{ /* this.state.nameVal */ this.props.city.cityName }</div>
 					<div className='ref'>{ this.props.city._id }</div>
 				</div>
-				{ this.renderPublicButton() }
+				{  /* this.renderPublicButton() */ }
 				<div className='d-flex align-items-center justify-content-center mr-2'>
 					<i 
 						className='fas fa-pen close-button' 
