@@ -60,9 +60,9 @@ export const citiesCollection = async(dbName)=>{
 
 	replicationState.change$.subscribe(changeEvent => {
 		if(changeEvent.direction === 'push') {
-			toast(`Pushed changes`);
+			toast.success(`Pushed changes`);
 		} else if(changeEvent.direction === 'pull') {
-			toast(`Pulled changes`);
+			toast.success(`Pulled changes`);
 		}
 		console.log('replicationState change subscriber');
 		console.log(changeEvent);
