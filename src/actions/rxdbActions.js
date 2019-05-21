@@ -1,10 +1,11 @@
 ﻿import * as RxDB from 'rxdb';
+import NodeCouchDb from 'node-couchdb'
 
 import { initialiseCity } from './cityActions';
 import { initialiseTree } from "./treeAction";
 import { citySchema, treeSchema } from '../Schema';
-import axios from 'axios';
 import { toast } from 'react-toastify';
+
 
 RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
@@ -149,26 +150,42 @@ export const citiesCollection =async(db)=>{
 // 	//   });
 //
 // 	return db.treecollection;
-// }
+// }n
 
 export const login = (username) => async(dispatch)=>{
-	//dispatch({type:"RESET_USER_ERROR_WARNING"});
-	axios.get(syncURL+username+'/').then(
-		(res)=>{
-			if	(res.data.db_name){
-				console.log("user exist")
-				dispatch({type:"SELECT_USER", payload: username})
-			}else if (res.data.error){
-				console.log("user not exist")
-				dispatch({type: "USER_NOT_EXIST"})
-			}else{
-				console.dir(res)
-				dispatch({type:"OTHER_ERROR"})
-			}
+	const couch = new NodeCouchDb({
+		host: 'sgu.pdm-commsult.intranet',
+		protocol: 'http',
+		port: 5984,
+		auth:{
+			user: 'admin',
+			pass: 'password'
 		}
-	).catch(
-		dispatch({type: "USER_NOT_EXIST"})
-	)
+	})
+
+	const couchDbs = await couch.listDatabases()
+	if (!couchDbs.includes(username)) {
+		couch.createDatabase(username).then(() => {
+			const ddoc = {
+				"_id": "_design/viewAll",
+				"views": {
+					"viewAll-index": {
+						"map": "function (doc) {\n  emit(doc._id, {'_id': doc._id, '_rev': doc._rev, 'cityName': doc.cityName, 'isPublic': doc.isPublic, 'fromBackend': doc.fromBackend});\n}"
+					}
+				},
+				"language": "javascript",
+				"fromBackend": false
+			};
+		couch.insert(username, ddoc).then(({ data, headers, status }) => {
+			dispatch({type:"SELECT_USER", payload: username})
+		})
+	}, err =>{
+			console.log(err)
+			dispatch({type: 'OTHER_ERROR'})
+		})
+	}else{
+		dispatch({type:"SELECT_USER", payload: username})
+	}
 }
 
 export const loadCities= (db) => async (dispatch, getState)=>{
@@ -276,19 +293,3 @@ export const removeCityDocument = (cityObj) => async(dispatch, getState)=>{
 			citiescollection = await citiesCollection(getState().rxdb);
 	}
 }
-
-//This function below is not quite ready yet, update should be used instead of insert
-// export const updateCityToUser = () => async (dispatch, getState) =>{
-//     const dummyCities =
-//         {
-// 			_id: "singapore,sg",
-// 			cityName: "Singapore",
-// 			isPublic: true
-//         }
-	
-// 	let citiescollection = await citiesCollection(getState().selectedUser);
-// 	// await citiescollection.upsert(dummyCities)
-// 	//The reassignment below calls sync, reassignment does not change anything
-//     citiescollection = await citiesCollection(getState().selectedUser);
-// 	dispatch(addCity(dummyCities));
-// }
