@@ -1,13 +1,43 @@
-export const selectCity = (city) => {
+import { ADD_CITY, REMOVE_CITY, TOGGLE_CITY_IS_PUBLIC, INITIALISE_CITY } from './actionTypes';
+
+export const initialiseCity = (cities) => {
 	return {
-		type: 'SELECT_CITY',
+		type: INITIALISE_CITY,
+		payload: cities
+	}
+}
+
+export const addCity = (city) => {
+	return {
+		type: ADD_CITY,
 		payload: city
 	};
 };
 
 export const removeCity = (city) => {
+	// toast(`Removed city "${city.cityName}"`);
 	return {
-		type: 'REMOVE_CITY',
+		type: REMOVE_CITY,
 		payload: city
 	};
+};
+
+export const toggleCityIsPublic = (city) => async(dispatch, getState) => {
+	let cities = getState().cities;
+	// cities = cities.map(currentCity=>{
+	// 	if	(city===currentCity){
+	// 		currentCity.isPublic = !currentCity.isPublic;
+	// 		return cities;
+	// 	}
+	// })
+	console.log(cities);
+	cities = cities.map(curr => {
+		curr = curr === city ? {...curr, isPublic: !curr.isPublic } : curr
+		return curr;
+	});
+	
+	dispatch( {
+		type: TOGGLE_CITY_IS_PUBLIC,
+		payload: cities
+	});
 };

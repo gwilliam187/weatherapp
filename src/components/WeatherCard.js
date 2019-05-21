@@ -26,6 +26,12 @@ class WeatherCard extends React.Component {
 				cardColor = 'purple';
 				cardIcon = 'fas fa-bolt fa-4x';
 				cardVal = 'Storm';
+			} else if(this.props.mainVal === 'Haze') {
+				cardColor = 'gray';
+				cardIcon = 'fas fa-smog fa-4x';
+			} else if(this.props.mainVal === 'Drizzle') {
+				cardColor = 'dark-blue';
+				cardIcon = 'fas fa-cloud-rain fa-4x';
 			}
 
 			return (
@@ -47,7 +53,7 @@ class WeatherCard extends React.Component {
 		} else if(this.props.type === 'temp') {
 			return (
 				<div className='col-12 weather-card'>
-					<div className='d-flex flex-column weather-card-content'>
+					<div className='d-flex flex-column card weather-card-content'>
 						<div className='h5 mb-0 weather-card-content-header'>{this.props.name}</div>
 						<div className='d-flex'>
 							<div className='weather-card-content-section p-0'>
@@ -60,7 +66,7 @@ class WeatherCard extends React.Component {
 		} else if(this.props.type === 'minMaxTemp') {
 			return (
 				<div className='col-lg-6 weather-card'>
-					<div className='d-flex flex-column weather-card-content'>
+					<div className='d-flex flex-column card weather-card-content'>
 						<div className='h5 mb-0 weather-card-content-header'>{this.props.name}</div>
 						<div className='d-flex'>
 							<div className='weather-card-content-section p-0'>
@@ -73,7 +79,7 @@ class WeatherCard extends React.Component {
 		} else if(this.props.type === 'wind') {
 			return (
 				<div className='col-12 weather-card'>
-					<div className='d-flex flex-column weather-card-content'>
+					<div className='d-flex flex-column card weather-card-content'>
 						<div className='h5 mb-0 weather-card-content-header'>{this.props.name}</div>
 						<div className='d-flex'>
 							<div className='weather-card-content-section p-0 w-60'>

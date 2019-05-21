@@ -5,17 +5,26 @@ import CityButton from './CityButton';
 
 class CityList extends React.Component {
 	renderList() {
-		return this.props.cities.map(city => {
+		if(this.props.cities.length > 0) {
+			return this.props.cities.map(city => {
+				return (
+					<CityButton city={ city } key={ city._id } />
+				);
+			});
+		} else {
 			return (
-				<CityButton cityName={city.cityName} countryCode={city.countryCode} key={city.cityName} />
+				<div className='default'>City list empty</div>
 			);
-		});
+		}
 	}
 
 	render() {
 		return (
-			<div className='col-12'>
-				{this.renderList()}
+			<div className='col-12 card mb-3 city-list'>
+				<div className='card-body'>
+					<label>Cities</label>
+					{ this.renderList() }
+				</div>
 			</div>
 		);
 	}
@@ -25,7 +34,7 @@ const mapStateToProps = state => {
 	return {
 		cities: state.cities
 	};
-}
+};
 
 export default connect(
 	mapStateToProps,

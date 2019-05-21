@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { selectCity } from '../actions';
+import { addCity } from '../actions/cityActions';
+import {addCityDocument} from '../actions/rxdbActions';
 import { updateCitiesErrorMessage } from '../actions';
 
 export class CityInput extends React.Component {
@@ -11,17 +12,33 @@ export class CityInput extends React.Component {
 
 	handleOnKeyDown = (e) => {
 		if(e.key === 'Enter') {
-			this.props.updateCitiesErrorMessage(null, null);
+			// this.props.updateCitiesErrorMessage(null, null);
+			// const termList = this.state.term.split(',');
+			// if(termList.length === 2) {
+			// 	this.props.selectCity({
+			// 		cityName: termList[0], 
+			// 		countryCode: termList[1]
+			// 	});
+			// }	else {
+			// 	this.props.updateCitiesErrorMessage(null, 'INVALID_INPUT');
+			// }
 			const termList = this.state.term.split(',');
 			if(termList.length === 2) {
-				this.props.selectCity({
-					cityName: termList[0], 
-					countryCode: termList[1]
-				});
-			}	else {
+				let cityName = termList[0];
+				cityName = cityName.toLowerCase();
+				cityName = cityName.replace(cityName[0], cityName[0].toUpperCase());
+				const city = {
+					"_id" : this.state.term.toLowerCase(),
+					"cityName": cityName,
+					"isPublic": true,
+					"fromBackend": false
+				};
+				this.props.addCity(city);
+				this.props.addCityDocument(city);
+				// console.log(city);
+			} else {
 				this.props.updateCitiesErrorMessage(null, 'INVALID_INPUT');
 			}
-
 			this.setState({term: ''});
 		}
 	};
@@ -32,16 +49,19 @@ export class CityInput extends React.Component {
 
 	render() {
 		return(
-			<div className='col-12 py-2'>
-				<input 
-					type='text'
-					placeholder='e.g. Berlin,de'
-					value={this.state.term}
-					onChange={this.handleOnChange}
-					onKeyDown={this.handleOnKeyDown} 
-					className='form-control form-control-lg'/>
-				<div className='text-left text-danger mt-1'>
-					{this.props.citiesErrorMessage}
+			<div className='col-12 mb-3 card'>
+				<div className='card-body'>
+					<label>Add city</label>
+					<input 
+						type='text'
+						placeholder='e.g. Berlin,de'
+						value={this.state.term}
+						onChange={this.handleOnChange}
+						onKeyDown={this.handleOnKeyDown} 
+						className='form-control form-control-lg'/>
+					<div className='text-left text-danger mt-1'>
+						{this.props.citiesErrorMessage}
+					</div>
 				</div>
 			</div>
 		);
@@ -55,8 +75,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-	selectCity, 
-	updateCitiesErrorMessage
+	addCity, 
+	updateCitiesErrorMessage,
+	addCityDocument
 }
 
 export default connect(

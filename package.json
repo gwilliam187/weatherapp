@@ -2,19 +2,25 @@
   "name": "commsult_weatherapp",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "./",
   "dependencies": {
     "axios": "^0.18.0",
     "lodash": "^4.17.11",
+    "pouchdb-adapter-http": "^7.0.0",
+    "pouchdb-adapter-idb": "^7.0.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-redux": "^6.0.1",
+    "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.5",
+    "react-toastify": "^5.0.0-rc.3",
     "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "rxdb": "^8.0.6",
+    "rxjs": "^6.4.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env PORT=8089 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -30,6 +36,7 @@
   ],
   "devDependencies": {
     "axios-mock-adapter": "^1.16.0",
+    "cross-env": "^5.2.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",
     "enzyme-to-json": "^3.3.5",

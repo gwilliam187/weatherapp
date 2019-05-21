@@ -15,7 +15,7 @@ body {
 	padding: 15px 40px;
 	box-sizing: border-box;
 
-	height: 100%;
+	/*height: 100%;*/
 }
 
 .container {
@@ -47,7 +47,6 @@ i.back-button {
 }
 
 i.back-button:hover {
-
 	background-color: #6c757d;
 	color: #ffffff;
 
@@ -58,9 +57,87 @@ i.back-button:hover {
 	align-self: center;
 }
 
-.city-button {
-	width: 100%;
+.city-list {
+	height: 65vh;
+	max-height: 70vh;
+	overflow-y: scroll;
+}
+
+.city-list div.city-button:nth-child(2) {
+	border-top: 0px solid black !important;
+}
+
+.city-list div.city-button:last-child {
+	border-bottom: 0px solid black !important;
+}
+
+.city-list .default {
+	padding-top: 1.3rem;
+
+	text-align: center;
+	font-weight: 500;
+	font-size: 1.3rem;
+}
+
+.city-button .public-button {
+	color: #28a745;
+}
+
+.city-button .public-button:hover {
+	color: #6c757d;
+	cursor: pointer;
+}
+
+.city-button .public-button.faded {
+	color: #969696;
+}
+
+.city-button .public-button.faded:hover {
+	color: #6c757d;
+	cursor: pointer;
+}
+
+.city-button .close-button, 
+.update-button, 
+.cancel-button {
+	color: #969696;
+	font-size: 1.2rem;
+}
+
+.city-button .close-button:hover {
+	color: #707070;
+	cursor: pointer;
+}
+
+.update-button:hover {
+	color: #28a745;
+	cursor: pointer;
+}
+
+.cancel-button:hover {
+	color: #dc3545;
+	cursor: pointer;
+}
+
+.city-button-main {
+	/*width: 100%;*/
 	padding: 15px 0;
+
+	/*transition-duration: 0.4s;*/
+}
+
+div.name {
+	font-size: 1rem;
+}
+
+div.ref {
+	color: #969696;
+	font-size: 0.8rem;
+}
+
+.city-button-main:hover {
+	color: #007bff;
+	cursor: pointer;
 }
 
 .weather-display {
@@ -74,16 +151,18 @@ i.back-button:hover {
 .weather-card-content {
 	height: 100%;
 	padding: 5px 10px 10px;
-
-	border-radius: 10px;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 20px 0 rgba(0, 0, 0, 0.19);
+	/*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 20px 0 rgba(0, 0, 0, 0.19);*/
 
 	transition-duration: 0.4s;
 }
 
-.weather-card-content:hover {
-	box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.2), 0 4px 30px 0 rgba(0, 0, 0, 0.19);	
+.weather-card-content.big {
+	border-radius: 10px;
 }
+
+/*.weather-card-content:hover {
+	box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.1), 0 2px 15px 0 rgba(0, 0, 0, 0.1);	
+}*/
 
 .weather-card-content.big {
 	padding: 5px 10px 15px;
@@ -125,6 +204,28 @@ i.back-button:hover {
 .weather-desc {
 	font-size: 0.8rem;
 }
+/*
+.custom-toast {
+	border-radius: 5px;
+}*/
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/*::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}*/
+ 
+::-webkit-scrollbar-thumb {
+  background: #dcdcdc; 
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c8c8c8; 
+}
 
 .w-60 {
 	width: 60% !important;
@@ -148,4 +249,32 @@ i.back-button:hover {
 	font-size: 2rem !important;
 	font-weight: 300;
     line-height: 1.2;
+}
+
+.flex-grow-1 {
+	flex-grow: 1 !important;
+}
+
+.tree-list div.city-button:nth-child(2) {
+	border-top: 0px solid black !important;
+}
+
+.tree-list div.city-button:last-child {
+	border-bottom: 0px solid black !important;
+}
+
+.tree-list .default {
+	padding-top: 1.3rem;
+
+	text-align: center;
+	font-weight: 500;
+	font-size: 1.3rem;
+}
+
+.tree-button {
+	color: #28a745;
+}
+
+.tree-list-main {
+	padding: 15px 0;
 }
