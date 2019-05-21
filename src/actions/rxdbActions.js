@@ -9,8 +9,6 @@ import { toast } from 'react-toastify';
 RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
 
-//const ipAddress = '128.199.140.182:6984';
-// const ipAddress = '192.168.200.172:5984';
 const ipAddress = 'sgu.pdm-commsult.intranet:5984';
 
 // const putURL = `http://admin:password@${ ipAddress }/`;
@@ -19,12 +17,12 @@ const syncURL = `http://${ ipAddress }/`
 export const createDB = async(dbName)=>{
 	// console.log('createdb')
 	// let toastId = toast('Creating DB', { autoClose: false });
-	const db = await RxDB.create({   
-      name: dbName, adapter: 'idb', 
-      password: 'password',
-      ignoreDuplicate: true
-    }
-	);
+	const db = await RxDB.create({
+		name: dbName,
+		adapter: 'idb',
+		password: 'password',
+		ignoreDuplicate: true
+	});
 	// toast.update(toastId, { render: "RxDB created", type: toast.TYPE.SUCCESS, autoClose: 3000 });
 
 	db.waitForLeadership().then(() => {
