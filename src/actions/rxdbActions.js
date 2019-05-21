@@ -47,6 +47,20 @@ export const createDB = async(dbName)=> {
 		//query: citiesCollection.find().where('isPublic').eq(true)
 	});
 
+	// USE THE CODE BELOW WHEN NEW SCHEMA IS INTRODUCED AND MIGRATION ERROR APPEARS
+	//citiesCollection.sync(dbName, syncURL+dbName+'/', {live: true, retry: true, filter:"acceptOnlyPublicCity/isPublicFilter"})
+	// db.collection({
+	// 	name: 'citiescollection',
+	// 	schema: schema,
+	// 	migrationStrategies: {
+	// 	  // 1 means, this transforms data from version 0 to version 1
+	// 	  1: function(oldDoc){
+	// 		oldDoc.time = new Date(oldDoc.time).getTime(); // string to unix
+	// 		return oldDoc;
+	// 	  }
+	// 	}
+	//   });
+
 	replicationState.change$.subscribe(changeEvent => {
 		if(changeEvent.direction === 'push') {
 			toast.success(`Pushed changes`);
@@ -78,23 +92,6 @@ export const setDB = (db)=> async(dispatch,getState)=>{
 
 export const citiesCollection =async(db)=>{
 	console.log('citiesCollection');
-
-	console.log(db)
-	
-
-
-	//citiesCollection.sync(dbName, syncURL+dbName+'/', {live: true, retry: true, filter:"acceptOnlyPublicCity/isPublicFilter"})
-	// db.collection({
-	// 	name: 'citiescollection',
-	// 	schema: schema,
-	// 	migrationStrategies: {
-	// 	  // 1 means, this transforms data from version 0 to version 1
-	// 	  1: function(oldDoc){
-	// 		oldDoc.time = new Date(oldDoc.time).getTime(); // string to unix
-	// 		return oldDoc;
-	// 	  }
-	// 	}
-	//   });
     
 	return db.citiescollection;
 }

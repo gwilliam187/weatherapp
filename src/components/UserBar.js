@@ -5,7 +5,8 @@ import { unselectUser } from '../actions/userActions';
 
 class UserBar extends Component {
 	handleOnClick = () => {
-		this.props.unselectUser();
+		//this.props.unselectUser();
+		window.location.reload()
 	};
 
 	render() {
