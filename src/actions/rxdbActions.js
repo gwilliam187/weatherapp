@@ -14,9 +14,7 @@ const ipAddress = 'sgu.pdm-commsult.intranet:5984';
 // const putURL = `http://admin:password@${ ipAddress }/`;
 const syncURL = `http://${ ipAddress }/`
 
-export const createDB = async(dbName)=>{
-	// console.log('createdb')
-	// let toastId = toast('Creating DB', { autoClose: false });
+export const createDB = async(dbName)=> {
 	const db = await RxDB.create({
 		name: dbName,
 		adapter: 'idb',
@@ -29,13 +27,6 @@ export const createDB = async(dbName)=>{
 		document.title = '♛ ' + document.title;
 	});
 
-	return db;
-}
-
-export const citiesCollection = async(dbName)=>{
-	console.log('citiesCollection');
-	const db = await createDB(dbName);
-	
 	const citiesCollection = await db.collection({
 		name: 'citiescollection',
 		schema: citySchema
@@ -65,7 +56,7 @@ export const citiesCollection = async(dbName)=>{
 		console.log('replicationState change subscriber');
 		console.log(changeEvent);
 	});
-	replicationState.docs$.subscribe(docData => { 
+	replicationState.docs$.subscribe(docData => {
 		toast(`Replicated document "${ docData._id }"`);
 		console.dir(docData);
 	});
@@ -77,6 +68,20 @@ export const citiesCollection = async(dbName)=>{
 		toast(`Error: ${ error }`);
 		console.dir(error)
 	});
+
+	return db;
+}
+
+export const setDB = (db)=> async(dispatch,getState)=>{
+	dispatch({type: 'INITIALISE_RXDB', payload: db})
+}
+
+export const citiesCollection =async(db)=>{
+	console.log('citiesCollection');
+
+	console.log(db)
+	
+
 
 	//citiesCollection.sync(dbName, syncURL+dbName+'/', {live: true, retry: true, filter:"acceptOnlyPublicCity/isPublicFilter"})
 	// db.collection({
@@ -94,60 +99,60 @@ export const citiesCollection = async(dbName)=>{
 	return db.citiescollection;
 }
 
-export const treeCollection = async()=>{
-	const dbName = "trees"
-
-	const db = await createDB(dbName);
-
-	const treeCollection = await db.collection({
-		name: 'treecollection',
-		schema: treeSchema
-	})
-
-	const replicationState = treeCollection.sync({
-		remote: syncURL+dbName+'/',
-		waitForLeadership: true,
-		direction:{
-			pull: true,
-			push: true
-		},
-		options:{
-			live:true,
-			retry: true,
-			conflicts: true
-		}
-		//query: treeCollection.find().where('isPublic').eq(true)
-	});
-
-
-	replicationState.docs$.subscribe(docData => {
-		toast(`Replicated document "${ docData._id }"`);
-		console.dir(docData);
-	});
-	replicationState.denied$.subscribe(docData => {
-		toast(`Denied document "${ docData._id }"`);
-		console.dir(docData);
-	});
-	replicationState.error$.subscribe(error => {
-		toast(`Error: ${ error }`);
-		console.dir(error)
-	});
-
-	//citiesCollection.sync(dbName, syncURL+dbName+'/', {live: true, retry: true, filter:"acceptOnlyPublicCity/isPublicFilter"})
-	// db.collection({
-	// 	name: 'citiescollection',
-	// 	schema: schema,
-	// 	migrationStrategies: {
-	// 	  // 1 means, this transforms data from version 0 to version 1
-	// 	  1: function(oldDoc){
-	// 		oldDoc.time = new Date(oldDoc.time).getTime(); // string to unix
-	// 		return oldDoc;
-	// 	  }
-	// 	}
-	//   });
-
-	return db.treecollection;
-}
+// export const treeCollection = async()=>{
+// 	const dbName = "trees"
+//
+// 	const db = await createDB(dbName);
+//
+// 	const treeCollection = await db.collection({
+// 		name: 'treecollection',
+// 		schema: treeSchema
+// 	})
+//
+// 	const replicationState = treeCollection.sync({
+// 		remote: syncURL+dbName+'/',
+// 		waitForLeadership: true,
+// 		direction:{
+// 			pull: true,
+// 			push: true
+// 		},
+// 		options:{
+// 			live:true,
+// 			retry: true,
+// 			conflicts: true
+// 		}
+// 		//query: treeCollection.find().where('isPublic').eq(true)
+// 	});
+//
+//
+// 	replicationState.docs$.subscribe(docData => {
+// 		toast(`Replicated document "${ docData._id }"`);
+// 		console.dir(docData);
+// 	});
+// 	replicationState.denied$.subscribe(docData => {
+// 		toast(`Denied document "${ docData._id }"`);
+// 		console.dir(docData);
+// 	});
+// 	replicationState.error$.subscribe(error => {
+// 		toast(`Error: ${ error }`);
+// 		console.dir(error)
+// 	});
+//
+// 	//citiesCollection.sync(dbName, syncURL+dbName+'/', {live: true, retry: true, filter:"acceptOnlyPublicCity/isPublicFilter"})
+// 	// db.collection({
+// 	// 	name: 'citiescollection',
+// 	// 	schema: schema,
+// 	// 	migrationStrategies: {
+// 	// 	  // 1 means, this transforms data from version 0 to version 1
+// 	// 	  1: function(oldDoc){
+// 	// 		oldDoc.time = new Date(oldDoc.time).getTime(); // string to unix
+// 	// 		return oldDoc;
+// 	// 	  }
+// 	// 	}
+// 	//   });
+//
+// 	return db.treecollection;
+// }
 
 export const login = (username) => async(dispatch)=>{
 	//dispatch({type:"RESET_USER_ERROR_WARNING"});
@@ -169,9 +174,9 @@ export const login = (username) => async(dispatch)=>{
 	)
 }
 
-export const loadCities= () => async (dispatch, getState)=>{
+export const loadCities= (db) => async (dispatch, getState)=>{
 	console.log('loadCities');
-	const citiescollection = await citiesCollection(getState().selectedUser);
+	const citiescollection = await citiesCollection(db);
 
 	citiescollection.update$.subscribe(changeEvent => {
 		toast(`Updated ${ changeEvent.data.doc }`)
@@ -186,21 +191,21 @@ export const loadCities= () => async (dispatch, getState)=>{
 		dispatch(initialiseCity(cities))
   });
 }
-
-export const loadTrees = ()=>async (dispatch, getState)=>{
-	const treescollection = await treeCollection(getState().selectedUser);
-	treescollection.find().$.subscribe(trees=>{
-		if (!trees) {
-			return
-		}else{
-			// console.log(trees)
-			dispatch(initialiseTree(trees))
-		}
-	})
-}
+//
+export const loadTrees = ()=>async (dispatch, getState)=>{}
+// 	const treescollection = await treeCollection(getState().selectedUser);
+// 	treescollection.find().$.subscribe(trees=>{
+// 		if (!trees) {
+// 			return
+// 		}else{
+// 			// console.log(trees)
+// 			dispatch(initialiseTree(trees))
+// 		}
+// 	})
+// }
 
 export const toggleCityIsPublic = (city) => async(dispatch, getState)=>{
-	let citiescollection = await citiesCollection(getState().selectedUser);
+	let citiescollection = await citiesCollection(getState().rxdb);
 	citiescollection.findOne().where("_id").eq(city._id).exec().then( async(doc)=>{
 		console.log(doc.toJSON())
 		if	(!city.isPublic){
@@ -221,14 +226,14 @@ export const toggleCityIsPublic = (city) => async(dispatch, getState)=>{
 			});
 		}
 	})
-	citiescollection = await citiesCollection(getState().selectedUser);
+	citiescollection = await citiesCollection(getState().rxdb);
 	// toast(`Updated city "${ city.cityName }" to Private`);
 	let cities = await citiescollection.find().exec();
 	dispatch(initialiseCity(cities));
 }
 
 export const updateCityName = (city) => async(dispatch, getState) => {
-	let citiescollection = await citiesCollection(getState().selectedUser);
+	let citiescollection = await citiesCollection(getState().rxdb);
 	citiescollection.findOne().where("_id").eq(city._id).exec().then(async doc => {
 		console.log(doc.toJSON())
 		await doc.update({
@@ -239,22 +244,22 @@ export const updateCityName = (city) => async(dispatch, getState) => {
 		})
 		// toast(`Updated city "${ city.cityName }" to "${ city.newName }"`);
 	})
-	citiescollection = await citiesCollection(getState().selectedUser);
+	citiescollection = await citiesCollection(getState().rxdb);
 	let cities = await citiescollection.find().exec();
 	dispatch(initialiseCity(cities));
 
 }
 
 export const loadCityForSelectedUser = () => async (dispatch, getState) => {
-	if(getState().selectedUser) {
-		const citiescollection = await citiesCollection();
+	if(getState().rxdb) {
+		const citiescollection = await citiesCollection(getState().rxdb);
 		let cities = await citiescollection.find().exec();
 		dispatch(initialiseCity(cities));
 	}
 }
 
 export const addCityDocument = (cityObj) => async (dispatch, getState)=>{
-	let citiescollection = await citiesCollection(getState().selectedUser);
+	let citiescollection = await citiesCollection(getState().rxdb);
 	
 	if	(cityObj._id && cityObj.cityName){
 		const doc = await citiescollection.upsert(cityObj);
@@ -265,13 +270,13 @@ export const addCityDocument = (cityObj) => async (dispatch, getState)=>{
 
 export const removeCityDocument = (cityObj) => async(dispatch, getState)=>{
 	if	(cityObj._id && cityObj.cityName){
-		let citiescollection = await citiesCollection(getState().selectedUser);
+		let citiescollection = await citiesCollection(getState().rxdb);
 		citiescollection.findOne().where("_id").eq(cityObj._id).exec().then( async(doc)=>{
 			await doc.remove();
 			toast(`Removed city "${ doc.cityName }"`);
 		})
 		if	(cityObj.isPublic)
-			citiescollection = await citiesCollection(getState().selectedUser);
+			citiescollection = await citiesCollection(getState().rxdb);
 	}
 }
 
@@ -290,42 +295,3 @@ export const removeCityDocument = (cityObj) => async(dispatch, getState)=>{
 //     citiescollection = await citiesCollection(getState().selectedUser);
 // 	dispatch(addCity(dummyCities));
 // }
-
-export const addUser = (username) => async(dispatch, getState) => {
-    // let usercollection = await userCollection();
-
-    // await usercollection.upsert({
-	// 	_id: 'Sharon',
-	// 	cities: [
-	// 		{
-	// 			cityName: "Singapore",
-	// 			cityRef: "singapore,sg"
-	// 		},
-	// 		{
-	// 			cityName: "Kuala Lumpur",
-	// 			cityRef: "kuala lumpur,my"
-	// 		},
-	// 		{
-	// 			cityName: "Soest",
-	// 			cityRef: "Soest,de"
-	// 		}
-	// 	]
-	// })
-	
-	const db = await RxDB.create({
-		name: username,           // <- name
-		adapter: 'idb',          // <- storage-adapter
-		ignoreDuplicate: true
-	});
-
-	const citiesCollection = await db.collection({
-		name: 'citiescollection',
-		schema: citySchema
-	})
-	const remoteDB = syncURL+username+'/';
-	citiesCollection.sync(remoteDB, {filter: 'acceptOnlyPublicCity/isPublicFilter', query_params: "isPublic" , live: true, retry: true});
-	dispatch({
-		type: "NONE",
-		payload: "NULL"
-	});
-}

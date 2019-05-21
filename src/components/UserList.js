@@ -10,14 +10,11 @@ class UserList extends Component {
 	handleSelectChange = (e) => {
 		this.setState({ value: e.target.value })
 		// const value = e.target.value;
-		// this.props.selectUser(value); 
-		// this.props.loadCityForSelectedUser();
 	}
 
 	componentDidUpdate() {
 		const value = this.state.value;
-		this.props.selectUser(value); 
-		this.props.loadCities();
+		this.props.selectUser(value);
 	}
 
 	renderList() {
@@ -53,5 +50,5 @@ const mapStateToProps = state => {
 
 export default connect(
 	mapStateToProps, 
-	{ selectUser, loadCities }
+	{ selectUser }
 )(UserList);

@@ -7,7 +7,7 @@ import { addCity, removeCity, initialiseCity } from './cityActions';
 import { initialiseTree } from "./treeAction";
 
 // RxDB Actions
-export {createDB, citiesCollection, loadCities, login, loadTrees, addUser, toggleCityIsPublic };
+export {createDB, citiesCollection, loadCities, login, loadTrees, toggleCityIsPublic };
 
 // Select User Actions
 export {selectUser};

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 import { Redirect } from 'react-router-dom';
 
+import { createDB, setDB } from '../actions/rxdbActions';
 import { loadCities, loadTrees } from '../actions';
 import { fetchWeathersForSelectedCities } from '../actions/weatherActions';
 import UserInput from './UserInput';
@@ -20,15 +21,17 @@ toast.configure({
 });
 
 class AppPage extends React.Component {
-	componentDidMount() {
-		if	(this.props.selectedUser)
-			this.props.loadCities();
-		else	
+	async componentDidMount() {
+		if	(this.props.selectedUser) {
+			const db = await createDB(this.props.selectedUser)
+			this.props.setDB(db)
+			this.props.loadCities(db);
+		}else
 			return(
 				<Redirect to="/" />
 			)
 
-		this.props.loadTrees();
+		//this.props.loadTrees();
 	}
 
 	componentDidUpdate() {
@@ -111,7 +114,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
 	fetchWeathersForSelectedCities, 
 	loadCities, 
-	loadTrees
+	loadTrees,
+	createDB,
+	setDB
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppPage);

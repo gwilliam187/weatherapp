@@ -8,6 +8,7 @@ import userListReducer from './userListReducer';
 import selectedUserReducer from './selectedUserReducer';
 import loginReducer from './loginReducer';
 import treeReducer from './treeReducer';
+import rxdb from './rxdbReducer';
 
 export default combineReducers({
 	users: userListReducer,
@@ -17,5 +18,6 @@ export default combineReducers({
 	selectedCities: selectedCitiesReducer,
 	weathers: weathersReducer,
 	citiesErrorMessage: citiesErrorMessageReducer,
-	trees: treeReducer
+	trees: treeReducer,
+	rxdb: rxdb
 });
