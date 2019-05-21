@@ -55,7 +55,7 @@ export const citiesCollection = async(dbName)=>{
 			retry: true,
 			conflicts: true
 		},
-		query: citiesCollection.find().where('isPublic').eq(true)
+		//query: citiesCollection.find().where('isPublic').eq(true)
 	});
 
 	replicationState.change$.subscribe(changeEvent => {
