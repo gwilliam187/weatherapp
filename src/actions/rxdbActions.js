@@ -44,8 +44,7 @@ export const createDB = async(dbName)=> {
 			live:true,
 			retry: true,
 			conflicts: true
-		},
-		//query: citiesCollection.find().where('isPublic').eq(true)
+		}
 	});
 
 	// USE THE CODE BELOW WHEN NEW SCHEMA IS INTRODUCED AND MIGRATION ERROR APPEARS
@@ -72,7 +71,7 @@ export const createDB = async(dbName)=> {
 		console.log(changeEvent);
 	});
 	replicationState.docs$.subscribe(docData => {
-		toast(`Replicated document "${ docData._id }"`);
+		toast(`Replicated document "${ docData._id}"`);
 		console.dir(docData);
 	});
 	replicationState.denied$.subscribe(docData => {
@@ -84,6 +83,39 @@ export const createDB = async(dbName)=> {
 		console.dir(error)
 	});
 
+	const treeCollection = await db.collection({
+		name: 'treecollection',
+		schema: treeSchema
+	})
+
+	const replicationSt = treeCollection.sync({
+		remote: syncURL+'/trees',
+		waitForLeadership: true,
+		direction:{
+			pull: true,
+			push: true
+		},
+		options:{
+			live:true,
+			retry: true,
+			conflicts: true
+		}
+		//query: treeCollection.find().where('isPublic').eq(true)
+	});
+
+	replicationSt.docs$.subscribe(docData => {
+		toast(`Replicated document "${ docData._id }"`);
+		console.dir(docData);
+	});
+	replicationSt.denied$.subscribe(docData => {
+		toast(`Denied document "${ docData._id }"`);
+		console.dir(docData);
+	});
+	replicationSt.error$.subscribe(error => {
+		toast(`Error: ${ error }`);
+		console.dir(error)
+	});
+
 	return db;
 }
 
@@ -91,10 +123,14 @@ export const setDB = (db)=> async(dispatch,getState)=>{
 	dispatch({type: 'INITIALISE_RXDB', payload: db})
 }
 
-export const citiesCollection =async(db)=>{
+export const citiesCollection = (db)=>{
 	console.log('citiesCollection');
     
 	return db.citiescollection;
+}
+
+export const treeCollection = (db)=>{
+	return db.treecollection;
 }
 
 // export const treeCollection = async()=>{
@@ -206,17 +242,17 @@ export const loadCities= (db) => async (dispatch, getState)=>{
   });
 }
 //
-export const loadTrees = ()=>async (dispatch, getState)=>{}
-// 	const treescollection = await treeCollection(getState().selectedUser);
-// 	treescollection.find().$.subscribe(trees=>{
-// 		if (!trees) {
-// 			return
-// 		}else{
-// 			// console.log(trees)
-// 			dispatch(initialiseTree(trees))
-// 		}
-// 	})
-// }
+export const loadTrees = (db)=>async (dispatch, getState)=>{
+	const treescollection = await treeCollection(db);
+	treescollection.find().$.subscribe(trees=>{
+		if (!trees) {
+			return
+		}else{
+			// console.log(trees)
+			dispatch(initialiseTree(trees))
+		}
+	})
+}
 
 export const toggleCityIsPublic = (city) => async(dispatch, getState)=>{
 	let citiescollection = await citiesCollection(getState().rxdb);

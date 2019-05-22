@@ -26,12 +26,11 @@ class AppPage extends React.Component {
 			const db = await createDB(this.props.selectedUser)
 			this.props.setDB(db)
 			this.props.loadCities(db);
+			this.props.loadTrees(db);
 		}else
 			return(
 				<Redirect to="/" />
 			)
-
-		//this.props.loadTrees();
 	}
 
 	componentDidUpdate() {
@@ -45,6 +44,7 @@ class AppPage extends React.Component {
 					<div className='row'>
 						<UserBar />
 						<CityList />
+						<TreeList />
 						<CityInput />
 					</div>
 				</div>
