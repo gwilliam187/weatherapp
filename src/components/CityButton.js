@@ -19,7 +19,7 @@ export class CityButton extends React.Component {
 	// OnClick Handlers
 	handleCityClick = () => {
 		this.props.updateCitiesErrorMessage(null, null);
-		this.props.selectCity(this.props.city);
+		// this.props.selectCity(this.props.city);
 	};
 
 	handleEditClick = () => {

@@ -22,20 +22,21 @@ toast.configure({
 
 class AppPage extends React.Component {
 	async componentDidMount() {
-		if	(this.props.selectedUser) {
-			const db = await createDB(this.props.selectedUser)
-			this.props.setDB(db)
-			this.props.loadCities(db);
-		}else
-			return(
+		if(this.props.selectedRegion) {
+			console.log('here');
+			// const db = await createDB(this.props.selectedUser)
+			// this.props.setDB(db)
+			// this.props.loadCities(db);
+		} else {
+			return (
 				<Redirect to="/" />
 			)
-
-		//this.props.loadTrees();
+		}
 	}
 
 	componentDidUpdate() {
-		this.props.fetchWeathersForSelectedCities();
+		// this.props.fetchWeathersForSelectedCities();
+		console.log(this.props.selectedRegion);
 	}
 
 	renderSidebar() {
@@ -106,8 +107,9 @@ class AppPage extends React.Component {
 
 const mapStateToProps = state => {
 	return {
-		selectedCities: state.selectedCities,
-		selectedUser: state.selectedUser
+		selectedRegion: state.selectedRegion,
+		// selectedCities: state.selectedCities,
+		// selectedUser: state.selectedUser
 	};
 };
 

@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
 
+import regionsReducer from './regionsReducer';
+import selectedRegionsReducer from './selectedRegionReducer';
 import citiesReducer from './citiesReducer';
 import selectedCitiesReducer from './selectedCitiesReducer';
 import weathersReducer from './weathersReducer';
@@ -11,6 +13,8 @@ import treeReducer from './treeReducer';
 import rxdb from './rxdbReducer';
 
 export default combineReducers({
+	regions: regionsReducer,
+	selectedRegion: selectedRegionsReducer,
 	users: userListReducer,
 	selectedUser: selectedUserReducer,
 	cities: citiesReducer,

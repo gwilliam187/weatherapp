@@ -42,7 +42,9 @@ export const createDB = async(dbName)=> {
 		options:{
 			live:true,
 			retry: true,
-			conflicts: true
+			conflicts: true,
+			// filter: 'by_region',
+			// query_params: { "region": region }
 		},
 		//query: citiesCollection.find().where('isPublic').eq(true)
 	});

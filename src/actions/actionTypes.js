@@ -1,3 +1,6 @@
+// Selected Region Actions
+export const SELECT_REGION = 'SELECT_REGION';
+
 //User Actions
 export const SELECT_USER = 'SELECT_USER';
 export const UNSELECT_USER = 'UNSELECT_USER';
