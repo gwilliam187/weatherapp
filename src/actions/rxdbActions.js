@@ -190,7 +190,7 @@ export const treeCollection = (db)=>{
 // 	return db.treecollection;
 // }n
 
-export const login = (username) => async(dispatch)=>{
+export const login = (username) => async(dispatch, getState)=>{
 	const couch = new NodeCouchDb({
 		host: 'sgu.pdm-commsult.intranet',
 		protocol: 'http',
