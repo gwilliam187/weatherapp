@@ -17,7 +17,7 @@ const syncURL = `http://${ ipAddress }/`
 
 export const createDB = async(dbName, region)=> {
 	const db = await RxDB.create({
-		name: 'cities',
+		name: dbName,
 		adapter: 'idb',
 		password: 'password',
 		ignoreDuplicate: true
@@ -44,7 +44,7 @@ export const createDB = async(dbName, region)=> {
 			live:true,
 			retry: true,
 			conflicts: true,
-			filter: 'region/by-region',
+			filter: 'region/by_region',
 			query_params: {"region": region }
 		}
 	});
@@ -118,6 +118,7 @@ export const createDB = async(dbName, region)=> {
 		console.dir(error)
 	});
 
+	console.log(db)
 	return db;
 }
 
@@ -201,29 +202,29 @@ export const login = (username) => async(dispatch, getState)=>{
 		}
 	})
 
-	const couchDbs = await couch.listDatabases()
-	if (!couchDbs.includes(username)) {
-		couch.createDatabase(username).then(() => {
-			const ddoc = {
-				"_id": "_design/viewAll",
-				"views": {
-					"viewAll-index": {
-						"map": "function (doc) {\n  emit(doc._id, {'_id': doc._id, '_rev': doc._rev, 'cityName': doc.cityName, 'isPublic': doc.isPublic, 'fromBackend': doc.fromBackend});\n}"
-					}
-				},
-				"language": "javascript",
-				"fromBackend": false
-			};
-		couch.insert(username, ddoc).then(({ data, headers, status }) => {
-			dispatch({type:"SELECT_USER", payload: username})
-		})
-	}, err =>{
-			console.log(err)
-			dispatch({type: 'OTHER_ERROR'})
-		})
-	}else{
-		dispatch({type:"SELECT_USER", payload: username})
-	}
+	// const couchDbs = await couch.listDatabases()
+	// if (!couchDbs.includes(username)) {
+	// 	couch.createDatabase(username).then(() => {
+	// 		const ddoc = {
+	// 			"_id": "_design/viewAll",
+	// 			"views": {
+	// 				"viewAll-index": {
+	// 					"map": "function (doc) {\n  emit(doc._id, {'_id': doc._id, '_rev': doc._rev, 'cityName': doc.cityName, 'isPublic': doc.isPublic, 'fromBackend': doc.fromBackend});\n}"
+	// 				}
+	// 			},
+	// 			"language": "javascript",
+	// 			"fromBackend": false
+	// 		};
+	// 	couch.insert(username, ddoc).then(({ data, headers, status }) => {
+	// 		dispatch({type:"SELECT_USER", payload: username})
+	// 	})
+	// }, err =>{
+	// 		console.log(err)
+	// 		dispatch({type: 'OTHER_ERROR'})
+	// 	})
+	// }else{
+	// 	dispatch({type:"SELECT_USER", payload: username})
+	// }
 }
 
 export const loadCities= (db) => async (dispatch, getState)=>{

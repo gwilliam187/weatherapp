@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { unselectUser } from '../actions/userActions';
+import {unselectRegion} from '../actions/selectedRegionActions'
+//import { unselectUser } from '../actions/userActions';
 
 class UserBar extends Component {
 	handleOnClick = () => {
 		//this.props.unselectUser();
-		window.location.reload()
+		this.props.unselectRegion();
+		window.location.reload();
 	};
 
 	render() {
@@ -37,7 +39,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-	unselectUser
+	unselectRegion
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserBar);
