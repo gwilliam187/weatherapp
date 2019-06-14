@@ -63,16 +63,16 @@ export class CityButton extends React.Component {
 		}
 	};
 
-	renderPublicButton() {
-		const faded = this.props.city.isPublic ? '' : 'faded';
-		return (
-			<div 
-				className={`d-flex align-items-center justify-content-center mr-2 ${faded} public-button`}
-				onClick={ this.handlePublicClick }>
-				{ this.props.city.isPublic ? "Public" : "Private" }
-			</div>
-		);
-	}
+	// renderPublicButton() {
+	// 	const faded = this.props.city.isPublic ? '' : 'faded';
+	// 	return (
+	// 		<div
+	// 			className={`d-flex align-items-center justify-content-center mr-2 ${faded} public-button`}
+	// 			onClick={ this.handlePublicClick }>
+	// 			{ this.props.city.isPublic ? "Public" : "Private" }
+	// 		</div>
+	// 	);
+	// }
 
 	renderEditRow() {
 		return (
