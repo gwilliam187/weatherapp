@@ -17,7 +17,7 @@ const syncURL = `http://${ ipAddress }/`
 
 export const createDB = async(dbName, region)=> {
 	const db = await RxDB.create({
-		name: 'cities',
+		name: 'myDB',
 		adapter: 'idb',
 		password: 'password',
 		ignoreDuplicate: true
