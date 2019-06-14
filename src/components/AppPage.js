@@ -7,14 +7,15 @@ import { Redirect } from 'react-router-dom';
 import { createDB, setDB } from '../actions/rxdbActions';
 import { loadCities, loadTrees } from '../actions';
 import { fetchWeathersForSelectedCities } from '../actions/weatherActions';
+import RegionBar from './RegionBar';
 import UserInput from './UserInput';
 import UserBar from './UserBar';
 import CityList from './CityList';
 import CityInput from './CityInput';
 import WeatherDisplay from './WeatherDisplay';
 import DiffDisplay from './DiffDisplay';
-import './custom-style.css';
 import TreeList from "./TreeList";
+import './custom-style.css';
 
 toast.configure({
 	autoClose: 3000
@@ -22,37 +23,28 @@ toast.configure({
 
 class AppPage extends React.Component {
 	async componentDidMount() {
-		if	(this.props.selectedRegion) {
-			const db = await createDB(this.props.selectedUser, this.props.selectedRegion)
-			this.props.setDB(db)
-			this.props.loadCities(db);
-			this.props.loadTrees(db);
-		}else
-			return(
-				<Redirect to="/" />
-			)
+		if(this.props.selectedRegion) {
+			// const db = await createDB(this.props.selectedUser, this.props.selectedRegion)
+			// this.props.setDB(db)
+			// this.props.loadCities(db);
+			// this.props.loadTrees(db);
+		}
 	}
 
 	componentDidUpdate() {
 		// this.props.fetchWeathersForSelectedCities();
-		console.log(this.props.selectedRegion);
 	}
 
 	renderSidebar() {
-		// if(this.props.selectedUser) {
-			return (
-				<div className='col-lg-4'>
-					<div className='row'>
-						<UserBar />
-						<CityList />
-						<TreeList />
-						<CityInput />
-					</div>
+		return (
+			<div className='col-lg-4'>
+				<div className='row'>
+					<CityList />
+					<TreeList />
+					<CityInput />
 				</div>
-			);
-		// } else {
-		// 	return (<Redirect to="/" />)
-		// }
+			</div>
+		);
 	}
 
 	renderWeatherDisplay() {
@@ -91,25 +83,34 @@ class AppPage extends React.Component {
 	}
 
 	render() {
-		return (
-			<div className="container app">
-				<div className='row flex-grow-1'>
-					{ this.renderSidebar() }
-					<div className='col-lg-8'>
-						<WeatherDisplay />
-						<DiffDisplay />
+		if(this.props.selectedRegion) {
+			return (
+				<div className="container app">
+					<div className='row flex-grow-1'>
+						<RegionBar />
+						<div className='col-lg-6' style={{ backgroundColor: 'red' }}>
+							<div className='row'>
+								<CityList />
+								<CityInput />
+							</div>
+						</div>
+						<div className='col-lg-6' style={{ backgroundColor: 'blue' }}>
+							<div className='row'>
+								<TreeList />
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-		);
+			);
+		} else {
+			return <Redirect to='/' />;
+		}
 	}
 }
 
 const mapStateToProps = state => {
 	return {
 		selectedRegion: state.selectedRegion,
-		// selectedCities: state.selectedCities,
-		// selectedUser: state.selectedUser
 	};
 };
 

@@ -9,10 +9,6 @@ class RegionPicker extends Component {
 		this.props.selectRegion(e.target.value);
 	}
 
-	componentDidMount() {
-		console.log('why am i remounted');
-	}
-
 	renderList() {
 		return this.props.regions.map(region => {
 			return (
@@ -37,7 +33,6 @@ class RegionPicker extends Component {
 				</div>
 			);
 		} else {
-			console.log(this.props.selectedRegion);
 			return <Redirect to="/App" />;
 		}
 	}
