@@ -1,17 +1,14 @@
 export const citySchema = {
     title: 'city schema',
-    description: 'Blablablablablabla',
+    description: 'City blablablablablabla',
     version: 0,
     type: 'object',
     properties: {
         "cityName" : {
             type: "string"
         },
-        "isPublic" : {
-            type: "boolean"
-        },
-        "fromBackend": {
-            type: "boolean"
+        "region" : {
+            type: "string"
         }
     }
 }

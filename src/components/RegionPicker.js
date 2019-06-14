@@ -9,16 +9,16 @@ class RegionPicker extends Component {
 		this.props.selectRegion(e.target.value);
 	}
 
+	componentDidMount() {
+		console.log('why am i remounted');
+	}
+
 	renderList() {
 		return this.props.regions.map(region => {
 			return (
 				<option key={ region } value={ region }>{ region }</option>
 			);
 		});
-	}
-
-	componentDidUpdate() {
-		console.log(this.props.selectedRegion);
 	}
 
 	render() {

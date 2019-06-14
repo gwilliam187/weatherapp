@@ -1,10 +1,11 @@
 ﻿import * as RxDB from 'rxdb';
+import NodeCouchDb from 'node-couchdb'
 
 import { initialiseCity } from './cityActions';
 import { initialiseTree } from "./treeAction";
 import { citySchema, treeSchema } from '../Schema';
-import axios from 'axios';
 import { toast } from 'react-toastify';
+
 
 RxDB.plugin(require('pouchdb-adapter-idb'));
 RxDB.plugin(require('pouchdb-adapter-http'));
@@ -14,9 +15,9 @@ const ipAddress = 'sgu.pdm-commsult.intranet:5984';
 // const putURL = `http://admin:password@${ ipAddress }/`;
 const syncURL = `http://${ ipAddress }/`
 
-export const createDB = async(dbName)=> {
+export const createDB = async(dbName, region)=> {
 	const db = await RxDB.create({
-		name: dbName,
+		name: 'cities',
 		adapter: 'idb',
 		password: 'password',
 		ignoreDuplicate: true
@@ -43,10 +44,9 @@ export const createDB = async(dbName)=> {
 			live:true,
 			retry: true,
 			conflicts: true,
-			// filter: 'by_region',
-			// query_params: { "region": region }
-		},
-		//query: citiesCollection.find().where('isPublic').eq(true)
+			filter: 'region/by-region',
+			query_params: {"region": region }
+		}
 	});
 
 	// USE THE CODE BELOW WHEN NEW SCHEMA IS INTRODUCED AND MIGRATION ERROR APPEARS
@@ -73,7 +73,7 @@ export const createDB = async(dbName)=> {
 		console.log(changeEvent);
 	});
 	replicationState.docs$.subscribe(docData => {
-		toast(`Replicated document "${ docData._id }"`);
+		toast(`Replicated document "${ docData._id}"`);
 		console.dir(docData);
 	});
 	replicationState.denied$.subscribe(docData => {
@@ -85,6 +85,39 @@ export const createDB = async(dbName)=> {
 		console.dir(error)
 	});
 
+	const treeCollection = await db.collection({
+		name: 'treecollection',
+		schema: treeSchema
+	})
+
+	const replicationSt = treeCollection.sync({
+		remote: syncURL+'/trees',
+		waitForLeadership: true,
+		direction:{
+			pull: true,
+			push: true
+		},
+		options:{
+			live:true,
+			retry: true,
+			conflicts: true
+		}
+		//query: treeCollection.find().where('isPublic').eq(true)
+	});
+
+	replicationSt.docs$.subscribe(docData => {
+		toast(`Replicated document "${ docData._id }"`);
+		console.dir(docData);
+	});
+	replicationSt.denied$.subscribe(docData => {
+		toast(`Denied document "${ docData._id }"`);
+		console.dir(docData);
+	});
+	replicationSt.error$.subscribe(error => {
+		toast(`Error: ${ error }`);
+		console.dir(error)
+	});
+
 	return db;
 }
 
@@ -92,10 +125,14 @@ export const setDB = (db)=> async(dispatch,getState)=>{
 	dispatch({type: 'INITIALISE_RXDB', payload: db})
 }
 
-export const citiesCollection =async(db)=>{
+export const citiesCollection = (db)=>{
 	console.log('citiesCollection');
     
 	return db.citiescollection;
+}
+
+export const treeCollection = (db)=>{
+	return db.treecollection;
 }
 
 // export const treeCollection = async()=>{
@@ -151,26 +188,42 @@ export const citiesCollection =async(db)=>{
 // 	//   });
 //
 // 	return db.treecollection;
-// }
+// }n
 
-export const login = (username) => async(dispatch)=>{
-	//dispatch({type:"RESET_USER_ERROR_WARNING"});
-	axios.get(syncURL+username+'/').then(
-		(res)=>{
-			if	(res.data.db_name){
-				console.log("user exist")
-				dispatch({type:"SELECT_USER", payload: username})
-			}else if (res.data.error){
-				console.log("user not exist")
-				dispatch({type: "USER_NOT_EXIST"})
-			}else{
-				console.dir(res)
-				dispatch({type:"OTHER_ERROR"})
-			}
+export const login = (username) => async(dispatch, getState)=>{
+	const couch = new NodeCouchDb({
+		host: 'sgu.pdm-commsult.intranet',
+		protocol: 'http',
+		port: 5984,
+		auth:{
+			user: 'admin',
+			pass: 'password'
 		}
-	).catch(
-		dispatch({type: "USER_NOT_EXIST"})
-	)
+	})
+
+	const couchDbs = await couch.listDatabases()
+	if (!couchDbs.includes(username)) {
+		couch.createDatabase(username).then(() => {
+			const ddoc = {
+				"_id": "_design/viewAll",
+				"views": {
+					"viewAll-index": {
+						"map": "function (doc) {\n  emit(doc._id, {'_id': doc._id, '_rev': doc._rev, 'cityName': doc.cityName, 'isPublic': doc.isPublic, 'fromBackend': doc.fromBackend});\n}"
+					}
+				},
+				"language": "javascript",
+				"fromBackend": false
+			};
+		couch.insert(username, ddoc).then(({ data, headers, status }) => {
+			dispatch({type:"SELECT_USER", payload: username})
+		})
+	}, err =>{
+			console.log(err)
+			dispatch({type: 'OTHER_ERROR'})
+		})
+	}else{
+		dispatch({type:"SELECT_USER", payload: username})
+	}
 }
 
 export const loadCities= (db) => async (dispatch, getState)=>{
@@ -191,17 +244,17 @@ export const loadCities= (db) => async (dispatch, getState)=>{
   });
 }
 //
-export const loadTrees = ()=>async (dispatch, getState)=>{}
-// 	const treescollection = await treeCollection(getState().selectedUser);
-// 	treescollection.find().$.subscribe(trees=>{
-// 		if (!trees) {
-// 			return
-// 		}else{
-// 			// console.log(trees)
-// 			dispatch(initialiseTree(trees))
-// 		}
-// 	})
-// }
+export const loadTrees = (db)=>async (dispatch, getState)=>{
+	const treescollection = await treeCollection(db);
+	treescollection.find().$.subscribe(trees=>{
+		if (!trees) {
+			return
+		}else{
+			// console.log(trees)
+			dispatch(initialiseTree(trees))
+		}
+	})
+}
 
 export const toggleCityIsPublic = (city) => async(dispatch, getState)=>{
 	let citiescollection = await citiesCollection(getState().rxdb);
@@ -278,19 +331,3 @@ export const removeCityDocument = (cityObj) => async(dispatch, getState)=>{
 			citiescollection = await citiesCollection(getState().rxdb);
 	}
 }
-
-//This function below is not quite ready yet, update should be used instead of insert
-// export const updateCityToUser = () => async (dispatch, getState) =>{
-//     const dummyCities =
-//         {
-// 			_id: "singapore,sg",
-// 			cityName: "Singapore",
-// 			isPublic: true
-//         }
-	
-// 	let citiescollection = await citiesCollection(getState().selectedUser);
-// 	// await citiescollection.upsert(dummyCities)
-// 	//The reassignment below calls sync, reassignment does not change anything
-//     citiescollection = await citiesCollection(getState().selectedUser);
-// 	dispatch(addCity(dummyCities));
-// }

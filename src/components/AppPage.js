@@ -22,16 +22,15 @@ toast.configure({
 
 class AppPage extends React.Component {
 	async componentDidMount() {
-		if(this.props.selectedRegion) {
-			console.log('here');
-			// const db = await createDB(this.props.selectedUser)
-			// this.props.setDB(db)
-			// this.props.loadCities(db);
-		} else {
-			return (
+		if	(this.props.selectedRegion) {
+			const db = await createDB(this.props.selectedUser, this.props.selectedRegion)
+			this.props.setDB(db)
+			this.props.loadCities(db);
+			this.props.loadTrees(db);
+		}else
+			return(
 				<Redirect to="/" />
 			)
-		}
 	}
 
 	componentDidUpdate() {
@@ -40,19 +39,20 @@ class AppPage extends React.Component {
 	}
 
 	renderSidebar() {
-		if(this.props.selectedUser) {
+		// if(this.props.selectedUser) {
 			return (
 				<div className='col-lg-4'>
 					<div className='row'>
 						<UserBar />
 						<CityList />
+						<TreeList />
 						<CityInput />
 					</div>
 				</div>
 			);
-		} else {
-			return (<Redirect to="/" />)
-		}
+		// } else {
+		// 	return (<Redirect to="/" />)
+		// }
 	}
 
 	renderWeatherDisplay() {
