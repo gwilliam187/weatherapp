@@ -72,10 +72,12 @@ export const createDB = async(dbName, region)=> {
 		console.log('replicationState change subscriber');
 		console.log(changeEvent);
 	});
-	replicationState.docs$.subscribe(docData => {
-		//toast(`Replicated document "${ docData._id}"`);
-		console.dir(docData);
-	});
+
+	// replicationState.docs$.subscribe(docData => {
+	// 	toast(`Replicated document "${ docData._id}"`);
+	// 	console.dir(docData);
+	// });
+
 	replicationState.denied$.subscribe(docData => {
 		toast(`Denied document "${ docData._id }"`);
 		console.dir(docData);
