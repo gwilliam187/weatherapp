@@ -72,10 +72,12 @@ export const createDB = async(dbName, region)=> {
 		console.log('replicationState change subscriber');
 		console.log(changeEvent);
 	});
+
 	// replicationState.docs$.subscribe(docData => {
 	// 	toast(`Replicated document "${ docData._id}"`);
 	// 	console.dir(docData);
 	// });
+
 	replicationState.denied$.subscribe(docData => {
 		toast(`Denied document "${ docData._id }"`);
 		console.dir(docData);
@@ -136,61 +138,6 @@ export const treeCollection = (db)=>{
 	return db.treecollection;
 }
 
-// export const treeCollection = async()=>{
-// 	const dbName = "trees"
-//
-// 	const db = await createDB(dbName);
-//
-// 	const treeCollection = await db.collection({
-// 		name: 'treecollection',
-// 		schema: treeSchema
-// 	})
-//
-// 	const replicationState = treeCollection.sync({
-// 		remote: syncURL+dbName+'/',
-// 		waitForLeadership: true,
-// 		direction:{
-// 			pull: true,
-// 			push: true
-// 		},
-// 		options:{
-// 			live:true,
-// 			retry: true,
-// 			conflicts: true
-// 		}
-// 		//query: treeCollection.find().where('isPublic').eq(true)
-// 	});
-//
-//
-// 	replicationState.docs$.subscribe(docData => {
-// 		toast(`Replicated document "${ docData._id }"`);
-// 		console.dir(docData);
-// 	});
-// 	replicationState.denied$.subscribe(docData => {
-// 		toast(`Denied document "${ docData._id }"`);
-// 		console.dir(docData);
-// 	});
-// 	replicationState.error$.subscribe(error => {
-// 		toast(`Error: ${ error }`);
-// 		console.dir(error)
-// 	});
-//
-// 	//citiesCollection.sync(dbName, syncURL+dbName+'/', {live: true, retry: true, filter:"acceptOnlyPublicCity/isPublicFilter"})
-// 	// db.collection({
-// 	// 	name: 'citiescollection',
-// 	// 	schema: schema,
-// 	// 	migrationStrategies: {
-// 	// 	  // 1 means, this transforms data from version 0 to version 1
-// 	// 	  1: function(oldDoc){
-// 	// 		oldDoc.time = new Date(oldDoc.time).getTime(); // string to unix
-// 	// 		return oldDoc;
-// 	// 	  }
-// 	// 	}
-// 	//   });
-//
-// 	return db.treecollection;
-// }n
-
 export const login = (username) => async(dispatch, getState)=>{
 	const couch = new NodeCouchDb({
 		host: 'sgu.pdm-commsult.intranet',
@@ -201,30 +148,6 @@ export const login = (username) => async(dispatch, getState)=>{
 			pass: 'password'
 		}
 	})
-
-	// const couchDbs = await couch.listDatabases()
-	// if (!couchDbs.includes(username)) {
-	// 	couch.createDatabase(username).then(() => {
-	// 		const ddoc = {
-	// 			"_id": "_design/viewAll",
-	// 			"views": {
-	// 				"viewAll-index": {
-	// 					"map": "function (doc) {\n  emit(doc._id, {'_id': doc._id, '_rev': doc._rev, 'cityName': doc.cityName, 'isPublic': doc.isPublic, 'fromBackend': doc.fromBackend});\n}"
-	// 				}
-	// 			},
-	// 			"language": "javascript",
-	// 			"fromBackend": false
-	// 		};
-	// 	couch.insert(username, ddoc).then(({ data, headers, status }) => {
-	// 		dispatch({type:"SELECT_USER", payload: username})
-	// 	})
-	// }, err =>{
-	// 		console.log(err)
-	// 		dispatch({type: 'OTHER_ERROR'})
-	// 	})
-	// }else{
-	// 	dispatch({type:"SELECT_USER", payload: username})
-	// }
 }
 
 export const loadCities= (db) => async (dispatch, getState)=>{
