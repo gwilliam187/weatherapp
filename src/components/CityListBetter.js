@@ -22,7 +22,7 @@ class CityListBetter extends React.Component {
 								height={ height }
 								width={ width }
 								itemCount={ this.props.cities.length }
-								itemSize={ 50 }>
+								itemSize={ 70 }>
 							{ this.renderRow }	
 						</List>
 					)}
