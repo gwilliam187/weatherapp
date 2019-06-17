@@ -1,4 +1,4 @@
-import { SELECT_REGION } from './actionTypes';
+import { SELECT_REGION, UNSELECT_REGION } from './actionTypes';
 
 export const selectRegion = region => {
 	return {
@@ -6,3 +6,10 @@ export const selectRegion = region => {
 		payload: region,
 	};
 };
+
+export const unselectRegion = ()=>{
+	return {
+		type: UNSELECT_REGION,
+		payload: null
+	}
+}
