@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../actions/';
 import { Redirect } from 'react-router-dom';
+import { selectUser } from '../actions/userActions';
 
 class UserInput extends Component {
 	state = {
@@ -19,7 +20,8 @@ class UserInput extends Component {
 	}
 
 	handleOnClick = (e) => {
-		this.login();
+		// this.login();
+		this.selectUser(this.state.value);
 	}
 
 	login() {
@@ -41,10 +43,10 @@ class UserInput extends Component {
 									value={ this.state.value }
 									onChange={ this.handleOnChange }
 									onKeyDown={ this.handleOnKeyDown }
-									className='form-control form-control-lg flex-grow-1 mb-2 mr-sm-2' />
+									className='form-control form-control flex-grow-1 mb-2 mr-sm-2' />
 								<button
 									onClick={ this.handleOnClick } 
-									className='btn btn-primary btn-lg mb-2 px-4'>Login</button>
+									className='btn btn-primary btn mb-2 px-4'>Login</button>
 							</div>
 						</div>
 					</div>
