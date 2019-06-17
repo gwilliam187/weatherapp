@@ -7,6 +7,7 @@ import { Redirect } from 'react-router-dom';
 import { createDB, setDB } from '../actions/rxdbActions';
 import { loadCities, loadTrees } from '../actions';
 import { fetchWeathersForSelectedCities } from '../actions/weatherActions';
+import { selectObject } from '../actions/selectedObjectActions';
 import RegionBar from './RegionBar';
 import UserInput from './UserInput';
 import UserBar from './UserBar';
@@ -82,23 +83,59 @@ class AppPage extends React.Component {
 		}
 	}
 
+	renderCityDisplay() {
+		return (
+			<CityList />
+		);
+	}
+
+	renderTreeDisplay() {
+		return (
+			<TreeList />
+		);
+	}
+
+	renderDisplay() {
+		if(this.props.selectedObject === 'cities') { return this.renderCityDisplay() }
+		else if(this.props.selectedObject === 'trees') return this.renderTreeDisplay()
+		else return <div></div>
+	}
+
+	getCityNavClass() {
+		let css = 'btn btn-link nav-link ';
+		if(this.props.selectedObject === 'cities') {
+			css += 'active';
+		}
+		return css;
+	}
+
+	getTreeNavClass() {
+		let css = 'btn btn-link nav-link ';
+		if(this.props.selectedObject === 'trees') {
+			css += 'active';
+		}
+		return css;
+	}
+
 	render() {
 		if(this.props.selectedRegion) {
 			return (
-				<div className="container app">
+				<div className="container app align-items-start">
 					<div className='row flex-grow-1'>
 						<RegionBar />
-						<div className='col-lg-6' style={{ backgroundColor: 'red' }}>
-							<div className='row'>
-								<CityList />
-								<CityInput />
-							</div>
+						<div className='col-12 nav nav-pills mb-2'>
+							<li className='nav-item'>
+								<button 
+										onClick={() => { this.props.selectObject('cities') }} 
+										className={ this.getCityNavClass() }>Cities</button>
+							</li>
+							<li className='nav-item'>
+								<button 
+										onClick={() => { this.props.selectObject('trees') }}
+										className={ this.getTreeNavClass() }>Trees</button>
+							</li>
 						</div>
-						<div className='col-lg-6' style={{ backgroundColor: 'blue' }}>
-							<div className='row'>
-								<TreeList />
-							</div>
-						</div>
+						{ this.renderDisplay() }
 					</div>
 				</div>
 			);
@@ -111,6 +148,7 @@ class AppPage extends React.Component {
 const mapStateToProps = state => {
 	return {
 		selectedRegion: state.selectedRegion,
+		selectedObject: state.selectedObject,
 	};
 };
 
@@ -119,7 +157,8 @@ const mapDispatchToProps = {
 	loadCities, 
 	loadTrees,
 	createDB,
-	setDB
+	setDB,
+	selectObject,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppPage);

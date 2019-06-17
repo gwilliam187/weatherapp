@@ -49,24 +49,38 @@ export class CityInput extends React.Component {
 
 	render() {
 		return(
-			<div className='col-12 mb-3 card'>
-				<div className='card-body'>
-					<label>Add city</label>
+			<div className='form-inline' style={ styles.wrapper }>
+				<div style={ styles.inputWrapper }>
 					<input 
 						type='text'
 						placeholder='e.g. Berlin,de'
 						value={this.state.term}
 						onChange={this.handleOnChange}
 						onKeyDown={this.handleOnKeyDown} 
-						className='form-control form-control-lg'/>
-					<div className='text-left text-danger mt-1'>
-						{this.props.citiesErrorMessage}
-					</div>
+						className='form-control'
+						style={ styles.input } />
+				</div>
+				<div style={ styles.buttonWrapper }>
+					<button className='btn btn-primary'>Add City</button>
 				</div>
 			</div>
 		);
 	}
 }
+
+const styles = {
+	inputWrapper: {
+		flex: 1,
+		paddingRight: 8,
+	},
+	input: {
+		width: '100%',
+	},
+	buttonWrapper: {
+		display: 'flex',
+		flexBasis: 'auto',
+	},
+};
 
 const mapStateToProps = state => {
 	return {

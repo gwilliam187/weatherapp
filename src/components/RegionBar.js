@@ -12,7 +12,7 @@ class UserBar extends Component {
 
 	render() {
 		return (
-			<div className='col-12 card mb-3'>
+			<div className='col-12 card mb-3' style={{ maxHeight: '105px' }}>
 				<div className='card-body'>
 					<div className='form-group w-100 mb-0'>
 						<label className='mb-0'>Current Region</label>

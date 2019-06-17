@@ -11,6 +11,7 @@ import selectedUserReducer from './selectedUserReducer';
 import loginReducer from './loginReducer';
 import treeReducer from './treeReducer';
 import rxdb from './rxdbReducer';
+import selectedObjectReducer from './selectedObjectReducer';
 
 export default combineReducers({
 	regions: regionsReducer,
@@ -23,5 +24,6 @@ export default combineReducers({
 	weathers: weathersReducer,
 	citiesErrorMessage: citiesErrorMessageReducer,
 	trees: treeReducer,
-	rxdb: rxdb
+	rxdb: rxdb,
+	selectedObject: selectedObjectReducer,
 });

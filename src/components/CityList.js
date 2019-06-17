@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import CityInput from './CityInput';
 import CityButton from './CityButton';
 
 class CityList extends React.Component {
@@ -20,15 +21,24 @@ class CityList extends React.Component {
 
 	render() {
 		return (
-			<div className='col-12 card mb-3 city-list'>
+			<div className='col-12 card city-list'>
 				<div className='card-body'>
-					<label>Cities</label>
-					{ this.renderList() }
+					<div style={ styles.headerWrapper }>
+						<label>Cities</label>
+						<CityInput />
+						{ this.renderList() }
+					</div>
 				</div>
 			</div>
 		);
 	}
 }
+
+const styles = {
+	headerWrapper: {
+		flexDirection: 'row',
+	},
+};
 
 const mapStateToProps = state => {
 	return {

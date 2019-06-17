@@ -21,3 +21,6 @@ export const FETCH_WEATHERS = 'FETCH_WEATHERS';
 
 // Cities Action
 export const INITIALISE_TREE = 'INITIALISE_TREE';
+
+// Selected Object Actions
+export const SELECT_OBJECT = 'SELECT_OBJECT';

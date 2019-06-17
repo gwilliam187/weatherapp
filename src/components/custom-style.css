@@ -9,6 +9,7 @@ body {
 
 .app {
 	display: flex;
+	/*align-items: flex-start;*/
 
 	height: 100vh;
 
@@ -58,8 +59,8 @@ i.back-button:hover {
 }
 
 .city-list {
-	height: 65vh;
-	max-height: 70vh;
+	height: 77vh;
+	max-height: 77vh;
 	overflow-y: scroll;
 }
 
@@ -278,3 +279,20 @@ div.ref {
 .tree-list-main {
 	padding: 15px 0;
 }
+
+/*.object-button {
+	color: #007bff !important;
+}
+
+.object-button:hover {
+	color: #005ABA !important;
+	cursor: pointer;
+}
+
+.object-button.active {
+	color: '#FFF' !important;
+}
+
+.object-button.active:hover {
+	color: '#FFF' !important;
+}*/
