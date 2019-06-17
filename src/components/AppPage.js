@@ -12,6 +12,7 @@ import RegionBar from './RegionBar';
 import UserInput from './UserInput';
 import UserBar from './UserBar';
 import CityList from './CityList';
+import CityListBetter from './CityListBetter';
 import CityInput from './CityInput';
 import WeatherDisplay from './WeatherDisplay';
 import DiffDisplay from './DiffDisplay';
@@ -85,7 +86,7 @@ class AppPage extends React.Component {
 
 	renderCityDisplay() {
 		return (
-			<CityList />
+			<CityListBetter />
 		);
 	}
 
