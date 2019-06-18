@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { destroyDB } from '../actions/rxdbActions';
 import { selectRegion } from '../actions/selectedRegionActions';
+import { selectUser } from '../actions/userActions';
 
 class RegionPicker extends Component {
 	state = {
@@ -29,6 +31,7 @@ class RegionPicker extends Component {
 		if (userData==='no-user' && regionData==='no-user'){
 			localStorage.setItem("weatherapp-username-data", newUser)
 			localStorage.setItem("weatherapp-region-data", newRegion)
+			this.props.selectUser(newUser)
 			this.props.selectRegion(newRegion)
 		} else{
 			if (userData.includes(',')){
@@ -42,6 +45,7 @@ class RegionPicker extends Component {
 
 					localStorage.setItem("weatherapp-username-data", userDataPush.toString())
 					localStorage.setItem("weatherapp-region-data", regionDataPush.toString())
+					this.props.selectUser(newUser)
 					this.props.selectRegion(newRegion)
 				}
 			}else{
@@ -49,6 +53,7 @@ class RegionPicker extends Component {
 					if (userData !== newUser) {
 						localStorage.setItem("weatherapp-username-data", newUser)
 						localStorage.setItem("weatherapp-region-data", newRegion)
+						this.props.selectUser(newUser)
 						this.props.selectRegion(newRegion)
 					} else {
 						toast.error("User Already Exist: Use login instead")
@@ -57,6 +62,7 @@ class RegionPicker extends Component {
 					if (userData !== newUser) {
 						localStorage.setItem("weatherapp-username-data", userData+','+newUser)
 						localStorage.setItem("weatherapp-region-data", regionData+','+newRegion)
+						this.props.selectUser(newUser)
 						this.props.selectRegion(newRegion)
 					} else {
 						toast.error("User Already Exist: Use login instead")
@@ -66,9 +72,23 @@ class RegionPicker extends Component {
 		}
 	}
 
-	handleClearAllUsers(){
+	async handleClearAllUsers(){
 		const response = window.confirm("Are you sure you want to clear all user data?");
 		if (response) {
+			const userData = localStorage.getItem("weatherapp-username-data")
+			if (userData!=='no-user'){
+				if (userData.includes(',')){
+					// more than one data therefore, parse into array
+					const parsedUserData = userData.split(',')
+					parsedUserData.forEach(async user=>{
+						await destroyDB(user)
+					})
+				} else{
+					// single data immediately delete
+					await destroyDB(userData)
+				}
+			}
+
 			localStorage.clear();
 			window.location.reload()
 		}
@@ -124,6 +144,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	selectRegion,
+	selectUser
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegionPicker)

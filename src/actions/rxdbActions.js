@@ -34,7 +34,7 @@ export const createDB = async(dbName, region)=> {
 	})
 
 	const replicationState = citiesCollection.sync({
-		remote: syncURL+dbName+'/',
+		remote: syncURL+'cities/',
 		waitForLeadership: true,
 		direction:{
 			pull: true,
@@ -254,4 +254,18 @@ export const removeCityDocument = (cityObj) => async(dispatch, getState)=>{
 		if	(cityObj.isPublic)
 			citiescollection = await citiesCollection(getState().rxdb);
 	}
+}
+
+export const destroyDB = (dbName)=>{
+	return new Promise(async resolve=>{
+		const db = await RxDB.create({
+			name: dbName,
+			adapter: 'idb',
+			password: 'password',
+			ignoreDuplicate: true
+		});
+
+		await db.remove()
+		resolve(true)
+	})
 }
