@@ -80,9 +80,9 @@ class RegionPicker extends Component {
 				if (userData.includes(',')){
 					// more than one data therefore, parse into array
 					const parsedUserData = userData.split(',')
-					parsedUserData.forEach(async user=>{
-						await destroyDB(user)
-					})
+					await Promise.all(parsedUserData.map(async user=>{
+						return await destroyDB(user)
+					}))
 				} else{
 					// single data immediately delete
 					await destroyDB(userData)
