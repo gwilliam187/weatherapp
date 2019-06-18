@@ -12,6 +12,8 @@ import loginReducer from './loginReducer';
 import treeReducer from './treeReducer';
 import rxdb from './rxdbReducer';
 import selectedObjectReducer from './selectedObjectReducer';
+import citiesFetcherReducer from './citiesFetcherReducer';
+import citiesSyncReducer from './citiesSyncReducer';
 
 export default combineReducers({
 	regions: regionsReducer,
@@ -26,4 +28,6 @@ export default combineReducers({
 	trees: treeReducer,
 	rxdb: rxdb,
 	selectedObject: selectedObjectReducer,
+	citiesFetcher: citiesFetcherReducer,
+	citiesSync: citiesSyncReducer,
 });
