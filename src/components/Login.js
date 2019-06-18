@@ -3,6 +3,18 @@ import UserInput from './UserInput';
 import RegionPicker from './RegionPicker';
 
 class Login extends React.Component{
+
+	componentDidMount(){
+		const userData = localStorage.getItem("weatherapp-username-data")
+		const regionData = localStorage.getItem("weatherapp-region-data")
+		if (userData===null) {
+			localStorage.setItem("weatherapp-username-data", "no-user")
+		}
+		if (regionData===null){
+			localStorage.setItem("weatherapp-region-data", "no-user")
+		}
+	}
+
 	render() {
 		return (
 			<div className="container app">

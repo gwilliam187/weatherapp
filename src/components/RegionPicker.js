@@ -1,20 +1,77 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { selectRegion } from '../actions/selectedRegionActions';
 
 class RegionPicker extends Component {
 	state = {
 		usernameVal: '',
+		region: ''
 	};
 
 	onChange = (e) => {
-		this.props.selectRegion(e.target.value);
+		this.setState({region: e.target.value});
 	}
 
 	usernameOnChange = e => {
-		this.props.setState({ usernameVal: e.target.value });
+		this.setState({ usernameVal: e.target.value });
+	}
+
+	register(){
+		const newUser = this.state.usernameVal
+		const newRegion = this.state.region
+
+		const userData = localStorage.getItem("weatherapp-username-data")
+		const regionData = localStorage.getItem("weatherapp-region-data")
+
+		if (userData==='no-user' && regionData==='no-user'){
+			localStorage.setItem("weatherapp-username-data", newUser)
+			localStorage.setItem("weatherapp-region-data", newRegion)
+			this.props.selectRegion(newRegion)
+		} else{
+			if (userData.includes(',')){
+				const parsedUserData = userData.split(',')
+				const parsedRegionData = regionData.split(',')
+				if (parsedUserData.includes(newUser)){
+					toast.error("User Already Exist: Use login instead")
+				} else{
+					const userDataPush = [...parsedUserData, newUser]
+					const regionDataPush = [...parsedRegionData, newRegion]
+
+					localStorage.setItem("weatherapp-username-data", userDataPush.toString())
+					localStorage.setItem("weatherapp-region-data", regionDataPush.toString())
+					this.props.selectRegion(newRegion)
+				}
+			}else{
+				if (userData==='no-user') {
+					if (userData !== newUser) {
+						localStorage.setItem("weatherapp-username-data", newUser)
+						localStorage.setItem("weatherapp-region-data", newRegion)
+						this.props.selectRegion(newRegion)
+					} else {
+						toast.error("User Already Exist: Use login instead")
+					}
+				}else{
+					if (userData !== newUser) {
+						localStorage.setItem("weatherapp-username-data", userData+','+newUser)
+						localStorage.setItem("weatherapp-region-data", regionData+','+newRegion)
+						this.props.selectRegion(newRegion)
+					} else {
+						toast.error("User Already Exist: Use login instead")
+					}
+				}
+			}
+		}
+	}
+
+	handleClearAllUsers(){
+		const response = window.confirm("Are you sure you want to clear all user data?");
+		if (response) {
+			localStorage.clear();
+			window.location.reload()
+		}
 	}
 
 	renderList() {
@@ -44,7 +101,11 @@ class RegionPicker extends Component {
 								{ this.renderList() }
 							</select>
 							<div style={{ marginTop: 8 }}>
-								<button className='btn btn-primary btn-block'>Register</button>
+								<button className='btn btn-primary btn-block' onClick={()=>this.register()}>Register</button>
+							</div>
+							<hr />
+							<div style={{ marginTop: 40, textAlign: 'center'  }}>
+								<button className='btn btn-danger' onClick={()=>{this.handleClearAllUsers()}}>Clear All User</button>
 							</div>
 						</div>
 					</div>

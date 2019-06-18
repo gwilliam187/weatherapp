@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 import { login } from '../actions/';
+import { selectRegion } from '../actions/selectedRegionActions';
 import { Redirect } from 'react-router-dom';
 import { selectUser } from '../actions/userActions';
 
@@ -20,13 +22,51 @@ class UserInput extends Component {
 	}
 
 	handleOnClick = (e) => {
-		// this.login();
-		this.selectUser(this.state.value);
+		this.login();
+		//this.selectUser(this.state.value);
 	}
 
 	login() {
-		this.props.login(this.state.value);
-		console.log(`login with ${ this.state.value }`);
+		const userData = localStorage.getItem("weatherapp-username-data")
+		const regionData = localStorage.getItem("weatherapp-region-data")
+		const loginName = this.state.value
+		// console.log(userData)
+		if (userData==='no-user'){
+			toast.info("No Users! Please Register")
+		} else{
+			if (userData.includes(',')){
+				//more than one data, parse into array
+				const parsedUserData = userData.split(',')
+				const parsedRegionData = regionData.split(',')
+				console.log("ParsedUserData: ")
+				console.log(parsedUserData)
+				console.log("ParsedRegionData: ")
+				console.log(parsedRegionData)
+				const findIndexResponse = parsedUserData.findIndex(res=>res===loginName)
+				if (findIndexResponse!==-1){
+					this.props.selectRegion(parsedRegionData[findIndexResponse])
+				}  else{
+					toast.error("We don't know who you are")
+				}
+			} else{
+				if (userData===loginName){
+					this.props.selectRegion(regionData)
+				} else{
+					toast.error("We don't know who you are")
+				}
+			}
+		}
+		// const findIndexResponse = userData.findIndex(res=>res===loginName)
+		//
+		// if 	(userData!=='no-user'){
+		// 	if (findIndexResponse!==-1){
+		// 		toast.info("User exist")
+		// 	}
+		// }
+
+
+		//console.log(`login with ${ this.state.value }`);
+		
 	}
 
 	render() {
@@ -55,7 +95,7 @@ class UserInput extends Component {
 				</div>
 			);
 		}else{
-			return (<Redirect to="/App" />);
+			return (<Redirect to={{pathname: '/App', state: {name:this.state.value} }} />);
 		}
 	}
 }
@@ -66,7 +106,12 @@ const mapStateToProps = state => {
 	};
 };
 
+const mapDispatchToProps = {
+	selectRegion,
+	login
+};
+
 export default connect(
 	mapStateToProps, 
-	{ login }
+	mapDispatchToProps
 )(UserInput);
