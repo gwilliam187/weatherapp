@@ -26,6 +26,7 @@ toast.configure({
 class AppPage extends React.Component {
 	async componentDidMount() {
 		if (this.props.selectedRegion!==null) {
+			console.log(this.props.location.state.name)
 			const db = await createDB("cities", this.props.selectedRegion)
 			this.props.setDB(db)
 			this.props.loadCities(db);

@@ -95,7 +95,7 @@ class UserInput extends Component {
 				</div>
 			);
 		}else{
-			return (<Redirect to="/App" />);
+			return (<Redirect to={{pathname: '/App', state: {name:this.state.value} }} />);
 		}
 	}
 }
