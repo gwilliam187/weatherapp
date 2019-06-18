@@ -164,9 +164,9 @@ export const loadCities= (db) => async (dispatch, getState)=>{
 
 	const citiescollection = await citiesCollection(db);
 
-	citiescollection.update$.subscribe(changeEvent => {
-		toast(`Updated ${ changeEvent.data.doc }`)
-	});
+	// citiescollection.update$.subscribe(changeEvent => {
+	// 	toast(`Updated ${ changeEvent.data.doc }`)
+	// });
 
 	citiescollection.find().$.subscribe( cities => {
 		if(!cities) return

@@ -1,6 +1,7 @@
 import React from 'react'
 import UserInput from './UserInput';
 import RegionPicker from './RegionPicker';
+import DeleteAllUsersButton from './DeleteAllUsersButton';
 
 class Login extends React.Component{
 
@@ -25,6 +26,7 @@ class Login extends React.Component{
 							<UserInput />
 							<div>New User</div>
 							<RegionPicker />
+							<DeleteAllUsersButton />
 						</div>
 					</div>
 				</div>
