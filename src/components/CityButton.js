@@ -104,7 +104,7 @@ export class CityButton extends React.Component {
 				<div 
 					className='mr-auto city-button-main'
 					onClick={ this.handleCityClick }>
-					<div className='name'>{ /* this.state.nameVal */ this.props.city.cityName }</div>
+					<div className='name'>{ /* this.state.nameVal */ this.props.city._id }</div>
 					<div className='ref'>{ this.props.city._id }</div>
 				</div>
 				{  /* this.renderPublicButton() */ }
