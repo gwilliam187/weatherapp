@@ -26,23 +26,51 @@ class RegionPicker extends Component {
 		const userData = localStorage.getItem("weatherapp-username-data")
 		const regionData = localStorage.getItem("weatherapp-region-data")
 
-		if (userData==='[]' && regionData==='[]'){
-			localStorage.setItem("weatherapp-username-data", "["+newUser+"]")
-			localStorage.setItem("weatherapp-region-data", "["+newRegion+"]")
+		if (userData==='no-user' && regionData==='no-user'){
+			localStorage.setItem("weatherapp-username-data", newUser)
+			localStorage.setItem("weatherapp-region-data", newRegion)
 			this.props.selectRegion(newRegion)
 		} else{
-			if (userData.length>0){
-				if (userData.includes(newUser)){
+			if (userData.includes(',')){
+				const parsedUserData = userData.split(',')
+				const parsedRegionData = regionData.split(',')
+				if (parsedUserData.includes(newUser)){
 					toast.error("User Already Exist: Use login instead")
 				} else{
-					const userDataPush = [...userData, newUser]
-					const regionDataPush = [...regionData, newRegion]
+					const userDataPush = [...parsedUserData, newUser]
+					const regionDataPush = [...parsedRegionData, newRegion]
 
 					localStorage.setItem("weatherapp-username-data", userDataPush.toString())
 					localStorage.setItem("weatherapp-region-data", regionDataPush.toString())
 					this.props.selectRegion(newRegion)
 				}
+			}else{
+				if (userData==='no-user') {
+					if (userData !== newUser) {
+						localStorage.setItem("weatherapp-username-data", newUser)
+						localStorage.setItem("weatherapp-region-data", newRegion)
+						this.props.selectRegion(newRegion)
+					} else {
+						toast.error("User Already Exist: Use login instead")
+					}
+				}else{
+					if (userData !== newUser) {
+						localStorage.setItem("weatherapp-username-data", userData+','+newUser)
+						localStorage.setItem("weatherapp-region-data", regionData+','+newRegion)
+						this.props.selectRegion(newRegion)
+					} else {
+						toast.error("User Already Exist: Use login instead")
+					}
+				}
 			}
+		}
+	}
+
+	handleClearAllUsers(){
+		const response = window.confirm("Are you sure you want to clear all user data?");
+		if (response) {
+			localStorage.clear();
+			window.location.reload()
 		}
 	}
 
@@ -77,7 +105,7 @@ class RegionPicker extends Component {
 							</div>
 							<hr />
 							<div style={{ marginTop: 40, textAlign: 'center'  }}>
-								<button className='btn btn-danger' onClick={()=>{localStorage.clear(); window.location.reload()}}>Clear All User</button>
+								<button className='btn btn-danger' onClick={()=>{this.handleClearAllUsers()}}>Clear All User</button>
 							</div>
 						</div>
 					</div>
