@@ -66,13 +66,13 @@ export const createDB = async(dbName, region)=> {
 	// 	}
 	//   });
 
-	replicationState.change$.subscribe(changeEvent => {
-		if(changeEvent.direction === 'push') {
-			toast.success(`Pushed changes`);
-		} else if(changeEvent.direction === 'pull') {
-			toast.success(`Pulled changes`);
-		}
-	});
+	// replicationState.change$.subscribe(changeEvent => {
+	// 	if(changeEvent.direction === 'push') {
+	// 		toast.success(`Pushed changes`);
+	// 	} else if(changeEvent.direction === 'pull') {
+	// 		toast.success(`Pulled changes`);
+	// 	}
+	// });
 
 	// replicationState.docs$.subscribe(docData => {
 	// 	toast(`Replicated document "${ docData._id}"`);
@@ -266,7 +266,6 @@ export const removeCityDocument = (cityObj) => async(dispatch, getState)=>{
 			citiescollection = await citiesCollection(getState().rxdb);
 	}
 }
-<<<<<<< HEAD
 
 export const destroyDB = (dbName)=>{
 	return new Promise(async resolve=>{
@@ -281,5 +280,3 @@ export const destroyDB = (dbName)=>{
 		resolve(true)
 	})
 }
-=======
->>>>>>> 6ea701f31761db636612f8b65b15733899c89806
