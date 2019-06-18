@@ -99,20 +99,40 @@ export class CityButton extends React.Component {
 	}
 
 	renderViewRow() {
+		const city = this.props.city.toJSON();
+		const props = `
+			${ city.country } - 
+			${ city.location } - 
+			${ city.region } - 
+			${ city.countryCapital } - 
+			${ city.currency } - 
+			${ city.callingCode } -
+			${ city.countrySurfaceArea } - 
+			${ city.governmentType } - 
+			${ city.averageMaleHeight } - 
+			${ city.nationalDish } -
+			${ city.population } - 
+			${ city.lifeExpectancy } - 
+			${ city.yearlyAverageTemperature } - 
+			${ city.countryYearOfIndpendence }`;
 		return (
 			<div className='d-flex border-top border-bottom city-button'>
 				<div 
 					className='mr-auto city-button-main'
 					onClick={ this.handleCityClick }>
-					<div className='name'>{ /* this.state.nameVal */ this.props.city._id }</div>
-					<div className='ref'>{ this.props.city._id }</div>
+					<div className='name'>{ /* this.state.nameVal */ city._id }</div>
+					<div className='ref'>
+						{ props }
+					</div>
 				</div>
 				{  /* this.renderPublicButton() */ }
-				<div className='d-flex align-items-center justify-content-center mr-2'>
-					<i 
-						className='fas fa-pen close-button' 
-						onClick={ this.handleEditClick } />
-				</div>
+				{
+					/* <div className='d-flex align-items-center justify-content-center mr-2'>
+						<i 
+							className='fas fa-pen close-button' 
+							onClick={ this.handleEditClick } />
+					</div> */
+				}
 				<div className='d-flex align-items-center justify-content-center'>
 					<i 
 						className='fas fa-times close-button' 

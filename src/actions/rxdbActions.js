@@ -168,6 +168,10 @@ export const loadCities= (db) => async (dispatch, getState)=>{
 	// 	toast(`Updated ${ changeEvent.data.doc }`)
 	// });
 
+	citiescollection.$.subscribe(chg => {
+		toast(chg.data.op + ' on ' + chg.data.doc)
+	})
+
 	citiescollection.find().$.subscribe( cities => {
 		if(!cities) return
 
@@ -222,7 +226,7 @@ export const toggleCityIsPublic = (city) => async(dispatch, getState)=>{
 export const updateCityName = (city) => async(dispatch, getState) => {
 	let citiescollection = await citiesCollection(getState().rxdb);
 	citiescollection.findOne().where("_id").eq(city._id).exec().then(async doc => {
-		console.log(doc.toJSON())
+		// console.log(doc.toJSON())
 		await doc.update({
 			$set: {
 				cityName : city.newName,

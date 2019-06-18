@@ -18,7 +18,11 @@ class UserBar extends Component {
 						<label className='mb-0'>Current User</label>
 						<div className='form-inline'>
 							<div className='flex-grow-1 mr-sm-2'>
-								<h5 className='mb-0'>{ this.props.selectedUser } in { this.props.selectedRegion }</h5>
+								<h5 className='mb-0'>
+									{ this.props.selectedUser } 
+									<span style={{ fontWeight: 400, fontSize: '0.8em' }}> in </span> 
+									{ this.props.selectedRegion }
+								</h5>
 							</div>							
 							<button
 								onClick={ this.handleOnClick } 

@@ -28,7 +28,11 @@ class DeleteAllUsersButton extends Component {
 	render() {
 		return (
 			<div style={ styles.wrapper }>
-				<button className='btn btn-danger' onClick={()=>{this.handleClearAllUsers()}}>Clear All Users</button>
+				<button 
+						onClick={()=>{ this.handleClearAllUsers() }} 
+						className='btn btn-danger'>
+					Clear All Users
+				</button>
 			</div>
 		);
 	}
