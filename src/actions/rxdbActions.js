@@ -66,13 +66,13 @@ export const createDB = async(dbName, region)=> {
 	// 	}
 	//   });
 
-	replicationState.change$.subscribe(changeEvent => {
-		if(changeEvent.direction === 'push') {
-			toast.success(`Pushed changes`);
-		} else if(changeEvent.direction === 'pull') {
-			toast.success(`Pulled changes`);
-		}
-	});
+	// replicationState.change$.subscribe(changeEvent => {
+	// 	if(changeEvent.direction === 'push') {
+	// 		toast.success(`Pushed changes`);
+	// 	} else if(changeEvent.direction === 'pull') {
+	// 		toast.success(`Pulled changes`);
+	// 	}
+	// });
 
 	// replicationState.docs$.subscribe(docData => {
 	// 	toast(`Replicated document "${ docData._id}"`);
