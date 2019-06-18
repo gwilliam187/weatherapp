@@ -1,20 +1,49 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { selectRegion } from '../actions/selectedRegionActions';
 
 class RegionPicker extends Component {
 	state = {
 		usernameVal: '',
+		region: ''
 	};
 
 	onChange = (e) => {
-		this.props.selectRegion(e.target.value);
+		this.setState({region: e.target.value});
 	}
 
 	usernameOnChange = e => {
-		this.props.setState({ usernameVal: e.target.value });
+		this.setState({ usernameVal: e.target.value });
+	}
+
+	register(){
+		const newUser = this.state.usernameVal
+		const newRegion = this.state.region
+
+		const userData = localStorage.getItem("weatherapp-username-data")
+		const regionData = localStorage.getItem("weatherapp-region-data")
+
+		if (userData==='[]' && regionData==='[]'){
+			localStorage.setItem("weatherapp-username-data", "["+newUser+"]")
+			localStorage.setItem("weatherapp-region-data", "["+newRegion+"]")
+			this.props.selectRegion(newRegion)
+		} else{
+			if (userData.length>0){
+				if (userData.includes(newUser)){
+					toast.error("User Already Exist: Use login instead")
+				} else{
+					const userDataPush = [...userData, newUser]
+					const regionDataPush = [...regionData, newRegion]
+
+					localStorage.setItem("weatherapp-username-data", userDataPush.toString())
+					localStorage.setItem("weatherapp-region-data", regionDataPush.toString())
+					this.props.selectRegion(newRegion)
+				}
+			}
+		}
 	}
 
 	renderList() {
@@ -44,7 +73,11 @@ class RegionPicker extends Component {
 								{ this.renderList() }
 							</select>
 							<div style={{ marginTop: 8 }}>
-								<button className='btn btn-primary btn-block'>Register</button>
+								<button className='btn btn-primary btn-block' onClick={()=>this.register()}>Register</button>
+							</div>
+							<hr />
+							<div style={{ marginTop: 40, textAlign: 'center'  }}>
+								<button className='btn btn-danger' onClick={()=>{localStorage.clear(); window.location.reload()}}>Clear All User</button>
 							</div>
 						</div>
 					</div>
