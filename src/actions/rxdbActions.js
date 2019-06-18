@@ -1,7 +1,10 @@
 ﻿import * as RxDB from 'rxdb';
 import NodeCouchDb from 'node-couchdb'
 
+import store from '../store';
 import { initialiseCity } from './cityActions';
+import { getCitiesRequest, getCitiesSuccess, getCitiesFailure } from './citiesFetcherActions';
+import { citiesStartSync, citiesStopSync } from './citiesSyncActions';
 import { initialiseTree } from "./treeAction";
 import { citySchema, treeSchema } from '../Schema';
 import { toast } from 'react-toastify';
@@ -45,7 +48,7 @@ export const createDB = async(dbName, region)=> {
 			retry: true,
 			conflicts: true,
 			filter: 'region/by_region',
-			query_params: {"region": region }
+			query_params: { "region": region }
 		}
 	});
 
@@ -69,15 +72,23 @@ export const createDB = async(dbName, region)=> {
 		} else if(changeEvent.direction === 'pull') {
 			toast.success(`Pulled changes`);
 		}
-		console.log('replicationState change subscriber');
-		console.log(changeEvent);
 	});
 
 	// replicationState.docs$.subscribe(docData => {
 	// 	toast(`Replicated document "${ docData._id}"`);
 	// 	console.dir(docData);
 	// });
-
+	// replicationState.alive$.subscribe(alive => {
+	// 	toast('Alive: ' + alive);
+	// 	console.log(alive);
+	// })
+	replicationState.active$.subscribe(active => {
+		if(active) {
+			store.dispatch(citiesStartSync());
+		} else {
+			store.dispatch(citiesStopSync());
+		}
+	})
 	replicationState.denied$.subscribe(docData => {
 		toast(`Denied document "${ docData._id }"`);
 		console.dir(docData);
@@ -129,8 +140,6 @@ export const setDB = (db)=> async(dispatch,getState)=>{
 }
 
 export const citiesCollection = (db)=>{
-	console.log('citiesCollection');
-    
 	return db.citiescollection;
 }
 
@@ -151,7 +160,8 @@ export const login = (username) => async(dispatch, getState)=>{
 }
 
 export const loadCities= (db) => async (dispatch, getState)=>{
-	console.log('loadCities');
+	dispatch(getCitiesRequest());
+
 	const citiescollection = await citiesCollection(db);
 
 	citiescollection.update$.subscribe(changeEvent => {
@@ -162,9 +172,10 @@ export const loadCities= (db) => async (dispatch, getState)=>{
 		if(!cities) return
 
 		console.log('Cities Collection');
-		console.log(cities.map(city => city.toJSON()))
+		console.log(cities.map(city => city.toJSON()));
 
-		dispatch(initialiseCity(cities))
+		dispatch(initialiseCity(cities));
+		dispatch(getCitiesSuccess());
   });
 }
 //
@@ -255,6 +266,7 @@ export const removeCityDocument = (cityObj) => async(dispatch, getState)=>{
 			citiescollection = await citiesCollection(getState().rxdb);
 	}
 }
+<<<<<<< HEAD
 
 export const destroyDB = (dbName)=>{
 	return new Promise(async resolve=>{
@@ -269,3 +281,5 @@ export const destroyDB = (dbName)=>{
 		resolve(true)
 	})
 }
+=======
+>>>>>>> 6ea701f31761db636612f8b65b15733899c89806

@@ -13,6 +13,15 @@ export const REMOVE_CITY = 'REMOVE_CITY';
 export const TOGGLE_CITY_IS_PUBLIC = 'TOGGLE_CITY_IS_PUBLIC';
 export const INITIALISE_CITY = "INITIALISE_CITY";
 
+// City Fetcher Actions
+export const GET_CITIES_REQUEST = 'GET_CITIES_REQUEST';
+export const GET_CITIES_SUCCESS = 'GET_CITIES_SUCCESS';
+export const GET_CITIES_FAILURE = 'GET_CITIES_FAILURE';
+
+// City Sync Actions
+export const CITIES_START_SYNC = 'CITIES_START_SYNC';
+export const CITIES_STOP_SYNC = 'CITIES_STOP_SYNC';
+
 // Selected City Actions
 export const SELECT_CITY = 'SELECT_CITY';
 export const UNSELECT_CITY = 'UNSELECT_CITY';
@@ -20,7 +29,7 @@ export const UNSELECT_CITY = 'UNSELECT_CITY';
 // Weather Actions
 export const FETCH_WEATHERS = 'FETCH_WEATHERS';
 
-// Cities Action
+// Tree Action
 export const INITIALISE_TREE = 'INITIALISE_TREE';
 
 // Selected Object Actions
