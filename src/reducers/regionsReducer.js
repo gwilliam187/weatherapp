@@ -6,4 +6,4 @@ export default (state = initialState, action) => {
 	}
 };
 
-const initialState = ['Europe', 'Asia', 'America', 'Africa', 'Australia'];
+const initialState = ['Europe', 'Asia', 'North America', 'South America', 'Oceania', 'Africa'];
