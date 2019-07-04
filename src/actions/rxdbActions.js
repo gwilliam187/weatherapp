@@ -15,8 +15,8 @@ RxDB.plugin(require('pouchdb-adapter-http'));
 
 const ipAddress = 'sgu.pdm-commsult.intranet:5984';
 
-// const putURL = `http://admin:password@${ ipAddress }/`;
-const syncURL = `http://${ ipAddress }/`
+const syncURL = `http://admin:password@${ ipAddress }/`;
+// const syncURL = `http://${ ipAddress }/`
 
 export const createDB = async(dbName, region)=> {
 	const db = await RxDB.create({
